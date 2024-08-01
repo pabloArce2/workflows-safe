@@ -1,0 +1,9 @@
+export const DEFAULT_DEBOUNCE = 150
+export const SIDE_MODELS_MENU_WIDTH: number = 370
+export const SIDE_NAV_WIDTH: number = 252
+export const BASE_SEPARATOR: number = 1
+export const MAIN_HEADER_HEIGHT: number = 60
+export const MAIN_HEADER_TOOLBAR_HEIGHT: number = 45
+export const MAIN_FOOTER_HEIGHT: number = 78
+export const GRID_GAP: number = 6
+export const WORKFLOW_GAP: number = 16

@@ -1,0 +1,62 @@
+:root {
+    --borderColor: #e4e4e4;
+    --selectedBorderColor: rgb(96 165 250);
+}
+
+.handle {
+    position: absolute;
+    transition: 0.15s ease-in-out;
+    cursor: crosshair;
+
+    box-shadow: 0 0 0 1px white, 2px 2px 2px #ffffff14;
+    border: 1px solid var(--borderColor);
+    border-radius: 50%;
+    background: white;
+    width: 12px;
+    height: 12px;
+}
+
+.handle-selected {
+    border: 1px solid var(--selectedBorderColor);
+}
+
+/* .handle-connected {
+    border-width: 2px;
+    border-color: var(--connectedColor);
+    background: var(--connectedBg);
+}
+
+.handle-disconnected {
+    border-width: 0;
+    border-color: transparent;
+    background: var(--disconnectedBg);
+} */
+
+.handle-invalid {
+    opacity: 0.3;
+    filter: grayscale(100%);
+}
+
+.handle-valid {
+    opacity: 1;
+}
+
+.handle:hover {
+    width: 18px;
+    height: 18px;
+}
+
+.handle:before {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    border-radius: 12px;
+    width: 45px;
+    height: 32px;
+    content: " ";
+}
+
+.target-handle {
+}
+
+.source-handle {
+}

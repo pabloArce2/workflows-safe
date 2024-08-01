@@ -9,9 +9,9 @@ import { EdgeTypes, NodeTypes, ReactFlowProvider } from "reactflow"
 
 import CustomEdge from "@/components/CustomEdge/CustomEdge"
 
-import OpenTabMenuButton from "./TabMenu/OpenTabMenuButton"
-import TabMenu from "./TabMenu/TabMenu"
-import WorkflowCanvas from "./WorkflowCanvas/WorkflowCanvas"
+import OpenTabMenuButton from "./components/TabMenu/OpenTabMenuButton"
+import TabMenu from "./components/TabMenu/TabMenu"
+import WorkflowCanvas from "./components/WorkflowCanvas/WorkflowCanvas"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -50,12 +50,10 @@ export default function RootLayout({
               {/* <SideNav defaultOpen /> */}
               <WorkflowLayout>
                 {/*  <Header /> */}
-                {/* <NodeSelector /> */}
                 <WorkflowCanvas nodeTypes={nodeTypes} edgeTypes={edgeTypes} wrapperRef={reactFlowWrapper} />
                 {isOpenNodePanel ? <TabMenu /> : <OpenTabMenuButton />}
               </WorkflowLayout>
             </div>
-            {/* <NodeConfigPanel /> */}
           </GlobalProvider>
         </ReactFlowProvider>
       </main>

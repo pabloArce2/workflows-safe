@@ -12,31 +12,31 @@ import { Icons } from "@/components/Icons"
 import { useFormContext } from "../InputsForm"
 
 interface DropdownInputComponentProps {
-    field: any
-    inputSchema: TextInput
-    open: boolean
-    onOpenChange: (open: boolean) => void
+  field: any
+  inputSchema: TextInput
+  open: boolean
+  onOpenChange: (open: boolean) => void
 }
 
 const TextInputComponent: React.FC<DropdownInputComponentProps> = ({ field, inputSchema, open, onOpenChange }) => {
-    const { setValue, handleSubmit, setOpenStates } = useFormContext()
-    const triggerRef = useRef<HTMLDivElement>(null)
+  const { setValue, handleSubmit, setOpenStates } = useFormContext()
+  const triggerRef = useRef<HTMLDivElement>(null)
 
-    const onSelectHandler = (optionValue: InputSchemaValue) => {
-        setValue(inputSchema.label, optionValue)
-        handleSubmit()
-        setOpenStates((prev: any) => ({ ...prev, [inputSchema.label]: false }))
-    }
+  const onSelectHandler = (optionValue: InputSchemaValue) => {
+    setValue(inputSchema.label, optionValue)
+    handleSubmit()
+    setOpenStates((prev: any) => ({ ...prev, [inputSchema.label]: false }))
+  }
 
-    return (
-        <FormItem>
-            <FormLabel>{inputSchema.label}</FormLabel>
-            <FormControl>
-                <Input placeholder="Ex: example" {...field} />
-            </FormControl>
-            <FormMessage />
-        </FormItem>
-    )
+  return (
+    <FormItem>
+      <FormLabel>{inputSchema.label}</FormLabel>
+      <FormControl>
+        <Input placeholder="Ex: example" {...field} />
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )
 }
 
 export default TextInputComponent

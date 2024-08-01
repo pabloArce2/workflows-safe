@@ -1,5 +1,18 @@
-import Image from "next/image"
+import { redirect } from "next/navigation"
 
-export default function Workflows() {
-  return <main className="flex min-h-screen flex-col items-center justify-between p-24">Workflows</main>
+interface HomeParams {
+  params: {
+    locale: string
+  }
+}
+
+export default function Home({ params: { locale } }: HomeParams) {
+  if (!locale) {
+    redirect("/")
+  }
+  return (
+    <div>
+      <h1>Welcome to {locale} page</h1>
+    </div>
+  )
 }
