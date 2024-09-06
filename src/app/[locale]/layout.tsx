@@ -26,21 +26,28 @@ interface LocaleLayoutProps {
 }
 
 export default async function LocaleLayout({ children, params: { locale } }: LocaleLayoutProps) {
-  let messages
-  try {
-    messages = (await import(`@/messages/${locale}.json`)).default
-  } catch (error) {
-    notFound()
-  }
+  // let messages
+  // try {
+  //   messages = (await import(`@/messages/${locale}.json`)).default
+  // } catch (error) {
+  //   console.error("Failed to load messages for locale:", locale)
+  //   notFound()
+  // }
 
-  const isValidLocale = locales.some((cur) => cur === locale)
-  if (!isValidLocale) notFound()
+  // const isValidLocale = locales.includes(locale)
+  // if (!isValidLocale) {
+  //   console.warn("Invalid locale, defaulting to 'en':", locale)
+  //   locale = "en" // default locale
+  //   unstable_setRequestLocale(locale)
+  // }
 
-  unstable_setRequestLocale(locale)
+  // unstable_setRequestLocale(locale)
 
   return (
     <html lang={locale}>
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        <main>{children}</main>
+      </body>
     </html>
   )
 }

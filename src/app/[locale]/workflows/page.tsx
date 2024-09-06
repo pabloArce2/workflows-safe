@@ -32,19 +32,17 @@ export default function WorkflowPage() {
   const isOpenNodePanel = false // Control the open state of the node panel
 
   return (
-    <main>
-      <ReactFlowProvider>
-        <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
-          <div className="flex">
-            {/* <SideNav defaultOpen /> */}
-            <WorkflowLayout>
-              {/* <Header /> */}
-              <WorkflowCanvas nodeTypes={nodeTypes} edgeTypes={edgeTypes} wrapperRef={reactFlowWrapper} />
-              {isOpenNodePanel ? <TabMenu /> : <OpenTabMenuButton />}
-            </WorkflowLayout>
-          </div>
-        </GlobalProvider>
-      </ReactFlowProvider>
-    </main>
+    <ReactFlowProvider>
+      <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
+        <div className="flex">
+          {/* <SideNav defaultOpen /> */}
+          <WorkflowLayout>
+            {/* <Header /> */}
+            <WorkflowCanvas nodeTypes={nodeTypes} edgeTypes={edgeTypes} wrapperRef={reactFlowWrapper} />
+            {isOpenNodePanel ? <TabMenu /> : <OpenTabMenuButton />}
+          </WorkflowLayout>
+        </div>
+      </GlobalProvider>
+    </ReactFlowProvider>
   )
 }
