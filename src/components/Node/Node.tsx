@@ -16,88 +16,88 @@ import { NodeBody } from "./NodeBody"
 import { NodeHeader } from "./NodeHeader"
 
 export const Node = observer(({ data, selected }: NodeProps) => (
-  // eslint-disable-next-line @typescript-eslint/no-use-before-define
-  <NodeInner data={data} selected={selected} />
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    <NodeInner data={data} selected={selected} />
 ))
 
 export interface NodeProps {
-  data: NodeData
-  selected: boolean
+    data: NodeData
+    selected: boolean
 }
 
 const NodeInner = memo(({ data, selected }: NodeProps) => {
-  const { setIsOpenNodePanel, setSelectedTabNodePanel } = useWorkflows()
-  const { schemata } = useContext(BackendContext)
-  const { id, schemaId } = data
-  const schema = schemata.get(schemaId)
+    const { setIsOpenNodePanel, setSelectedTabNodePanel } = useWorkflows()
+    const { schemata } = useContext(BackendContext)
+    const { id, schemaId } = data
+    const schema = schemata.get(schemaId)
 
-  const { selectNode } = useContext(GlobalContext)
+    const { selectNode } = useContext(GlobalContext)
 
-  /* const regularBorderColor = "var(--border)"
+    /* const regularBorderColor = "var(--border)"
     const accentColor = getCategoryAccentColor(categories, category)
     const borderColor = useMemo(
         () => (selected ? shadeColor(accentColor, 0) : regularBorderColor),
         [selected, accentColor, regularBorderColor]
     ) */
 
-  const targetRef = useRef<HTMLDivElement>(null)
+    const targetRef = useRef<HTMLDivElement>(null)
 
-  //const startingNode = isStartingNode(schema)
+    //const startingNode = isStartingNode(schema)
 
-  const onClick = (event: any) => {
-    event.preventDefault()
-    selectNode(id)
-    setIsOpenNodePanel(true)
-    setSelectedTabNodePanel("edit")
-  }
+    const onClick = (event: any) => {
+        event.preventDefault()
+        selectNode(id)
+        setIsOpenNodePanel(true)
+        setSelectedTabNodePanel("edit")
+    }
 
-  return (
-    <>
-      <TargetHandle
-        /* connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
+    return (
+        <>
+            <TargetHandle
+                /* connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
                 handleColors={handleColors} */
-        id={id}
-        nodeType={schema.nodeType}
-        selected={selected}
-      />
-      <div
-        className={`grid place-content-center bg-node-bg bg-white  min-w-[240px] min-h-[80px] rounded-md border-[0.5px] transition-all py-3
+                id={id}
+                nodeType={schema.nodeType}
+                selected={selected}
+            />
+            <div
+                className={`grid place-content-center bg-node-bg bg-white  min-w-[240px] min-h-[80px] rounded-md border-[0.5px] transition-all py-3
                     ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
-        // style={{ borderColor: "var(--border)" }}
-        ref={targetRef}
-        onClick={onClick}
-      >
-        <div className="min-w-[200px]">
-          <NodeHeader
-            //accentColor={accentColor}
-            nodeColor={schema.color}
-            icon={schema.icon}
-            name={schema.name}
-            description={schema.description}
-            nodeGroup={schema.nodeGroup}
-            selected={selected}
-            className=""
-          />
-          <NodeBody inputs={data?.inputs} outputs={data?.outputs} />
-        </div>
-        {selected && (
-          <div
-            className="absolute rounded-full bg-gray-50 p-1 -right-3 -top-3 shadow-xs border hover:bg-gray-100"
-            onClick={() => {
-              console.log("borrar nodo ...")
-            }}
-          >
-            <Icons.close className="w-4 h-4 p-0.5 text-gray-400" />
-          </div>
-        )}
-      </div>
-      <SourceHandle
-        /* connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
+                // style={{ borderColor: "var(--border)" }}
+                ref={targetRef}
+                onClick={onClick}
+            >
+                <div className="min-w-[200px]">
+                    <NodeHeader
+                        //accentColor={accentColor}
+                        nodeColor={schema.color}
+                        icon={schema.icon}
+                        name={schema.name}
+                        description={schema.description}
+                        nodeGroup={schema.nodeGroup}
+                        selected={selected}
+                        className=""
+                    />
+                    <NodeBody inputs={data?.inputs} outputs={data?.outputs} />
+                </div>
+                {selected && (
+                    <div
+                        className="absolute rounded-full bg-gray-50 p-1 -right-3 -top-3 shadow-xs border hover:bg-gray-100"
+                        onClick={() => {
+                            console.log("borrar nodo ...")
+                        }}
+                    >
+                        <Icons.close className="w-4 h-4 p-0.5 text-gray-400" />
+                    </div>
+                )}
+            </div>
+            <SourceHandle
+                /* connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
             handleColors={handleColors} */
-        id={id}
-        nodeType={schema.nodeType}
-        selected={selected}
-      />
-    </>
-  )
+                id={id}
+                nodeType={schema.nodeType}
+                selected={selected}
+            />
+        </>
+    )
 })

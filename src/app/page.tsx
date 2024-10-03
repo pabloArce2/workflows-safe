@@ -1,11 +1,11 @@
 import { redirect } from "next/navigation"
 
 interface HomeParams {
-  params: {
-    locale: string
-  }
+    params: {
+        locale: string
+    }
 }
 
 export default function Home({ params: { locale } }: HomeParams) {
-  redirect("/workflows")
+    redirect(`${locale}/workflows`)
 }
