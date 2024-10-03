@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { DragEvent, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { EdgeData, NodeData } from "@/common/common-types"
+
+import "reactflow/dist/style.css"
 import { log } from "@/common/log"
 import {
     EMPTY_ARRAY,
@@ -98,7 +100,7 @@ const WorkflowCanvas = ({ wrapperRef, nodeTypes, edgeTypes }: ReactFlowBoxProps)
                     backgroundColor: "var(--background)",
                 }}
             >
-                <Controls className="p-10" />
+                <Controls />
                 <Background gap={16} size={1} variant={BackgroundVariant.Dots} />
             </ReactFlow>
         </main>

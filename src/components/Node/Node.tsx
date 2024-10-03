@@ -92,8 +92,8 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                 )}
             </div>
             <SourceHandle
-                /* connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
-            handleColors={handleColors} */
+                // connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
+                // handleColors={handleColors}
                 id={id}
                 nodeType={schema.nodeType}
                 selected={selected}
