@@ -98,7 +98,7 @@ const WorkflowCanvas = ({ wrapperRef, nodeTypes, edgeTypes }: ReactFlowBoxProps)
                     backgroundColor: "var(--background)",
                 }}
             >
-                <Controls />
+                <Controls className="p-10" />
                 <Background gap={16} size={1} variant={BackgroundVariant.Dots} />
             </ReactFlow>
         </main>
