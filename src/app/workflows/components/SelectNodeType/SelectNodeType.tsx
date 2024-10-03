@@ -39,6 +39,8 @@ interface SelectNodeProps {
 
 export function SelectNodeType({ node, className }: SelectNodeProps) {
   const { schemata, categories } = useContext(BackendContext)
+
+  console.log(schemata)
   const { updateNodeSchemaId, updateNodeInputsById, updateNodeOutputsById } = useContext(GlobalContext)
 
   const triggerRef = useRef<HTMLDivElement>(null)

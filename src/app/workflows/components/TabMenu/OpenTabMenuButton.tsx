@@ -1,4 +1,4 @@
-// import rootStore from "@/stores/RootStore"
+import { useWorkflows } from "@/context/WorkflowsContext"
 import { observer } from "mobx-react-lite"
 
 import { WORKFLOW_GAP } from "@/lib/constants"
@@ -9,10 +9,10 @@ interface OpenTabMenuButtonProps {
 }
 
 const OpenTabMenuButton = ({ className }: OpenTabMenuButtonProps) => {
-  const setIsOpenNodePanel = false
+  const { isOpenNodePanel, setIsOpenNodePanel } = useWorkflows()
 
   const handleOpen = () => {
-    setIsOpenNodePanel(true)
+    setIsOpenNodePanel(!isOpenNodePanel)
   }
 
   return (

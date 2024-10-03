@@ -3,9 +3,9 @@ module.exports = {
   endOfLine: "lf",
   semi: false,
   singleQuote: false,
-  tabWidth: 2,
   trailingComma: "es5",
   printWidth: 115,
+  tabWidth: 4,
   importOrder: [
     "^(react/(.*)$)|^(react$)",
     "^(next/(.*)$)|^(next$)",

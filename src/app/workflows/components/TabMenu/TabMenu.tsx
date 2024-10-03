@@ -1,4 +1,4 @@
-// import rootStore from "@/stores/RootStore"
+import { useWorkflows } from "@/context/WorkflowsContext"
 import { observer } from "mobx-react-lite"
 
 import { WORKFLOW_GAP } from "@/lib/constants"
@@ -16,7 +16,7 @@ interface TabMenuProps {
 
 const TabMenu = ({ className }: TabMenuProps) => {
   const windowHeight = useWindowHeight()
-  const { getSelectedTabNodePanel, setSelectedTabNodePanel, setIsOpenNodePanel } = rootStore.workflowStore
+  const { selectedTabNodePanel, setSelectedTabNodePanel, isOpenNodePanel, setIsOpenNodePanel } = useWorkflows()
 
   return (
     <section
@@ -31,14 +31,14 @@ const TabMenu = ({ className }: TabMenuProps) => {
       <div className="py-2 px-3">
         <div
           className="w-fit p-0.5 hover:bg-gray-200 rounded-full ml-auto"
-          onClick={() => setIsOpenNodePanel(false)}
+          onClick={() => setIsOpenNodePanel(!isOpenNodePanel)}
         >
           <Icons.close className="cursor-pointer w-5 " />
         </div>
       </div>
 
       <Tabs
-        value={getSelectedTabNodePanel}
+        value={selectedTabNodePanel}
         onValueChange={setSelectedTabNodePanel}
         style={{
           height: windowHeight - WORKFLOW_GAP * 8,
@@ -53,7 +53,7 @@ const TabMenu = ({ className }: TabMenuProps) => {
           </TabsTrigger>
           <div
             className={`absolute duration-300 w-9 pt-0.5 bg-black rounded-xl top-6 ${
-              getSelectedTabNodePanel === "create" ? "-translate-x-[4.2rem]" : "translate-x-[4.4rem]"
+              selectedTabNodePanel === "create" ? "-translate-x-[4.2rem]" : "translate-x-[4.4rem]"
             }`}
           ></div>
         </TabsList>

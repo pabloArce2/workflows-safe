@@ -23,12 +23,12 @@ import ReactFlow, {
     OnEdgesChange,
     OnNodesChange,
     Position,
+    Viewport,
+    XYPosition,
     useEdgesState,
     useKeyPress,
     useNodesState,
     useReactFlow,
-    Viewport,
-    XYPosition,
 } from "reactflow"
 
 import { usePaneNodeSearchMenu } from "@/hooks/usePaneNodeSearchMenu"

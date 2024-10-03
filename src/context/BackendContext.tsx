@@ -1,15 +1,15 @@
 import React, { createContext, memo, useCallback, useEffect, useState } from "react"
 import { CategoryMap } from "@/common/CategoryMap"
+import { SchemaMap } from "@/common/SchemaMap"
 import { Category, NodeSchema } from "@/common/common-types"
 import { log } from "@/common/log"
 import { sortNodes } from "@/common/nodes/sort"
-import { SchemaMap } from "@/common/SchemaMap"
 import { nodes_test_data } from "@/mocks/data"
+import workflowService from "@/services/workflow.service"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import isEqual from "react-fast-compare"
 import { useTranslation } from "react-i18next"
 
-import workflowService from "@/services/workflow.service"
 import { useMemoObject } from "@/hooks/useMemo"
 
 interface BackendContextState {

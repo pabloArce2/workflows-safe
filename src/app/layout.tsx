@@ -11,21 +11,20 @@ export const metadata: Metadata = {
 }
 
 const inter = Inter({ subsets: ["latin"] })
-
 const locales = ["en", "es"]
 
-export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }))
-}
+// export function generateStaticParams() {
+//   return locales.map((locale) => ({ locale }))
+// }
 
-interface LocaleLayoutProps {
+interface RootLayoutProps {
   children: React.ReactNode
   params: {
     locale: string
   }
 }
 
-export default async function LocaleLayout({ children, params: { locale } }: LocaleLayoutProps) {
+export default async function RootLayout({ children, params: { locale } }: RootLayoutProps) {
   // let messages
   // try {
   //   messages = (await import(`@/messages/${locale}.json`)).default

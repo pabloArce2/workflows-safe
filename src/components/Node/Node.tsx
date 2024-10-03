@@ -4,7 +4,7 @@ import { NodeData, NodeSchema } from "@/common/common-types"
 import { parseTargetHandle, stringifySourceHandle, stringifyTargetHandle } from "@/common/util"
 import { BackendContext } from "@/context/BackendContext"
 import { GlobalContext, GlobalVolatileContext } from "@/context/GlobalNodeState"
-import rootStore from "@/stores/RootStore"
+import { useWorkflows } from "@/context/WorkflowsContext"
 import { observer } from "mobx-react-lite"
 import { Connection, useReactFlow } from "reactflow"
 
@@ -26,7 +26,7 @@ export interface NodeProps {
 }
 
 const NodeInner = memo(({ data, selected }: NodeProps) => {
-  const { setIsOpenNodePanel, setSelectedTabNodePanel } = rootStore.workflowStore
+  const { setIsOpenNodePanel, setSelectedTabNodePanel } = useWorkflows()
   const { schemata } = useContext(BackendContext)
   const { id, schemaId } = data
   const schema = schemata.get(schemaId)

@@ -34,6 +34,7 @@ import {
   File,
   FileImage,
   FileText,
+  Filter,
   FolderX,
   GitCompare,
   Hand,
@@ -46,6 +47,7 @@ import {
   Languages,
   Laptop,
   Layers,
+  Link,
   Loader2,
   LogOut,
   LucideProps,
@@ -63,8 +65,10 @@ import {
   PlusCircle,
   Redo2,
   RotateCcw,
+  Ruler,
   Search,
   Settings,
+  Sliders,
   SlidersHorizontal,
   Square,
   SunMedium,
@@ -88,7 +92,7 @@ import {
 
 import { cn } from "@/lib/utils"
 
-export type Icon = LucideIcon
+export type Icon = typeof LucideIcon
 
 export const Icons = {
   activity: Activity,
@@ -135,6 +139,7 @@ export const Icons = {
     <img src="/user-avatar.png" className={cn(props.className, "rounded-full object-cover")} />
   ),
   arrowRight: ArrowRight,
+  slidersVertical: Sliders,
   arrowLeft: ArrowLeft,
   arrowUp: ArrowUp,
   arrowDown: ArrowDown,
@@ -168,6 +173,9 @@ export const Icons = {
   projects: Layers,
   diamond: Diamond,
   hexagon: Hexagon,
+  filter: Filter,
+  link: Link,
+  ruler: Ruler,
   helpCircle: HelpCircle,
   kanbanSquare: KanbanSquare,
   network: Network,
