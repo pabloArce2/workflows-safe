@@ -8,6 +8,7 @@
         "turbo": "next dev --turbo",
         "start": "next start",
         "lint": "next lint",
+        "prebuild": "tsc --noEmit || true",
         "preview": "next build && next start",
         "vercel-build": "pnpm next build"
     },
