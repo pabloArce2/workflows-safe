@@ -31,7 +31,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     const { id, schemaId } = data
     const schema = schemata.get(schemaId)
 
-    const { selectNode } = useContext(GlobalContext)
+    const { selectNode, removeNodesById } = useContext(GlobalContext)
 
     /* const regularBorderColor = "var(--border)"
     const accentColor = getCategoryAccentColor(categories, category)
@@ -82,12 +82,13 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                 </div>
                 {selected && (
                     <div
-                        className="absolute rounded-full bg-gray-50 p-1 -right-3 -top-3 shadow-xs border hover:bg-gray-100"
-                        onClick={() => {
-                            console.log("borrar nodo ...")
+                        className="absolute rounded-full bg-gray-50 p-1 -right-3 -top-3 shadow-xs border hover:bg-gray-200 hover:cursor-pointer"
+                        onClick={(e: React.MouseEvent) => {
+                            e.stopPropagation()
+                            removeNodesById([id])
                         }}
                     >
-                        <Icons.close className="w-4 h-4 p-0.5 text-gray-400" />
+                        <Icons.close className="w-4 h-4 p-0.5 text-gray-600" />
                     </div>
                 )}
             </div>

@@ -1,5 +1,6 @@
 import { dirname, parse } from "path"
 import React, { createContext, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
+import { VALID, Validity, invalid } from "@/common/Validity"
 import {
     EdgeData,
     GetSetState,
@@ -14,27 +15,26 @@ import {
 } from "@/common/common-types"
 import { getSessionStorageOrDefault } from "@/common/useSessionStorage"
 import {
-    createUniqueId,
     ParsedSourceHandle,
     ParsedTargetHandle,
+    createUniqueId,
     parseSourceHandle,
     parseTargetHandle,
     stringifySourceHandle,
     stringifyTargetHandle,
 } from "@/common/util"
-import { invalid, VALID, Validity } from "@/common/Validity"
 import {
     Connection,
     Edge,
-    getOutgoers,
     Node,
     OnConnectStartParams,
+    Viewport,
+    getOutgoers,
     useReactFlow,
     useViewport,
-    Viewport,
 } from "reactflow"
 
-import { createNode as createNodeImpl, NodeProto, withNewData } from "@/lib/reactFlowUtil"
+import { NodeProto, createNode as createNodeImpl, withNewData } from "@/lib/reactFlowUtil"
 import { useChangeCounter, wrapRefChanges } from "@/hooks/useChangeCounter"
 import { useMemoArray, useMemoObject } from "@/hooks/useMemo"
 
