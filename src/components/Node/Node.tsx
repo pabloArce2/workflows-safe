@@ -1,4 +1,4 @@
-import { memo, useCallback, useContext, useMemo, useRef } from "react"
+import { memo, useCallback, useContext, useEffect, useMemo, useRef } from "react"
 import { VALID, invalid } from "@/common/Validity"
 import { NodeData, NodeSchema } from "@/common/common-types"
 import { parseTargetHandle, stringifySourceHandle, stringifyTargetHandle } from "@/common/util"
@@ -15,10 +15,7 @@ import { Icons } from "../Icons"
 import { NodeBody } from "./NodeBody"
 import { NodeHeader } from "./NodeHeader"
 
-export const Node = observer(({ data, selected }: NodeProps) => (
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    <NodeInner data={data} selected={selected} />
-))
+export const Node = observer(({ data, selected }: NodeProps) => <NodeInner data={data} selected={selected} />)
 
 export interface NodeProps {
     data: NodeData
@@ -33,16 +30,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
 
     const { selectNode, removeNodesById } = useContext(GlobalContext)
 
-    /* const regularBorderColor = "var(--border)"
-    const accentColor = getCategoryAccentColor(categories, category)
-    const borderColor = useMemo(
-        () => (selected ? shadeColor(accentColor, 0) : regularBorderColor),
-        [selected, accentColor, regularBorderColor]
-    ) */
-
     const targetRef = useRef<HTMLDivElement>(null)
-
-    //const startingNode = isStartingNode(schema)
 
     const onClick = (event: any) => {
         event.preventDefault()
@@ -51,25 +39,32 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
         setSelectedTabNodePanel("edit")
     }
 
+    useEffect(() => {
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Delete" || event.key === "Backspace") {
+                if (selected) {
+                    removeNodesById([id]) // Eliminar el nodo seleccionado
+                }
+            }
+        }
+
+        window.addEventListener("keydown", handleKeyDown)
+        return () => {
+            window.removeEventListener("keydown", handleKeyDown) // Cleanup
+        }
+    }, [selected, id, removeNodesById])
+
     return (
         <>
-            <TargetHandle
-                /* connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
-                handleColors={handleColors} */
-                id={id}
-                nodeType={schema.nodeType}
-                selected={selected}
-            />
+            <TargetHandle id={id} nodeType={schema.nodeType} selected={selected} />
             <div
-                className={`grid place-content-center bg-node-bg bg-white  min-w-[240px] min-h-[80px] rounded-md border-[0.5px] transition-all py-3
+                className={`grid place-content-center bg-node-bg bg-white min-w-[240px] min-h-[80px] rounded-md border-[0.5px] transition-all py-3
                     ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
-                // style={{ borderColor: "var(--border)" }}
                 ref={targetRef}
                 onClick={onClick}
             >
                 <div className="min-w-[200px]">
                     <NodeHeader
-                        //accentColor={accentColor}
                         nodeColor={schema.color}
                         icon={schema.icon}
                         name={schema.name}
@@ -92,13 +87,9 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                     </div>
                 )}
             </div>
-            <SourceHandle
-                // connectedColor={isConnected ? sourceTypeColor ?? handleColors[0] : undefined}
-                // handleColors={handleColors}
-                id={id}
-                nodeType={schema.nodeType}
-                selected={selected}
-            />
+            <SourceHandle id={id} nodeType={schema.nodeType} selected={selected} />
         </>
     )
 })
+
+export default Node
