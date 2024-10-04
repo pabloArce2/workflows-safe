@@ -11,6 +11,7 @@ import {
 } from "@/common/common-types"
 import { ExpressionJson } from "@/common/json"
 import { BackendNodesResponse } from "@/context/BackendContext"
+import { boolean } from "zod"
 
 import { Icons } from "@/components/Icons"
 
@@ -377,23 +378,27 @@ const initialNodesSchema: NodeSchema[] = [
         nodeType: "regularNode",
         inputs: [
             {
-                id: "input-detections",
+                id: "input-detections" as InputId,
                 type: "array",
-                kind: "list",
+                kind: "text",
                 label: "Detecciones",
                 optional: false,
-                groups: [],
+                hideLabel: false,
             },
             {
-                id: "input-threshold",
+                id: "input-threshold" as InputId,
                 type: "number",
-                kind: "text",
+                kind: "number",
                 label: "Umbral de detecciones",
+                hideLabel: false,
                 optional: false,
-                groups: [],
+                def: 2,
+                precision: 2,
+                controlsStep: 2,
+                hideTrailingZeros: true,
             },
             {
-                id: "input-comparator",
+                id: "input-comparator" as InputId,
                 type: "string",
                 kind: "dropdown",
                 label: "Operador de comparación",
@@ -410,10 +415,10 @@ const initialNodesSchema: NodeSchema[] = [
         ],
         outputs: [
             {
-                id: "output-alarm-trigger",
+                id: "output-alarm-trigger" as OutputId,
                 type: "boolean",
                 label: "Alarma activada",
-                kind: "checkbox",
+                kind: "bool",
                 description: "Indica si la alarma se activa en función del conteo de detecciones.",
             },
         ],
@@ -436,27 +441,38 @@ const initialNodesSchema: NodeSchema[] = [
                 kind: "dropdown",
                 label: "Modelo de AI",
                 optional: false,
-                options: [{ option: "defectos_goma", value: "defectos_goma", type: "string" }], // Las opciones se llenarían con los modelos de AI disponibles en el proyecto
+                options: [
+                    { option: "defectos_goma", value: "defectos_goma", type: "string" },
+                    { option: "calidad_superficie", value: "calidad_superficie", type: "string" },
+                    { option: "deteccion_grietas", value: "deteccion_grietas", type: "string" },
+                    { option: "clasificacion_materiales", value: "clasificacion_materiales", type: "string" },
+                    { option: "inspeccion_soldaduras", value: "inspeccion_soldaduras", type: "string" },
+                    { option: "analisis_desgaste", value: "analisis_desgaste", type: "string" },
+                    { option: "deteccion_corrosion", value: "deteccion_corrosion", type: "string" },
+                    { option: "control_dimensional", value: "control_dimensional", type: "string" },
+                    { option: "identificacion_piezas", value: "identificacion_piezas", type: "string" },
+                    { option: "inspeccion_embalaje", value: "inspeccion_embalaje", type: "string" },
+                ],
                 preferredStyle: "dropdown",
                 groups: [],
             },
             {
-                id: "model-image-name" as InputId,
+                id: "camera-name" as InputId,
                 type: "string",
-                kind: "text",
-                label: "Nombre de la Imagen",
+                kind: "camera",
+                label: "Nombre de la camara",
                 optional: false,
                 hideLabel: false,
             },
         ],
         outputs: [
-            /* {
-              id: 2 as OutputId,
-              type: "dict",
-              label: "Nombre de las Detecciones",
-              kind: "value",
-              description: "Variable global que contiene las detecciones de AI.",
-          }, */
+            {
+                id: "camera_detections" as OutputId,
+                type: "detections",
+                label: "Nombre de las Detecciones",
+                kind: "value",
+                description: "Variable global que contiene las detecciones de AI.",
+            },
         ],
     },
     // Nodo PLC Read
@@ -550,28 +566,28 @@ const initialNodesSchema: NodeSchema[] = [
         color: "#FFAC2F",
         nodeType: "regularNode",
         inputs: [
-            {
-                id: "detections" as InputId,
-                type: "string",
-                kind: "text",
-                label: "Detecciones y Foto",
-                optional: false,
-                hideLabel: false,
-            },
-            {
-                id: "result" as InputId,
-                type: "number",
-                kind: "dropdown",
-                label: "Resultado",
-                optional: false,
-                options: [
-                    { option: "ko", value: "0", type: "number" },
-                    { option: "ok", value: "1", type: "number" },
-                    { option: "rework", value: "2", type: "number" },
-                ],
-                preferredStyle: "dropdown",
-                groups: [],
-            },
+            // {
+            //     id: "detections" as InputId,
+            //     type: "string",
+            //     kind: "text",
+            //     label: "Detecciones y Foto",
+            //     optional: false,
+            //     hideLabel: false,
+            // },
+            // {
+            //     id: "result" as InputId,
+            //     type: "number",
+            //     kind: "dropdown",
+            //     label: "Resultado",
+            //     optional: false,
+            //     options: [
+            //         { option: "ko", value: "0", type: "number" },
+            //         { option: "ok", value: "1", type: "number" },
+            //         { option: "rework", value: "2", type: "number" },
+            //     ],
+            //     preferredStyle: "dropdown",
+            //     groups: [],
+            // },
         ],
         outputs: [],
     },

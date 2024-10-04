@@ -188,6 +188,11 @@ export interface ColorInput extends InputBase {
     readonly def: string
     readonly channels?: readonly number[] | null
 }
+export interface OperatorInput {
+    readonly label?: string | null
+    readonly startAt: InputSchemaValue
+}
+
 export type InputKind = Input["kind"]
 
 export type Input =
@@ -198,6 +203,8 @@ export type Input =
     | SliderInput
     | NumberInput
     | ColorInput
+    | OperatorInput
+    | DetectionInput
 
 export interface Output {
     readonly id: OutputId
@@ -207,7 +214,7 @@ export interface Output {
     readonly kind: OutputKind
     readonly description?: string | null
 }
-export type OutputKind = "value" | "dict" | "image"
+export type OutputKind = "value" | "dict" | "image" | "bool" | "detection" | "camera"
 
 export interface BackendJsonEdgeInput {
     type: "edge"

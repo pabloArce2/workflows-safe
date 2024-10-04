@@ -20,6 +20,7 @@ import { Button } from "@/components/ui/Button/Button"
 import { Form, FormField } from "@/components/ui/Form/Form"
 
 import DropdownInputComponent from "./DropdownInputComponent/DropdownInputComponent"
+import NumberInputComponent from "./NumberInputComponent/NumberInputComponent"
 import TextInputComponent from "./TextInputComponent/TextInputComponent"
 
 interface InputsProps {
@@ -92,14 +93,14 @@ export function InputsForm({ node, inputsSchema, outputsSchema, ...props }: Inpu
 
     function transformToBackendJsonInputValue(inputData: InputData): BackendJsonValueInput[] {
         return Object.entries(inputData).map(([inputId, value]) => {
-            let type = "value"
-            return { inputId, type, value } // Devolver un objeto con las propiedades requeridas
+            const type = "value" as const
+            return { inputId, type, value }
         })
     }
 
     function transformToBackendJsonOutputValue(outputData: InputData): BackendJsonValueInput[] {
         return Object.entries(outputData).map(([outputId, value]) => {
-            let type = "value"
+            let type = "value" as const
             return { outputId, type, value } // Devolver un objeto con las propiedades requeridas
         })
     }
@@ -155,6 +156,24 @@ export function InputsForm({ node, inputsSchema, outputsSchema, ...props }: Inpu
                                             />
                                         )
                                     case "text":
+                                        return (
+                                            <TextInputComponent
+                                                field={field}
+                                                inputSchema={inputSch}
+                                                open={isOpen}
+                                                onOpenChange={(open) => handleOpenChange(inputSch.label, open)}
+                                            />
+                                        )
+                                    case "number":
+                                        return (
+                                            <NumberInputComponent
+                                                field={field}
+                                                inputSchema={inputSch}
+                                                open={isOpen}
+                                                onOpenChange={(open) => handleOpenChange(inputSch.label, open)}
+                                            />
+                                        )
+                                    case "operator":
                                         return (
                                             <TextInputComponent
                                                 field={field}
