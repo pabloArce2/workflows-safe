@@ -19,6 +19,7 @@ import { toast } from "@/hooks/useToast"
 import { Button } from "@/components/ui/Button/Button"
 import { Form, FormField } from "@/components/ui/Form/Form"
 
+import DetectionInputComponent from "./DetectionsInputComponent/DetectionInputComponent"
 import DropdownInputComponent from "./DropdownInputComponent/DropdownInputComponent"
 import NumberInputComponent from "./NumberInputComponent/NumberInputComponent"
 import TextInputComponent from "./TextInputComponent/TextInputComponent"
@@ -182,6 +183,15 @@ export function InputsForm({ node, inputsSchema, outputsSchema, ...props }: Inpu
                                                 onOpenChange={(open) => handleOpenChange(inputSch.label, open)}
                                             />
                                         )
+                                    case "detections":
+                                        return (
+                                            <DetectionInputComponent
+                                                field={field}
+                                                inputSchema={inputSch}
+                                                open={isOpen}
+                                                onOpenChange={(open) => handleOpenChange(inputSch.label, open)}
+                                            />
+                                        )
                                     // other cases...
                                     default:
                                         return <div></div>
@@ -223,6 +233,52 @@ export function InputsForm({ node, inputsSchema, outputsSchema, ...props }: Inpu
                                                         }
                                                     />
                                                 )
+                                            case "value":
+                                                return (
+                                                    <TextInputComponent
+                                                        field={field}
+                                                        inputSchema={outputSch}
+                                                        open={isOpen}
+                                                        onOpenChange={(open) =>
+                                                            handleOpenChange(outputSch.label, open)
+                                                        }
+                                                    />
+                                                )
+                                            case "detection":
+                                                return (
+                                                    <TextInputComponent
+                                                        field={field}
+                                                        inputSchema={outputSch}
+                                                        open={isOpen}
+                                                        onOpenChange={(open) =>
+                                                            handleOpenChange(outputSch.label, open)
+                                                        }
+                                                    />
+                                                )
+
+                                            case "bool":
+                                                return (
+                                                    <TextInputComponent
+                                                        field={field}
+                                                        inputSchema={outputSch}
+                                                        open={isOpen}
+                                                        onOpenChange={(open) =>
+                                                            handleOpenChange(outputSch.label, open)
+                                                        }
+                                                    />
+                                                )
+                                            case "camera":
+                                                return (
+                                                    <TextInputComponent
+                                                        field={field}
+                                                        inputSchema={outputSch}
+                                                        open={isOpen}
+                                                        onOpenChange={(open) =>
+                                                            handleOpenChange(outputSch.label, open)
+                                                        }
+                                                    />
+                                                )
+
                                             // other cases...
                                             default:
                                                 return <div></div>
