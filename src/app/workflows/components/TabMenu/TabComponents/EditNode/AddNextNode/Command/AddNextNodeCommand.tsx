@@ -76,7 +76,7 @@ const AddNextNodeCommand = () => {
 
     return (
         <>
-            <Popover open={open} onOpenChange={setOpen}>
+            <Popover open={open} onOpenChange={setOpen} modal={true}>
                 <PopoverTrigger asChild className="h-10">
                     <Button
                         variant="outline"
