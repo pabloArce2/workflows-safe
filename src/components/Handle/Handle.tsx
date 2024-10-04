@@ -1,10 +1,9 @@
 import * as React from "react"
-import { NodeType } from "@/common/common-types"
 import { Validity } from "@/common/Validity"
+import { NodeType } from "@/common/common-types"
 import { Connection, Position, Handle as RFHandle } from "reactflow"
 
 import "./Handle.css"
-
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip/Tooltip"
 
 export type HandleType = "target" | "source"

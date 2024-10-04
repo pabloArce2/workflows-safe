@@ -1,7 +1,7 @@
 import { useCallback, useContext, useMemo } from "react"
+import { VALID, invalid } from "@/common/Validity"
 import { NodeType, OutputId } from "@/common/common-types"
 import { stringifySourceHandle, stringifyTargetHandle } from "@/common/util"
-import { invalid, VALID } from "@/common/Validity"
 import { GlobalVolatileContext } from "@/context/GlobalNodeState"
 import { Connection } from "reactflow"
 
@@ -57,6 +57,8 @@ export const SourceHandle = ({ id, nodeType, selected }: SourceHandleProps) => {
             nodeType={nodeType}
             type="source"
             validity={validity}
+            handleColors={[]}
+            connectedColor={undefined}
         />
     )
 }

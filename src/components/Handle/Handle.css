@@ -3,21 +3,21 @@
     --selectedBorderColor: rgb(96 165 250);
 }
 
-.handle {
-    position: absolute;
-    transition: 0.15s ease-in-out;
-    cursor: crosshair;
-
-    box-shadow: 0 0 0 1px white, 2px 2px 2px #ffffff14;
-    border: 1px solid var(--borderColor);
-    border-radius: 50%;
-    background: white;
-    width: 12px;
-    height: 12px;
+.react-flow__handle.handle {
+    /* Especificidad aumentada */
+    position: absolute !important;
+    transition: 0.15s ease-in-out !important;
+    cursor: crosshair !important;
+    box-shadow: 0 0 0 1px white, 2px 2px 2px #ffffff14 !important;
+    border: 1px solid var(--borderColor) !important;
+    border-radius: 50% !important;
+    background: white !important;
+    width: 12px !important;
+    height: 12px !important;
 }
 
-.handle-selected {
-    border: 1px solid var(--selectedBorderColor);
+.react-flow__handle.handle-selected {
+    border: 1px solid var(--selectedBorderColor) !important;
 }
 
 /* .handle-connected {
@@ -26,27 +26,27 @@
     background: var(--connectedBg);
 }
 
-.handle-disconnected {
-    border-width: 0;
-    border-color: transparent;
-    background: var(--disconnectedBg);
+.react-flow__handle.handle-disconnected {
+    border-width: 0 !important;
+    border-color: transparent !important;
+    background: var(--disconnectedBg) !important;
 } */
 
-.handle-invalid {
-    opacity: 0.3;
-    filter: grayscale(100%);
+.react-flow__handle.handle-invalid {
+    opacity: 0.3 !important;
+    filter: grayscale(100%) !important;
 }
 
-.handle-valid {
-    opacity: 1;
+.react-flow__handle.handle-valid {
+    opacity: 1 !important;
 }
 
-.handle:hover {
-    width: 18px;
-    height: 18px;
+.react-flow__handle.handle:hover {
+    width: 18px !important;
+    height: 18px !important;
 }
 
-.handle:before {
+.react-flow__handle.handle:before {
     position: absolute;
     transform: translate(-50%, -50%);
     border-radius: 12px;
@@ -55,8 +55,8 @@
     content: " ";
 }
 
-.target-handle {
+/* .react-flow__handle.target-handle {
 }
 
-.source-handle {
-}
+.react-flow__handle.source-handle {
+} */
