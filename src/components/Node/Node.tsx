@@ -58,7 +58,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
         <>
             <TargetHandle id={id} nodeType={schema.nodeType} selected={selected} />
             <div
-                className={`grid place-content-center bg-node-bg bg-white min-w-[240px] min-h-[80px] rounded-md border-[0.5px] transition-all py-3
+                className={`grid place-content-center bg-node-bg bg-white min-w-[240px] min-h-[80px] rounded-md border-[0.5px] transition-all py-3 
                     ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
                 ref={targetRef}
                 onClick={onClick}
