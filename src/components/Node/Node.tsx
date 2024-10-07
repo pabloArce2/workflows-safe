@@ -65,7 +65,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
             >
                 <div className="min-w-[200px]">
                     <NodeHeader
-                        nodeColor={schema.color}
+                        nodeColor={schema.color || "#000"}
                         icon={schema.icon}
                         name={schema.name}
                         description={schema.description}

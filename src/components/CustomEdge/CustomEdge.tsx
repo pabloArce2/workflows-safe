@@ -2,15 +2,27 @@ import React, { memo, useContext, useEffect, useMemo } from "react"
 import { GlobalContext } from "@/context/GlobalNodeState"
 import { EdgeProps, getBezierPath } from "reactflow"
 
-import "./CustomEdge.css"
+import "./CustomEdge.scss"
+import { EdgeData } from "@/common/common-types"
 
-// Extend EdgeProps to include any custom props you might add in the future
-interface CustomEdgeProps extends EdgeProps {
-    isSelected?: boolean // Prop for determining if the edge is selected
-}
-
-const CustomEdge: React.FC<CustomEdgeProps> = memo(
-    ({ id, sourceX, sourceY, targetX, targetY, sourcePosition, targetPosition, style = {}, isSelected }) => {
+const CustomEdge = memo(
+    ({
+        id,
+        source,
+        target,
+        sourceX: _sourceX,
+        sourceY,
+        targetX: _targetX,
+        targetY,
+        sourcePosition,
+        targetPosition,
+        selected,
+        sourceHandleId,
+        data = {},
+        style,
+    }: EdgeProps<EdgeData>) => {
+        const sourceX = _sourceX - 1 // - 8 <- To align it with the node
+        const targetX = _targetX + 1 // + 8
         // Calculate the path for the bezier curve between the source and target nodes
         const { removeEdgeById } = useContext(GlobalContext)
 
@@ -26,12 +38,13 @@ const CustomEdge: React.FC<CustomEdgeProps> = memo(
         }, [sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition])
 
         // Determine the stroke color based on the selection state
-        const strokeColor = isSelected ? "#007bff" : "#222" // Blue if selected, otherwise dark gray
+        const strokeColor = selected ? "#007bff" : "#222" // Blue if selected, otherwise dark gray
+        const strokeWidth = selected ? 4 : 2
 
         useEffect(() => {
             const handleKeyDown = (event: KeyboardEvent) => {
                 if (event.key === "Delete" || event.key === "Backspace") {
-                    if (isSelected) {
+                    if (selected) {
                         removeEdgeById(id) // Eliminar el nodo seleccionado
                     }
                 }
@@ -41,12 +54,18 @@ const CustomEdge: React.FC<CustomEdgeProps> = memo(
             return () => {
                 window.removeEventListener("keydown", handleKeyDown) // Cleanup
             }
-        }, [isSelected, id, removeEdgeById])
+        }, [selected, id, removeEdgeById])
 
         return (
-            <g className="reactflow__edge reactflow__edge-path " style={style}>
-                <path id={id} className="reactflow__edge-path" d={edgePath} fill="none" stroke={strokeColor} />
-                {/* Future: Display edge content or EdgeText here */}
+            <g className="edge-chain-group" style={style}>
+                <path
+                    id={id}
+                    className="edge-chain"
+                    d={edgePath}
+                    fill="none"
+                    stroke={strokeColor}
+                    strokeWidth={strokeWidth}
+                />
             </g>
         )
     }
