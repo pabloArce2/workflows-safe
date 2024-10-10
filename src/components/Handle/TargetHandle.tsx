@@ -1,7 +1,7 @@
 import { useCallback, useContext, useMemo } from "react"
+import { VALID, invalid } from "@/common/Validity"
 import { NodeType, OutputId } from "@/common/common-types"
 import { stringifySourceHandle, stringifyTargetHandle } from "@/common/util"
-import { invalid, VALID } from "@/common/Validity"
 import { GlobalVolatileContext } from "@/context/GlobalNodeState"
 import { Connection } from "reactflow"
 
@@ -51,14 +51,16 @@ export const TargetHandle = ({ id, nodeType, selected }: TargetHandleProps) => {
 
     return (
         <Handle
-            /* connectedColor={isConnected ? handleColors[0] : undefined}
-            handleColors={handleColors} */
+            // connectedColor={isConnected ? handleColors[0] : undefined}
+            // handleColors={handleColors}
             selected={selected}
             id={sourceHandle}
             isValidConnection={isValidConnectionForRf}
             nodeType={nodeType}
             type="target"
             validity={validity}
+            handleColors={[]}
+            connectedColor={undefined}
         />
     )
 }

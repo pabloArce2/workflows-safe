@@ -52,6 +52,7 @@ import {
     Loader2,
     LogOut,
     LucideProps,
+    Mail,
     Maximize,
     Minimize,
     Minus,
@@ -187,6 +188,7 @@ export const Icons = {
     maximaze: Maximize,
     minimize: Minimize,
     informationCircle: Info,
+    notification: Mail,
 
     gitHub: ({ ...props }: LucideProps) => (
         <svg

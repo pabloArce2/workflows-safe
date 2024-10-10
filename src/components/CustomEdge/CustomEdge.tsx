@@ -21,8 +21,8 @@ const CustomEdge = memo(
         data = {},
         style,
     }: EdgeProps<EdgeData>) => {
-        const sourceX = _sourceX - 1 // - 8 <- To align it with the node
-        const targetX = _targetX + 1 // + 8
+        const sourceX = _sourceX // - 8 <- To align it with the node
+        const targetX = _targetX // + 8
         // Calculate the path for the bezier curve between the source and target nodes
         const { removeEdgeById } = useContext(GlobalContext)
 

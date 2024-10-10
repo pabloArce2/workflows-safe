@@ -214,7 +214,7 @@ export interface Output {
     readonly kind: OutputKind
     readonly description?: string | null
 }
-export type OutputKind = "value" | "dict" | "image" | "bool" | "detection" | "camera"
+export type OutputKind = "value" | "dict" | "image" | "bool" | "detections" | "camera"
 
 export interface BackendJsonEdgeInput {
     type: "edge"
