@@ -1,5 +1,5 @@
-import { useRef } from "react"
-import { DropDownInput, InputSchemaValue, NumberInput } from "@/common/common-types"
+import { useEffect, useRef, useState } from "react"
+import { DropDownInput, InputSchemaValue, TextInput } from "@/common/common-types"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/Button/Button"
@@ -11,14 +11,19 @@ import { Icons } from "@/components/Icons"
 
 import { useFormContext } from "../InputsForm"
 
-interface NumberInputComponentProps {
+interface OperatorInputComponentProps {
     field: any
-    inputSchema: NumberInput
+    inputSchema: TextInput
     open: boolean
     onOpenChange: (open: boolean) => void
 }
 
-const NumberInputComponent: React.FC<NumberInputComponentProps> = ({ field, inputSchema, open, onOpenChange }) => {
+const OperatorInputComponent: React.FC<OperatorInputComponentProps> = ({
+    field,
+    inputSchema,
+    open,
+    onOpenChange,
+}) => {
     const { setValue, handleSubmit, setOpenStates } = useFormContext()
     const triggerRef = useRef<HTMLDivElement>(null)
 
@@ -27,20 +32,16 @@ const NumberInputComponent: React.FC<NumberInputComponentProps> = ({ field, inpu
         handleSubmit()
         setOpenStates((prev: any) => ({ ...prev, [inputSchema.label]: false }))
     }
-    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.preventDefault()
-        e.stopPropagation()
-    }
 
     return (
         <FormItem>
             <FormLabel>{inputSchema.label}</FormLabel>
             <FormControl>
-                <Input onChange={handleOnChange} type="number" placeholder="Enter a number" {...field} />
+                <Input placeholder="Ex: example" {...field} />
             </FormControl>
             <FormMessage />
         </FormItem>
     )
 }
 
-export default NumberInputComponent
+export default OperatorInputComponent

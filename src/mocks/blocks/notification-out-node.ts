@@ -54,6 +54,7 @@ export const NotificationOffSiteNode: NodeSchema = {
                 { option: "Imagen 1", value: "imagen_1", type: "string" },
                 { option: "Imagen 2", value: "imagen_2", type: "string" },
             ],
+            groups: [],
         },
     ],
     outputs: [],

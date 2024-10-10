@@ -18,6 +18,7 @@ export const alarmNode: NodeSchema = {
             id: "alarm-selection" as InputId,
             type: "string",
             kind: "dropdown",
+            origin: "parameter",
             label: "Seleccionar Alarmas",
             optional: false,
             options: [
@@ -31,6 +32,7 @@ export const alarmNode: NodeSchema = {
         {
             id: "cooldown" as InputId,
             type: "number",
+            origin: "parameter",
             kind: "text",
             label: "Cooldown (segundos)",
             optional: false,
@@ -39,27 +41,12 @@ export const alarmNode: NodeSchema = {
         {
             id: "sensitivity" as InputId,
             type: "number",
+            origin: "parameter",
             kind: "text",
             label: "Sensibilidad (%)",
             optional: false,
             hideLabel: false,
         },
-        {
-            id: "input-json" as InputId,
-            type: "json",
-            kind: "text",
-            label: "Input JSON de Implicados",
-            optional: false,
-            hideLabel: false,
-        },
     ],
-    outputs: [
-        {
-            id: "output-json" as OutputId,
-            type: "json",
-            label: "Output JSON de Alerta",
-            kind: "value",
-            description: "JSON a postear en la interfaz en caso de concluir que debe postearse algo.",
-        },
-    ],
+    outputs: [],
 }

@@ -34,6 +34,7 @@ export type OutputTypes = Readonly<Partial<Record<OutputId, ExpressionJson | nul
 export interface NodeSchema {
     readonly schemaId: SchemaId
     readonly name: string
+    readonly var_name?: string
     readonly category: any
     readonly nodeGroup: NodeGroupId
     readonly description: string
@@ -108,6 +109,7 @@ interface InputBase {
     readonly adapt?: ExpressionJson | null
     readonly typeDefinitions?: string | null
     readonly kind: InputKind
+    readonly origin: InputOrigin
     readonly label: string
     readonly optional: boolean
     readonly description?: string
@@ -204,7 +206,9 @@ export type Input =
     | NumberInput
     | ColorInput
     | OperatorInput
-    | DetectionInput
+    | DetectionsInput
+
+export type InputOrigin = "parameter" | "entry"
 
 export interface Output {
     readonly id: OutputId

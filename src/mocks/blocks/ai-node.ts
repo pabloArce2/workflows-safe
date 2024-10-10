@@ -13,10 +13,19 @@ export const aiNode: NodeSchema = {
     nodeType: "regularNode",
     inputs: [
         {
+            id: "camera-name" as InputId,
+            type: "string",
+            kind: "camera",
+            origin: "entry",
+            label: "Nombre de la camara",
+            optional: false,
+            hideLabel: false,
+        },
+        {
             id: "model-name" as InputId,
             type: "string",
-            kind: "dropdown",
-            label: "Modelo de AI",
+            kind: "Clases",
+            origin: "parameter",
             optional: false,
             options: [
                 { option: "defectos_goma", value: "defectos_goma", type: "string" },
@@ -32,14 +41,6 @@ export const aiNode: NodeSchema = {
             ],
             preferredStyle: "dropdown",
             groups: [],
-        },
-        {
-            id: "camera-name" as InputId,
-            type: "string",
-            kind: "camera",
-            label: "Nombre de la camara",
-            optional: false,
-            hideLabel: false,
         },
     ],
     outputs: [

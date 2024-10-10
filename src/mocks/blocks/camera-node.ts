@@ -18,18 +18,7 @@ export const cameraNode: NodeSchema = {
             id: "input-camera-name" as InputId,
             type: "string",
             kind: "dropdown",
-            label: "Cámara",
-            optional: false,
-            options: cameras,
-            preferredStyle: "dropdown",
-            groups: [],
-        },
-    ],
-    parameters: [
-        {
-            id: "input-camera-name" as parameterId,
-            type: "string",
-            kind: "dropdown",
+            origin: "parameter",
             label: "Cámara",
             optional: false,
             options: cameras,
@@ -39,11 +28,11 @@ export const cameraNode: NodeSchema = {
     ],
     outputs: [
         {
-            id: "output-detections" as OutputId,
-            type: "array",
-            label: "Detecciones",
-            kind: "detections",
-            description: "Lista de detecciones obtenidas de la cámara.",
+            id: "output-image-name" as OutputId,
+            type: "string",
+            label: "Nombre de la imagen de salida",
+            kind: "value",
+            description: "El nombre del archivo de la imagen obtenida de la cámara.",
         },
     ],
 }
