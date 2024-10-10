@@ -41,16 +41,18 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "Delete" || event.key === "Backspace") {
-                if (selected) {
-                    removeNodesById([id]) // Eliminar el nodo seleccionado
-                }
+            const target = event.target as HTMLElement
+            const isInputFocused =
+                target.tagName === "INPUT" || target.tagName === "TEXTAREA" || target.isContentEditable
+
+            if ((event.key === "Delete" || event.key === "Backspace") && selected && !isInputFocused) {
+                removeNodesById([id])
             }
         }
 
         window.addEventListener("keydown", handleKeyDown)
         return () => {
-            window.removeEventListener("keydown", handleKeyDown) // Cleanup
+            window.removeEventListener("keydown", handleKeyDown)
         }
     }, [selected, id, removeNodesById])
 
