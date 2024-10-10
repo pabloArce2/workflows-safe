@@ -6,7 +6,7 @@ export const NotificationOnSiteNode: NodeSchema = {
     schemaId: "notification-on-site" as SchemaId,
     name: "Notificación en Instalación",
     category: "notification-management" as CategoryId,
-    nodeGroup: "control" as NodeGroupId,
+    nodeGroup: "notification" as NodeGroupId,
     description: "Notificación para dispositivos físicos en la instalación (pantalla, PLC, altavoces, etc.).",
     icon: Icons.notification,
     color: "#4CAF50", // Color verde para resaltar

@@ -6,7 +6,7 @@ export const NotificationOffSiteNode: NodeSchema = {
     schemaId: "notification-off-site" as SchemaId,
     name: "Notificación fuera de Instalación",
     category: "notification-management" as CategoryId,
-    nodeGroup: "control" as NodeGroupId,
+    nodeGroup: "notification" as NodeGroupId,
     description: "Notificación para medios externos (Telegram, E-mail, plataforma SAFE).",
     icon: Icons.notification,
     color: "#2196F3", // Color azul para resaltar

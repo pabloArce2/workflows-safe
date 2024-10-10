@@ -5,8 +5,8 @@ import { Icons } from "@/components/Icons"
 export const countNode: NodeSchema = {
     schemaId: "count-node" as SchemaId,
     name: "Contar detecciones",
-    category: "control-flow" as CategoryId,
-    nodeGroup: "control" as NodeGroupId,
+    category: "data-processing" as CategoryId,
+    nodeGroup: "detections" as NodeGroupId,
     description:
         "Cuenta las detecciones tras filtrar y determina si la alarma debe activarse en función de la cantidad.",
     icon: Icons.slidersVertical,

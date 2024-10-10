@@ -38,42 +38,6 @@ const initialNodesSchema: NodeSchema[] = [
     aiNode,
     NotificationOnSiteNode,
     NotificationOffSiteNode,
-
-    {
-        schemaId: "end-cycle-node" as SchemaId,
-        name: "Fin de Ciclo",
-        category: "control-flow" as CategoryId,
-        nodeGroup: "control" as NodeGroupId,
-        description: "Indica visualmente que el ciclo se ha acabado.",
-        icon: Icons.target,
-        color: "#FFAC2F",
-        nodeType: "regularNode",
-        inputs: [
-            // {
-            //     id: "detections" as InputId,
-            //     type: "string",
-            //     kind: "text",
-            //     label: "Detecciones y Foto",
-            //     optional: false,
-            //     hideLabel: false,
-            // },
-            // {
-            //     id: "result" as InputId,
-            //     type: "number",
-            //     kind: "dropdown",
-            //     label: "Resultado",
-            //     optional: false,
-            //     options: [
-            //         { option: "ko", value: "0", type: "number" },
-            //         { option: "ok", value: "1", type: "number" },
-            //         { option: "rework", value: "2", type: "number" },
-            //     ],
-            //     preferredStyle: "dropdown",
-            //     groups: [],
-            // },
-        ],
-        outputs: [],
-    },
 ]
 
 export const initialCategories: Category[] = [
@@ -87,21 +51,7 @@ export const initialCategories: Category[] = [
                 id: "control" as NodeGroupId,
                 category: "control-flow" as CategoryId,
                 name: "Nodos de Control",
-                order: ["trigger-node", "end-cycle-node", "start-cycle-node"] as SchemaId[],
-            },
-        ],
-    },
-    {
-        id: "alarm-management" as CategoryId,
-        name: "Gestión de Alarmas",
-        description: "Categoría para nodos que gestionan y procesan alarmas.",
-        color: "#FF4500", // Naranja rojizo
-        groups: [
-            {
-                id: "alarm" as NodeGroupId,
-                category: "alarm-management" as CategoryId,
-                name: "Nodos de Alarma",
-                order: ["alarm-manager"] as SchemaId[], // Añadir el bloque gestor de alarma aquí
+                order: ["start-cycle-node"] as SchemaId[],
             },
         ],
     },
@@ -142,8 +92,36 @@ export const initialCategories: Category[] = [
             {
                 id: "detections" as NodeGroupId,
                 category: "data-processing" as CategoryId,
-                name: "Nodos de Detección y Procesamiento",
+                name: "Nodos de Filtro y Procesamiento",
                 order: ["filter-node", "associate-node", "distance-node", "count-node"] as SchemaId[],
+            },
+        ],
+    },
+    {
+        id: "alarm-management" as CategoryId,
+        name: "Gestión de Alarmas",
+        description: "Categoría para nodos que gestionan y procesan alarmas.",
+        color: "#FF4500", // Naranja rojizo
+        groups: [
+            {
+                id: "alarm" as NodeGroupId,
+                category: "alarm-management" as CategoryId,
+                name: "Nodos de Alarma",
+                order: ["alarm-manager"] as SchemaId[], // Añadir el bloque gestor de alarma aquí
+            },
+        ],
+    },
+    {
+        id: "notification-management" as CategoryId,
+        name: "Gestión de Notificaciones",
+        description: "Categoría para nodos que manejan notificaciones a dispositivos y servicios externos.",
+        color: "#FF69B4", // Rosa
+        groups: [
+            {
+                id: "notification" as NodeGroupId,
+                category: "notification-management" as CategoryId,
+                name: "Nodos de Notificación",
+                order: ["notification-on-site", "notification-off-site"] as SchemaId[],
             },
         ],
     },
