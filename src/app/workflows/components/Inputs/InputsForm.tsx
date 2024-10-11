@@ -19,9 +19,11 @@ import { toast } from "@/hooks/useToast"
 import { Button } from "@/components/ui/Button/Button"
 import { Form, FormField } from "@/components/ui/Form/Form"
 
+import CameraInputComponent from "./CameraInputComponent/CameraInputComponent"
 import DetectionInputComponent from "./DetectionsInputComponent/DetectionInputComponent"
 import DropdownInputComponent from "./DropdownInputComponent/DropdownInputComponent"
 import NumberInputComponent from "./NumberInputComponent/NumberInputComponent"
+import OperatorsDropdown from "./OperatorInputComponent/OperatorInputComponents"
 import TextInputComponent from "./TextInputComponent/TextInputComponent"
 
 interface InputsProps {
@@ -153,7 +155,7 @@ export function InputsForm({ node, inputsSchema, outputsSchema, ...props }: Inpu
                                                 field={field}
                                                 inputSchema={inputSch}
                                                 open={isOpen}
-                                                onOpenChange={(open) => handleOpenChange(inputSch.label, open)}
+                                                onOpenChange={(open) => handleOpenChange(inputSch?.label, open)}
                                             />
                                         )
                                     case "text":
@@ -176,9 +178,9 @@ export function InputsForm({ node, inputsSchema, outputsSchema, ...props }: Inpu
                                         )
                                     case "operator":
                                         return (
-                                            <TextInputComponent
+                                            <OperatorsDropdown
                                                 field={field}
-                                                inputSchema={inputSch}
+                                                label={inputSch.label}
                                                 open={isOpen}
                                                 onOpenChange={(open) => handleOpenChange(inputSch.label, open)}
                                             />
@@ -186,6 +188,15 @@ export function InputsForm({ node, inputsSchema, outputsSchema, ...props }: Inpu
                                     case "detections":
                                         return (
                                             <DetectionInputComponent
+                                                field={field}
+                                                inputSchema={inputSch}
+                                                open={isOpen}
+                                                onOpenChange={(open) => handleOpenChange(inputSch.label, open)}
+                                            />
+                                        )
+                                    case "camera":
+                                        return (
+                                            <CameraInputComponent
                                                 field={field}
                                                 inputSchema={inputSch}
                                                 open={isOpen}

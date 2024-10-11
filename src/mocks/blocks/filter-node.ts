@@ -16,6 +16,7 @@ export const filterNode: NodeSchema = {
         {
             id: "input-detections" as InputId,
             type: "array",
+            kind: "detections",
             origin: "entry",
             list: "detections",
             label: "Detecciones",
@@ -44,25 +45,16 @@ export const filterNode: NodeSchema = {
         {
             id: "input-operator" as InputId,
             type: "string",
-            kind: "dropdown",
+            kind: "operator",
             origin: "parameter",
-            label: "Operador",
-            options: [
-                { option: "==", value: "==", type: "string" },
-                { option: "!=", value: "!=", type: "string" },
-                { option: ">", value: ">", type: "string" },
-                { option: "<", value: "<", type: "string" },
-                { option: "≥", value: "≥", type: "string" },
-                { option: "≤", value: "≤", type: "string" },
-            ], // Este campo debería actualizarse dinámicamente según el tipo seleccionado.
+            label: "Operador de comparación",
             optional: false,
-            preferredStyle: "dropdown",
             groups: [],
         },
         {
             id: "input-value" as InputId,
-            type: "number",
-            kind: "number",
+            type: "string",
+            kind: "text",
             label: "Valor",
             optional: false,
             origin: "parameter",

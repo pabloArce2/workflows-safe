@@ -20,11 +20,13 @@ export const aiNode: NodeSchema = {
             label: "Nombre de la camara",
             optional: false,
             hideLabel: false,
+            allowMultiple: true,
         },
         {
             id: "model-name" as InputId,
             type: "string",
-            kind: "Clases",
+            label: "Clases",
+            kind: "dropdown",
             origin: "parameter",
             optional: false,
             options: [

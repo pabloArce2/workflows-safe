@@ -195,6 +195,21 @@ export interface OperatorInput {
     readonly startAt: InputSchemaValue
 }
 
+export interface DetectionsInput extends InputBase {
+    readonly kind: "detections"
+    readonly def?: string | null
+    readonly allowMultiple: boolean
+    readonly filter?: string | null
+    readonly hideLabel: boolean
+}
+
+export interface CamerasInput extends InputBase {
+    readonly kind: "camera"
+    readonly def?: string | null
+    readonly allowMultiple: boolean
+    readonly hideLabel: boolean
+}
+
 export type InputKind = Input["kind"]
 
 export type Input =
@@ -207,6 +222,7 @@ export type Input =
     | ColorInput
     | OperatorInput
     | DetectionsInput
+    | CamerasInput
 
 export type InputOrigin = "parameter" | "entry"
 
