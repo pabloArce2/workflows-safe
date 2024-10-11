@@ -12,13 +12,30 @@ export const distanceNode: NodeSchema = {
     color: "#20B2AA",
     nodeType: "regularNode",
     inputs: [
+        // {
+        //     id: "input-primary-detections" as InputId,
+        //     type: "array",
+        //     kind: "detections",
+        //     origin: "entry",
+        //     label: "Detecciones primarias",
+        //     optional: false,
+        //     groups: [],
+        // },
         {
-            id: "input-primary-detections" as InputId,
-            type: "array",
-            kind: "detections",
+            id: "input-detections" as InputId,
+            type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
+            kind: "dropdown", // Indica que es un dropdown.
             origin: "entry",
-            label: "Detecciones primarias",
+            label: "Detecciones",
             optional: false,
+            options: [
+                { option: "DeteccionesV01", value: "DeteccionesV01", type: "string" },
+                { option: "DeteccionesV02", value: "DeteccionesV02", type: "string" },
+                { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
+            ],
+            preferredStyle: "dropdown",
+            addMore: true, // Indica que se pueden agregar más listas de detecciones.
+            hideLabel: false,
             groups: [],
         },
         {
@@ -30,13 +47,30 @@ export const distanceNode: NodeSchema = {
             optional: false,
             groups: [],
         },
+        // {
+        //     id: "input-secondary-detections" as InputId,
+        //     type: "array",
+        //     kind: "detections",
+        //     origin: "entry",
+        //     label: "Detecciones secundarias",
+        //     optional: false,
+        //     groups: [],
+        // },
         {
-            id: "input-secondary-detections" as InputId,
-            type: "array",
-            kind: "detections",
+            id: "input-detections" as InputId,
+            type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
+            kind: "dropdown", // Indica que es un dropdown.
             origin: "entry",
-            label: "Detecciones secundarias",
+            label: "Detecciones",
             optional: false,
+            options: [
+                { option: "DeteccionesV01", value: "DeteccionesV01", type: "string" },
+                { option: "DeteccionesV02", value: "DeteccionesV02", type: "string" },
+                { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
+            ],
+            preferredStyle: "dropdown",
+            addMore: true, // Indica que se pueden agregar más listas de detecciones.
+            hideLabel: false,
             groups: [],
         },
         {

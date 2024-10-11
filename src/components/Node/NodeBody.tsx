@@ -73,9 +73,11 @@ export const NodeBody = memo(({ inputs, outputs, animated = false }: NodeBodyPro
                             ></Icons.chevronDown>
                         </CollapsibleTrigger>
                         <CollapsibleContent>
-                            {outputs.map((output, index) => (
-                                <div key={index}>{fieldRender(output, true)}</div>
-                            ))}
+                            <div className="flex flex-col gap-2 mt-2">
+                                {outputs.map((output, index) => (
+                                    <div key={index}>{fieldRender(output, true)}</div>
+                                ))}
+                            </div>
                         </CollapsibleContent>
                     </Collapsible>
                 </div>

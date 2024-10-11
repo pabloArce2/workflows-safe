@@ -33,6 +33,8 @@ const DetectionInputComponent: React.FC<DetectionInputComponentProps> = ({
         setOpenStates((prev: any) => ({ ...prev, [inputSchema.label]: false }))
     }
 
+    setValue(inputSchema.label, "optionValue")
+
     return (
         <FormItem>
             <FormLabel>{inputSchema.label}</FormLabel>

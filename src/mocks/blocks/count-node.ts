@@ -13,16 +13,34 @@ export const countNode: NodeSchema = {
     color: "#9fff33",
     nodeType: "regularNode",
     inputs: [
+        // {
+        //     id: "input-detections" as InputId,
+        //     type: "array",
+        //     kind: "detections",
+        //     origin: "entry",
+        //     label: "Detecciones",
+        //     optional: false,
+        //     addMore: true, // Indica que se pueden agregar más listas de detecciones
+        //     hideLabel: false,
+        // },
         {
             id: "input-detections" as InputId,
-            type: "array",
-            kind: "detections",
+            type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
+            kind: "dropdown", // Indica que es un dropdown.
             origin: "entry",
             label: "Detecciones",
             optional: false,
-            addMore: true, // Indica que se pueden agregar más listas de detecciones
+            options: [
+                { option: "DeteccionesV01", value: "DeteccionesV01", type: "string" },
+                { option: "DeteccionesV02", value: "DeteccionesV02", type: "string" },
+                { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
+            ],
+            preferredStyle: "dropdown",
+            addMore: true, // Indica que se pueden agregar más listas de detecciones.
             hideLabel: false,
+            groups: [],
         },
+
         {
             id: "input-comparator" as InputId,
             type: "string",

@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/Button/Button"
 import { Form, FormField } from "@/components/ui/Form/Form"
 
 import CameraInputComponent from "./CameraInputComponent/CameraInputComponent"
-import DetectionInputComponent from "./DetectionsInputComponent/DetectionInputComponent"
+import DetectionInputComponent from "./DetectionInputComponent/DetectionInputComponent"
 import DropdownInputComponent from "./DropdownInputComponent/DropdownInputComponent"
 import NumberInputComponent from "./NumberInputComponent/NumberInputComponent"
 import OperatorsDropdown from "./OperatorInputComponent/OperatorInputComponents"
