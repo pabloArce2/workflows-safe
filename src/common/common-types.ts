@@ -210,6 +210,17 @@ export interface CamerasInput extends InputBase {
     readonly hideLabel: boolean
 }
 
+export interface CustomCodeInput extends InputBase {
+    readonly kind: "custom-code"
+    readonly language: "javascript" | "python" | "typescript" | "sql"
+    readonly multiline: boolean
+    readonly placeholder?: string | null
+    readonly def?: string | null
+    readonly hideLabel: boolean
+    readonly maxLength?: number | null
+    readonly allowEmptyString?: boolean
+}
+
 export type InputKind = Input["kind"]
 
 export type Input =
@@ -223,6 +234,7 @@ export type Input =
     | OperatorInput
     | DetectionsInput
     | CamerasInput
+    | CustomCodeInput
 
 export type InputOrigin = "parameter" | "entry"
 

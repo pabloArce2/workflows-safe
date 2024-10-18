@@ -19,6 +19,7 @@ import { aiNode } from "./blocks/ai-node"
 import { alarmNode } from "./blocks/alarm-node"
 import { cameraNode } from "./blocks/camera-node"
 import { countNode } from "./blocks/count-node"
+import { CustomCodeNode } from "./blocks/custom-code-node"
 import { distanceNode } from "./blocks/distances-node"
 import { filterNode } from "./blocks/filter-node"
 import { NotificationOnSiteNode } from "./blocks/notification-in-node"
@@ -38,6 +39,7 @@ const initialNodesSchema: NodeSchema[] = [
     aiNode,
     NotificationOnSiteNode,
     NotificationOffSiteNode,
+    CustomCodeNode,
 ]
 
 export const initialCategories: Category[] = [
@@ -122,6 +124,20 @@ export const initialCategories: Category[] = [
                 category: "notification-management" as CategoryId,
                 name: "Nodos de Notificación",
                 order: ["notification-on-site", "notification-off-site"] as SchemaId[],
+            },
+        ],
+    },
+    {
+        id: "custom-code" as CategoryId,
+        name: "Código Personalizado",
+        description: "Categoría para nodos que permiten a los usuarios escribir y ejecutar código personalizado.",
+        color: "#8A2BE2", // Azul violeta
+        groups: [
+            {
+                id: "custom-code-group" as NodeGroupId,
+                category: "custom-code" as CategoryId,
+                name: "Bloques de Código",
+                order: ["custom-code-node"] as SchemaId[], // Añadir aquí el ID del nodo de código personalizado
             },
         ],
     },

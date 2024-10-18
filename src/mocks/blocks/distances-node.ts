@@ -22,7 +22,7 @@ export const distanceNode: NodeSchema = {
         //     groups: [],
         // },
         {
-            id: "input-detections" as InputId,
+            id: "input-detections1" as InputId,
             type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
             kind: "dropdown", // Indica que es un dropdown.
             origin: "entry",
@@ -57,7 +57,7 @@ export const distanceNode: NodeSchema = {
         //     groups: [],
         // },
         {
-            id: "input-detections" as InputId,
+            id: "input-detections2" as InputId,
             type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
             kind: "dropdown", // Indica que es un dropdown.
             origin: "entry",

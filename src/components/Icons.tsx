@@ -25,6 +25,7 @@ import {
     ChevronsUpDown,
     Circle,
     Clock,
+    Code,
     Command,
     Cpu,
     CreditCard,
@@ -80,7 +81,6 @@ import {
     Trash,
     Trash2,
     Triangle,
-    Twitter,
     Undo2,
     UploadCloud,
     Wand,
@@ -189,6 +189,7 @@ export const Icons = {
     minimize: Minimize,
     informationCircle: Info,
     notification: Mail,
+    code: Code,
 
     gitHub: ({ ...props }: LucideProps) => (
         <svg
@@ -207,7 +208,6 @@ export const Icons = {
             ></path>
         </svg>
     ),
-    twitter: Twitter,
     check: Check,
     rely: ({ ...props }: LucideProps) => (
         <svg viewBox="0 0 282 100" fill="none" xmlns="http://www.w3.org/2000/svg " {...props}>

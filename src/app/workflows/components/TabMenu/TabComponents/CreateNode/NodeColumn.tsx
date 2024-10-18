@@ -10,7 +10,7 @@ interface NodeColumn {
     className?: string
 }
 
-const NodeColumn = ({ node }: NodeColumn) => {
+const NodeColumn = ({ node, className }: NodeColumn) => {
     const IconComponent = node.icon
     const { reactFlowWrapper, createNode } = useContext(GlobalContext)
     const reactFlowInstance = useReactFlow()
@@ -38,7 +38,7 @@ const NodeColumn = ({ node }: NodeColumn) => {
 
     return (
         <div
-            className="flex items-center px-4 gap-4 w-full h-14 border border-lg rounded-lg shadow-subtle hover:bg-muted bg-muted/30  hover:cursor-pointer"
+            className={`${className} flex items-center px-4 gap-4 w-full h-14 border border-lg rounded-lg shadow-subtle hover:bg-muted bg-muted/30  hover:cursor-pointer`}
             onClick={() => {
                 setDidSingleClick(true)
             }}
