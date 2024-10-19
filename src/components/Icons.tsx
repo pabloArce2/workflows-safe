@@ -55,7 +55,9 @@ import {
     LucideProps,
     Mail,
     Maximize,
+    Maximize2,
     Minimize,
+    Minimize2,
     Minus,
     Moon,
     MoreHorizontal,
@@ -190,6 +192,8 @@ export const Icons = {
     informationCircle: Info,
     notification: Mail,
     code: Code,
+    maximaze2: Maximize2,
+    minimize2: Minimize2,
 
     gitHub: ({ ...props }: LucideProps) => (
         <svg

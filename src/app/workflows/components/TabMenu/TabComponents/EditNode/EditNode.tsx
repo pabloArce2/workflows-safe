@@ -42,7 +42,7 @@ const EditNode = () => {
         <>
             {node ? (
                 isOpenCustomCode ? (
-                    <CustomCode node={node.data} />
+                    <CustomCode className="px-4" node={node.data} />
                 ) : (
                     <div className="h-full overflow-y-auto">
                         <div className="flex flex-col px-10 py-4 gap-2">
