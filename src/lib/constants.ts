@@ -7,3 +7,4 @@ export const MAIN_HEADER_TOOLBAR_HEIGHT: number = 45
 export const MAIN_FOOTER_HEIGHT: number = 78
 export const GRID_GAP: number = 6
 export const WORKFLOW_GAP: number = 16
+export const MIN_TAB_MENU_WIDTH: number = 385

@@ -11,8 +11,8 @@ interface WorkflowContextProps {
     setSelectedTabNodePanel: (tab: string) => void
     isOpenCustomCode: boolean
     setIsOpenCustomCode: (state: boolean) => void
-    isEditExpanded: boolean
-    setIsEditExpanded: (state: boolean) => void
+    isTabMenuMax: boolean
+    setIsTabMenuMax: (state: boolean) => void
     reset: () => void
 }
 
@@ -24,7 +24,7 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
     const [isOpenNodePanel, setIsOpenNodePanel] = useState<boolean>(false)
     const [selectedTabNodePanel, setSelectedTabNodePanel] = useState<string>("create")
     const [isOpenCustomCode, setIsOpenCustomCode] = useState<boolean>(false)
-    const [isEditExpanded, setIsEditExpanded] = useState<boolean>(false)
+    const [isTabMenuMax, setIsTabMenuMax] = useState<boolean>(false)
 
     const reset = () => {
         setCategories(initialCategories)
@@ -43,8 +43,8 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
                 setSelectedTabNodePanel,
                 isOpenCustomCode,
                 setIsOpenCustomCode,
-                isEditExpanded,
-                setIsEditExpanded,
+                isTabMenuMax,
+                setIsTabMenuMax,
                 reset,
             }}
         >

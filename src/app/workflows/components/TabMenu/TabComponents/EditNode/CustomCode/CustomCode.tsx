@@ -20,7 +20,7 @@ const CustomCode = ({ className, node }: CustomCodeProps) => {
     const editorRef = useRef(null)
     const [defaultLanguage, setDefaultLanguage] = useState<string>("python")
     const { setValue } = useFormContext()
-    const { isEditExpanded, setIsEditExpanded } = useWorkflows()
+    const { isTabMenuMax, setIsTabMenuMax } = useWorkflows()
 
     function handleEditorDidMount(editor: any, monaco: any) {
         editorRef.current = editor
@@ -53,9 +53,9 @@ const CustomCode = ({ className, node }: CustomCodeProps) => {
                 <CodeTemplateSelect className="w-40" onSelectTemplate={handleSelectTemplate} />
                 <div
                     className="p-2 cursor-pointer ml-auto hover:border-gray-400 rounded-xl border"
-                    onClick={() => setIsEditExpanded(!isEditExpanded)}
+                    onClick={() => setIsTabMenuMax(!isTabMenuMax)}
                 >
-                    {isEditExpanded ? <Icons.maximaze2 size={20} /> : <Icons.minimize2 size={20} />}
+                    {isTabMenuMax ? <Icons.minimize2 size={20} /> : <Icons.maximaze2 size={20} />}
                 </div>
             </div>
             <Editor
