@@ -39,6 +39,7 @@ import {
     Filter,
     FolderX,
     GitCompare,
+    GripVertical,
     Hand,
     HelpCircle,
     Hexagon,
@@ -194,6 +195,7 @@ export const Icons = {
     code: Code,
     maximaze2: Maximize2,
     minimize2: Minimize2,
+    gripVertical: GripVertical,
 
     gitHub: ({ ...props }: LucideProps) => (
         <svg

@@ -24,6 +24,7 @@ const TabMenu = ({ className }: TabMenuProps) => {
     const windowWidth = useWindowWidth()
 
     const [tabMenuWidth, setTabMenuWidth] = useState<number>()
+    const [hoverResizable, setHoverResizable] = useState<boolean>(false)
     const {
         selectedTabNodePanel,
         setSelectedTabNodePanel,
@@ -59,6 +60,16 @@ const TabMenu = ({ className }: TabMenuProps) => {
                 backdropFilter: "blur(4px)",
             }}
         >
+            {!isTabMenuMax && (
+                <div
+                    className="flex h-16 w-3 border-gray-300 rounded-lg items-center justify-center border bg-border absolute -left-1.5"
+                    style={{
+                        top: "calc(50% - 2rem)",
+                    }}
+                >
+                    <Icons.gripVertical size={20} strokeWidth={1.5} />
+                </div>
+            )}
             <Resizable
                 size={{
                     height: windowHeight - WORKFLOW_GAP * 2,
