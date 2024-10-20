@@ -59,17 +59,19 @@ const TabMenu = ({ className }: TabMenuProps) => {
                 right: WORKFLOW_GAP,
                 backdropFilter: "blur(4px)",
             }}
+            onMouseEnter={() => setHoverResizable(true)}
+            onMouseLeave={() => setHoverResizable(false)}
         >
-            {!isTabMenuMax && (
-                <div
-                    className="flex h-16 w-3 border-gray-300 rounded-lg items-center justify-center border bg-border absolute -left-1.5"
-                    style={{
-                        top: "calc(50% - 2rem)",
-                    }}
-                >
-                    <Icons.gripVertical size={20} strokeWidth={1.5} />
-                </div>
-            )}
+            <div
+                className={`${
+                    hoverResizable && !isTabMenuMax ? " opacity-100" : " opacity-0"
+                } flex h-16 w-3 duration-300 border-gray-300 rounded-lg items-center justify-center border bg-border absolute -left-1.5`}
+                style={{
+                    top: "calc(50% - 2rem)",
+                }}
+            >
+                <Icons.gripVertical size={20} strokeWidth={1.5} />
+            </div>
             <Resizable
                 size={{
                     height: windowHeight - WORKFLOW_GAP * 2,
