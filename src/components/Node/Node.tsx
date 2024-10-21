@@ -57,25 +57,26 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     }, [selected, id, removeNodesById])
 
     return (
-        <>
+        <div className="">
             <TargetHandle id={id} nodeType={schema.nodeType} selected={selected} />
+
             <div
-                className={`grid place-content-center bg-node-bg bg-white min-w-[240px] min-h-[80px] rounded-md border-[0.5px] transition-all py-3 
+                className={`grid place-content-center bg-node-bg bg-white  rounded-md border-[0.5px] transition-all pb-3 
                     ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
                 ref={targetRef}
                 onClick={onClick}
             >
-                <div className="min-w-[200px]">
-                    <NodeHeader
-                        nodeColor={schema.color || "#000"}
-                        icon={schema.icon}
-                        name={schema.name}
-                        description={schema.description}
-                        nodeGroup={schema.nodeGroup}
-                        selected={selected}
-                        className=""
-                    />
-                    <NodeBody inputs={data?.inputs} outputs={data?.outputs} />
+                <NodeHeader
+                    nodeColor={schema.color || "#000"}
+                    icon={schema.icon}
+                    name={schema.name}
+                    description={schema.description}
+                    nodeGroup={schema.nodeGroup}
+                    selected={selected}
+                    className=""
+                />
+                <div className="min-w-[200px] ">
+                    <NodeBody className="p-4" inputs={data?.inputs} outputs={data?.outputs} />
                 </div>
                 {selected && (
                     <div
@@ -90,7 +91,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                 )}
             </div>
             <SourceHandle id={id} nodeType={schema.nodeType} selected={selected} />
-        </>
+        </div>
     )
 })
 

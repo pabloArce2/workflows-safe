@@ -9,6 +9,7 @@ interface NodeBodyProps {
     inputs?: any[]
     outputs?: any[]
     animated?: boolean
+    className?: string
 }
 
 export const fieldRender = (field: any, type: boolean) => {
@@ -24,15 +25,14 @@ export const fieldRender = (field: any, type: boolean) => {
     )
 }
 
-export const NodeBody = memo(({ inputs, outputs, animated = false }: NodeBodyProps) => {
+export const NodeBody = memo(({ inputs, outputs, animated = false, className }: NodeBodyProps) => {
     const [inputsOpen, setInputsOpen] = useState<boolean>(false)
     const [outputsOpen, setOutputsOpen] = useState<boolean>(false)
 
     return (
-        <div>
+        <div className={className}>
             {inputs && inputs.length > 0 && (
                 <div>
-                    <Separator className="my-2" />
                     <Collapsible
                         className="flex flex-col"
                         open={inputsOpen}

@@ -40,7 +40,7 @@ const HandleElement = React.memo(
                     isConnectable
                     id={id}
                     isValidConnection={isValidConnection}
-                    position={type === "target" ? Position.Top : Position.Bottom}
+                    position={type === "target" ? Position.Left : Position.Right}
                     type={type}
                     {...props}
                     style={{
