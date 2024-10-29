@@ -36,8 +36,8 @@ export const countNode: NodeSchema = {
                 { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
             ],
             preferredStyle: "dropdown",
-            addMore: true, // Indica que se pueden agregar más listas de detecciones.
-            hideLabel: false,
+            // addMore: true, // Indica que se pueden agregar más listas de detecciones.
+            // hideLabel: false,
             groups: [],
         },
 
@@ -80,13 +80,6 @@ export const countNode: NodeSchema = {
             label: "Alarma activada",
             kind: "bool",
             description: "Indica si la alarma se activa en función del conteo de detecciones.",
-        },
-        {
-            id: "output-detections-json" as OutputId,
-            type: "json",
-            label: "JSON de detecciones agrupadas",
-            kind: "value",
-            description: "Detecciones implicadas agrupadas por flujos, vacío si la alarma no se activa.",
         },
     ],
 }

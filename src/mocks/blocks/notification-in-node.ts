@@ -28,6 +28,7 @@ export const NotificationOnSiteNode: NodeSchema = {
             ],
             preferredStyle: "dropdown",
             groups: [],
+            origin: "parameter", // Added origin property as required by the DropDownInput type
         },
         {
             id: "plc-name" as InputId,
@@ -35,7 +36,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Nombre",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter", // Added origin property as required by the DropDownInput type
+            hideLabel: false, // Added hideLabel property as required by the TextInput type
         },
         {
             id: "plc-ip" as InputId,
@@ -43,15 +45,17 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "IP",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter", // Added origin property as required by the DropDownInput type
+            hideLabel: false, // Added hideLabel property as required by the TextInput type
         },
         {
             id: "plc-port" as InputId,
             type: "number",
             kind: "text",
+            hideLabel: false, // Added hideLabel property as required by the TextInput type
             label: "Puerto",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter", // Added origin property as required by the DropDownInput type
         },
         {
             id: "plc-signal" as InputId,
@@ -59,7 +63,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Señal",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter", // Added origin property as required by the DropDownInput type
+            hideLabel: false,
         },
         {
             id: "screen-name" as InputId,
@@ -67,16 +72,19 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Nombre",
             optional: false,
-            condition: "notification-type === 'pantalla'",
+            origin: "parameter",
+            hideLabel: false,
         },
         {
             id: "screen-video" as InputId,
-            type: "file",
-            kind: "file",
+            type: "custom-code",
+            kind: "custom-code",
             label: "Vídeo",
             optional: false,
-            condition: "notification-type === 'pantalla'",
-            fileType: "video",
+            origin: "parameter",
+            language: "javascript",
+            multiline: true,
+            hideLabel: false,
         },
     ],
     outputs: [],
