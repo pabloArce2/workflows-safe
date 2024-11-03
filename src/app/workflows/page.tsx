@@ -8,7 +8,9 @@ import { WorkflowProvider, useWorkflows } from "@/context/WorkflowsContext"
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { EdgeTypes, NodeTypes, ReactFlowProvider } from "reactflow"
 
+import { SidebarProvider } from "@/components/ui/Sidebar/Sidebar"
 import { TooltipProvider } from "@/components/ui/Tooltip/Tooltip"
+import { AppSidebar } from "@/components/AppSidebar/AppSidebar"
 import CustomEdge from "@/components/CustomEdge/CustomEdge"
 import { Node } from "@/components/Node/Node"
 
@@ -40,7 +42,9 @@ const MainContent = () => {
 
     return (
         <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
-            <div className="flex">
+            <AppSidebar />
+
+            <div className="flex flex-grow">
                 {/* <SideNav defaultOpen /> */}
                 <WorkflowLayout>
                     {/* <Header /> */}
@@ -62,7 +66,9 @@ export default function WorkflowPage() {
                 <BackendProvider>
                     <ReactFlowProvider>
                         <WorkflowProvider>
-                            <MainContent />
+                            <SidebarProvider>
+                                <MainContent />
+                            </SidebarProvider>
                         </WorkflowProvider>
                     </ReactFlowProvider>
                 </BackendProvider>

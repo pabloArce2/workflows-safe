@@ -34,6 +34,8 @@ import ReactFlow, {
 } from "reactflow"
 
 import { usePaneNodeSearchMenu } from "@/hooks/usePaneNodeSearchMenu"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/Sidebar/Sidebar"
+import { AppSidebar } from "@/components/AppSidebar/AppSidebar"
 
 interface ReactFlowBoxProps {
     nodeTypes: NodeTypes
@@ -100,6 +102,7 @@ const WorkflowCanvas = ({ wrapperRef, nodeTypes, edgeTypes }: ReactFlowBoxProps)
                     backgroundColor: "var(--background)",
                 }}
             >
+                <SidebarTrigger className="z-50 absolute my-2" />
                 <Controls />
                 <Background gap={16} size={1} variant={BackgroundVariant.Dots} />
             </ReactFlow>
