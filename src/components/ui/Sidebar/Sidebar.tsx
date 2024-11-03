@@ -238,15 +238,19 @@ const SidebarTrigger = React.forwardRef<React.ElementRef<typeof Button>, React.C
                 data-sidebar="trigger"
                 variant="ghost"
                 size="icon"
-                className={cn("h-7 w-fit p-2 flex items-center gap-2", className)}
+                className={cn("h-7 group transition-all p-2 duration-200 w-fit", className)}
                 onClick={(event) => {
                     onClick?.(event)
                     toggleSidebar()
                 }}
                 {...props}
             >
-                <PanelLeft className={cn("transition-transform duration-200")} />
-                <p>{state === "collapsed" ? "Open Sidebar" : "Close Sidebar"}</p>
+                <div className="flex items-center gap-2">
+                    <PanelLeft className="transition-transform duration-200" />
+                    <p className="group-hover:opacity-100 opacity-0 duration-300 whitespace-nowrap">
+                        {state === "collapsed" ? "Open Sidebar" : "Close Sidebar"}
+                    </p>
+                </div>
                 <span className="sr-only">{state === "collapsed" ? "Open Sidebar" : "Close Sidebar"}</span>
             </Button>
         )

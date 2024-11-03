@@ -66,7 +66,7 @@ export default function WorkflowPage() {
                 <BackendProvider>
                     <ReactFlowProvider>
                         <WorkflowProvider>
-                            <SidebarProvider>
+                            <SidebarProvider defaultOpen={false}>
                                 <MainContent />
                             </SidebarProvider>
                         </WorkflowProvider>

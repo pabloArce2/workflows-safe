@@ -31,18 +31,14 @@ const EditNode = () => {
 
     useEffect(() => {
         setNodeSchema(schemata.get(node?.data.schemaId))
-        if (node?.data.schemaId === "custom-code-node") {
-            setIsOpenCustomCode(true)
-        } else {
-            setIsOpenCustomCode(false)
-        }
+        setIsOpenCustomCode(node?.data.schemaId === "custom-code-node")
     }, [node])
 
     return (
         <>
             {node ? (
                 isOpenCustomCode ? (
-                    <CustomCode className="px-4" node={node.data} />
+                    <CustomCode className="px-4" node={node.data} nodeId={node.id} />
                 ) : (
                     <div className="h-full overflow-y-auto">
                         <div className="flex flex-col px-10 py-4 gap-2">

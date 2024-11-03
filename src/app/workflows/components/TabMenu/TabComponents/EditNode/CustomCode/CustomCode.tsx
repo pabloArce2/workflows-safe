@@ -1,51 +1,50 @@
-import { useEffect, useRef, useState } from "react"
-import { NodeSchema } from "@/common/common-types"
+import { useContext, useRef, useState } from "react"
+import { BackendJsonValueInput, NodeSchema } from "@/common/common-types"
+import { GlobalContext } from "@/context/GlobalNodeState"
 import { useWorkflows } from "@/context/WorkflowsContext"
 import Editor from "@monaco-editor/react"
 
 import { Icons } from "@/components/Icons"
 
-import { useFormContext } from "../../../../Inputs/InputsForm"
 import CodeTemplateSelect from "./CodeTemplateSelect"
 import { pythonTemplates } from "./pythonTemplates"
 
 interface CustomCodeProps {
     className?: string
     node: NodeSchema
+    nodeId: string
 }
 
-// Import the templates
-
-const CustomCode = ({ className, node }: CustomCodeProps) => {
+const CustomCode = ({ className, node, nodeId }: CustomCodeProps) => {
     const editorRef = useRef(null)
     const [defaultLanguage, setDefaultLanguage] = useState<string>("python")
-    const { setValue } = useFormContext()
     const { isTabMenuMax, setIsTabMenuMax } = useWorkflows()
+    const { updateNodeInputsById } = useContext(GlobalContext)
 
     function handleEditorDidMount(editor: any, monaco: any) {
         editorRef.current = editor
+        const initialCode = node.inputs?.code?.value || "## Write your code here"
+        editor.setValue(initialCode)
     }
 
     function handleEditorChange(value: string | undefined) {
-        // Update the input value of the node with the editor's content
         if (value !== undefined) {
-            setValue(node.schemaId, value) // Assuming `node.schemaId` is the key to store this code
+            const updatedInput: BackendJsonValueInput = {
+                inputId: "code",
+                type: "value",
+                value,
+            }
+            updateNodeInputsById(nodeId, [updatedInput]) // Actualiza solo el input "code"
         }
     }
 
     function handleSelectTemplate(templateKey: string) {
-        if (editorRef.current && pythonTemplates[templateKey]) {
-            editorRef.current.setValue(pythonTemplates[templateKey])
-            setValue(node.schemaId, pythonTemplates[templateKey])
+        if (editorRef.current && pythonTemplates[templateKey as keyof typeof pythonTemplates]) {
+            const templateCode = pythonTemplates[templateKey as keyof typeof pythonTemplates]
+            editorRef.current.setValue(templateCode)
+            handleEditorChange(templateCode) // Actualizar directamente después de seleccionar plantilla
         }
     }
-
-    useEffect(() => {
-        if (editorRef.current) {
-            const initialValue = editorRef.current.getValue()
-            setValue(node.schemaId, initialValue)
-        }
-    }, [node.schemaId, setValue])
 
     return (
         <div className={`h-full overflow-y-auto flex flex-col gap-2 ${className}`}>
@@ -59,13 +58,13 @@ const CustomCode = ({ className, node }: CustomCodeProps) => {
                 </div>
             </div>
             <Editor
-                className="border border-blue-500 rounded-xl py-2 bg-gray-900"
+                className="border border-blue-500 rounded-xl py-4 bg-gray-900"
                 height="80vh"
                 defaultLanguage={defaultLanguage}
                 defaultValue="## Write your code here"
                 theme="vs-dark"
                 onMount={handleEditorDidMount}
-                onChange={handleEditorChange} // Track changes in the editor
+                onChange={handleEditorChange}
             />
         </div>
     )
