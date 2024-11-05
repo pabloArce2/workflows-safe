@@ -1,5 +1,6 @@
 import type { Edge, Node } from "reactflow"
 
+import { SchemaMap } from "../SchemaMap"
 import {
     BackendJsonEdgeInput,
     BackendJsonInput,
@@ -9,8 +10,7 @@ import {
     NodeData,
     OutputId,
 } from "../common-types"
-import { SchemaMap } from "../SchemaMap"
-import { mapInputValues, ParsedSourceHandle, parseSourceHandle, parseTargetHandle } from "../util"
+import { ParsedSourceHandle, mapInputValues, parseSourceHandle, parseTargetHandle } from "../util"
 
 export const toBackendJson = (
     nodes: readonly Node<NodeData>[],
@@ -56,6 +56,8 @@ export const toBackendJson = (
         Record<I, BackendJsonEdgeInput | undefined> | undefined
     >
     const inputHandles: Handles<InputId> = {}
+    const outputHandles: Handles<OutputId> = {}
+
     edges.forEach((element) => {
         const { sourceHandle, targetHandle } = element
         if (!sourceHandle || !targetHandle) return
@@ -64,6 +66,7 @@ export const toBackendJson = (
         const targetH = parseTargetHandle(targetHandle)
 
         ;(inputHandles[targetH.nodeId] ??= {})[targetH.inputId] = convertHandle(sourceH)
+        ;(outputHandles[sourceH.nodeId] ??= {})[sourceH.outputId] = convertHandle(targetH)
     })
 
     const result: BackendJsonNode[] = []
@@ -71,8 +74,9 @@ export const toBackendJson = (
     // Set up each node in the result
     nodes.forEach((element) => {
         const { id, data, type: nodeType } = element
-        const { schemaId, inputData } = data
+        const { schemaId, inputs, outputs } = data
         const schema = schemata.get(schemaId)
+        // console.log(inputs)
 
         if (!nodeType) {
             throw new Error(
@@ -90,9 +94,19 @@ export const toBackendJson = (
                     inputHandles[id]?.[inputId] ?? {
                         inputId: inputId,
                         type: "value",
-                        value: inputData[inputId] ?? null,
+                        value:
+                            inputs.find((input: { inputId: InputId }) => input.inputId === inputId)?.value ?? null,
                     }
             ),
+            // outputs: mapInputValues<BackendJsonInput>(
+            //     schema,
+            //     (outputId) =>
+            //         outputHandles[id]?.[outputId] ?? {
+            //             outputId: outputId,
+            //             type: "value",
+            //             value: null,
+            //         }
+            // ),
             nodeType,
             connectedTo: {
                 inputs: connectionsDetail[element.id].inputs,

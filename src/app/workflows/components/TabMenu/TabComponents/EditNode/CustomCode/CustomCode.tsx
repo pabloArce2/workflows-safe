@@ -23,14 +23,15 @@ const CustomCode = ({ className, node, nodeId }: CustomCodeProps) => {
 
     function handleEditorDidMount(editor: any, monaco: any) {
         editorRef.current = editor
-        const initialCode = node.inputs?.code?.value || "## Write your code here"
+        const initialCode =
+            node.inputs?.find((input) => input.inputId === "custom-code-input")?.value || "## Write your code here"
         editor.setValue(initialCode)
     }
 
     function handleEditorChange(value: string | undefined) {
         if (value !== undefined) {
             const updatedInput: BackendJsonValueInput = {
-                inputId: "code",
+                inputId: "custom-code-input",
                 type: "value",
                 value,
             }
