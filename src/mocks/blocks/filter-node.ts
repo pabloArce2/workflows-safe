@@ -12,6 +12,8 @@ export const filterNode: NodeSchema = {
     icon: Icons.filter,
     color: "#7A1223",
     nodeType: "regularNode",
+    sourceType: "single",
+    targetType: "or",
     inputs: [
         // {
         //     id: "input-detections" as InputId,

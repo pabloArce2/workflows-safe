@@ -11,6 +11,8 @@ export const CustomCodeNode: NodeSchema = {
     icon: Icons.code,
     color: "#1E3A8A",
     nodeType: "regularNode",
+    sourceType: "single",
+    targetType: "single",
     inputs: [
         {
             id: "custom-code-input" as InputId,

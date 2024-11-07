@@ -98,7 +98,7 @@ const CreateNode = () => {
                 className="mt-auto mb-2 mx-10 my-4"
                 onClick={() => downloadJson(toBackendJson(getNodes(), getEdges(), schemata), "test.json")}
             >
-                Export Json
+                Download Json
             </Button>
         </div>
     )

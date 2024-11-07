@@ -13,6 +13,8 @@ export const cameraNode: NodeSchema = {
     icon: Icons.camera,
     color: "#339fff",
     nodeType: "regularNode",
+    sourceType: "single",
+    targetType: "single",
     inputs: [
         {
             id: "input-camera-name" as InputId,

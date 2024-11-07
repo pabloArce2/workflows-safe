@@ -12,6 +12,8 @@ export const countNode: NodeSchema = {
     icon: Icons.slidersVertical,
     color: "#9fff33",
     nodeType: "regularNode",
+    sourceType: "multiple",
+    targetType: "single",
     inputs: [
         // {
         //     id: "input-detections" as InputId,

@@ -10,7 +10,9 @@ export const NotificationOffSiteNode: NodeSchema = {
     description: "Notificación para medios externos (Telegram, E-mail, plataforma SAFE).",
     icon: Icons.notification,
     color: "#2196F3", // Color azul para resaltar
-    nodeType: "regularNode",
+    nodeType: "onlySource",
+    sourceType: "single",
+    targetType: "none",
     inputs: [
         {
             id: "notification-type" as InputId,

@@ -6,6 +6,7 @@ export type SetState<T> = React.Dispatch<React.SetStateAction<T>>
 export type GetSetState<T> = readonly [T, SetState<T>]
 
 export type NodeType = "regularNode" | "newIterator" | "collector" | "onlyTarget" | "onlySource"
+export type HandleType = "multiple" | "single" | "or" | "double-or" | "none"
 
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
 export type CategoryId = string & { readonly __categoryId: never }
@@ -42,6 +43,8 @@ export interface NodeSchema {
     readonly color?: string
     readonly icon?: LucideIcon
     readonly nodeType: NodeType
+    readonly sourceType: HandleType
+    readonly targetType: HandleType
     readonly inputs: readonly Input[]
     readonly outputs: readonly Output[]
     //readonly groupLayout: readonly (InputId | Group)[]
