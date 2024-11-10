@@ -11,7 +11,7 @@ export const aiNode: NodeSchema = {
     icon: Icons.brainCircuit,
     color: "#6B21A8",
     nodeType: "regularNode",
-    sourceType: "single",
+    sourceType: "variable",
     targetType: "single",
     inputs: [
         {

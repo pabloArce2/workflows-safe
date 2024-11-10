@@ -10,9 +10,9 @@ export const NotificationOnSiteNode: NodeSchema = {
     description: "Notificación para dispositivos físicos en la instalación (pantalla, PLC, altavoces, etc.).",
     icon: Icons.notification,
     color: "#4CAF50", // Color verde para resaltar
-    nodeType: "onlySource",
-    sourceType: "single",
-    targetType: "none",
+    nodeType: "onlyTarget",
+    sourceType: "none",
+    targetType: "single",
     inputs: [
         {
             id: "notification-type" as InputId,
