@@ -21,9 +21,8 @@ const CustomEdge = memo(
         data = {},
         style,
     }: EdgeProps<EdgeData>) => {
-        const sourceX = _sourceX // - 8 <- To align it with the node
-        const targetX = _targetX // + 8
-        // Calculate the path for the bezier curve between the source and target nodes
+        const sourceX = _sourceX
+        const targetX = _targetX
         const { removeEdgeById } = useContext(GlobalContext)
 
         const [edgePath] = useMemo(() => {
@@ -37,27 +36,35 @@ const CustomEdge = memo(
             })
         }, [sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition])
 
-        // Determine the stroke color based on the selection state
-        const strokeColor = selected ? "#007bff" : "#222" // Blue if selected, otherwise dark gray
+        // Determine the stroke color and width based on the selection state
+        const strokeColor = selected ? "#007bff" : "#222"
         const strokeWidth = selected ? 4 : 2
 
         useEffect(() => {
             const handleKeyDown = (event: KeyboardEvent) => {
-                if (event.key === "Delete" || event.key === "Backspace") {
-                    if (selected) {
-                        removeEdgeById(id) // Eliminar el nodo seleccionado
-                    }
+                if ((event.key === "Delete" || event.key === "Backspace") && selected) {
+                    removeEdgeById(id)
                 }
             }
 
             window.addEventListener("keydown", handleKeyDown)
             return () => {
-                window.removeEventListener("keydown", handleKeyDown) // Cleanup
+                window.removeEventListener("keydown", handleKeyDown)
             }
         }, [selected, id, removeEdgeById])
 
         return (
             <g className="edge-chain-group" style={style}>
+                {/* Invisible path for easier selection */}
+                <path
+                    d={edgePath}
+                    fill="none"
+                    stroke="transparent"
+                    strokeWidth={strokeWidth + 14} // Increase width for click area
+                    className="edge-selectable-layer"
+                />
+
+                {/* Visible edge path */}
                 <path
                     id={id}
                     className="edge-chain"
