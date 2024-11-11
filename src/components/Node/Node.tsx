@@ -5,6 +5,7 @@ import { parseTargetHandle, stringifySourceHandle, stringifyTargetHandle } from 
 import { BackendContext } from "@/context/BackendContext"
 import { GlobalContext, GlobalVolatileContext } from "@/context/GlobalNodeState"
 import { useWorkflows } from "@/context/WorkflowsContext"
+import { interpolateColor } from "@/helpers/colorTools"
 import { observer } from "mobx-react-lite"
 import { Connection, useReactFlow } from "reactflow"
 
@@ -13,7 +14,9 @@ import NodeSource from "../Handle/NodeSource/NodeSource"
 import NodeTarget from "../Handle/NodeTarget/NodeTarget"
 import { TargetHandle } from "../Handle/NodeTarget/TargetHandle"
 import { Icons } from "../Icons"
+import { Separator } from "../ui/Separator/Separator"
 import { NodeBody } from "./NodeBody/NodeBody"
+import { NodeFooter } from "./NodeFooter/NodeFooter"
 import { NodeHeader } from "./NodeHeader"
 
 export const Node = observer(({ data, selected }: NodeProps) => <NodeInner data={data} selected={selected} />)
@@ -28,6 +31,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     const { schemata } = useContext(BackendContext)
     const { id, schemaId } = data
     const schema = schemata.get(schemaId)
+    const progColor = interpolateColor(schema?.color || "#000", "#fff", 0.3)
 
     const { selectNode, removeNodesById } = useContext(GlobalContext)
 
@@ -95,6 +99,14 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                         <Icons.close className="w-4 h-4 p-0.5 text-gray-600" />
                     </div>
                 )}
+                <Separator style={{ background: progColor }} className="w-full mt-4 mb-2" />
+                <NodeFooter
+                    id={id}
+                    description={schema.description}
+                    // validity={data.validity}
+                    // useDisable={data.useDisable}
+                    // animated={data.animated}
+                />
             </div>
             <NodeSource id={id} nodeType={schema.nodeType} selected={selected} schemaId={schemaId} />
         </div>

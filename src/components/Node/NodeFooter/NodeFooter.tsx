@@ -1,44 +1,39 @@
 import { memo } from "react"
 import { Validity } from "@/common/Validity"
-import { GlobalVolatileContext } from "@/context/GlobalNodeState"
-import { Center, SimpleGrid } from "@chakra-ui/react"
-import { useContextSelector } from "use-context-selector"
 
 import { UseDisabled } from "@/hooks/useDisabled"
-
-import { DisableToggle } from "./DisableToggle"
-import { Timer } from "./Timer"
-import { ValidityIndicator } from "./ValidityIndicator"
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip/Tooltip"
+import { Icons } from "@/components/Icons"
 
 interface NodeFooterProps {
-    validity: Validity
+    validity?: Validity
     useDisable?: UseDisabled
-    animated: boolean
+    animated?: boolean
+    className?: string
+    description?: string
     id: string
 }
 
-export const NodeFooter = memo(({ id, validity, useDisable, animated }: NodeFooterProps) => {
-    const { canDisable } = useDisable ?? { canDisable: false }
-    const lastExecutionTime = useContextSelector(
-        GlobalVolatileContext,
-        (c) => c.outputDataMap.get(id)?.lastExecutionTime
-    )
+export const NodeFooter = memo(
+    ({ id, validity, useDisable, animated, className, description }: NodeFooterProps) => {
+        const { canDisable } = useDisable ?? { canDisable: false }
 
-    return (
-        <Center h="1.5rem" px={2} py={1} w="full">
-            <SimpleGrid columns={3} spacing={2} w="full">
-                <Center marginRight="auto">
-                    {canDisable && useDisable && <DisableToggle useDisable={useDisable} />}
-                </Center>
-
-                <Center w="full">
-                    <ValidityIndicator animated={animated} validity={validity} />
-                </Center>
-
-                <Center marginLeft="auto">
-                    {lastExecutionTime !== undefined && <Timer time={lastExecutionTime} />}
-                </Center>
-            </SimpleGrid>
-        </Center>
-    )
-})
+        return (
+            <div className={`flex justify-between items-center mx-4 ${className}`}>
+                <div></div>
+                <div></div>
+                <Tooltip>
+                    <TooltipTrigger asChild>
+                        <Icons.info
+                            className="cursor-pointer text-gray-400 hover:text-gray-600 transition-colors"
+                            size={15}
+                        />
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom" className="bg-black text-white text-xs p-2 max-w-[200px]">
+                        {description || "No description available"}
+                    </TooltipContent>
+                </Tooltip>
+            </div>
+        )
+    }
+)

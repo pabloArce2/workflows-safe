@@ -29,9 +29,6 @@ export const NodeHeader = memo(
     }: NodeHeaderProps) => {
         const IconComponent = icon
         const [descriptionShort, setDescriptionShort] = useState(true)
-        const [isTooltipOpen, setIsTooltipOpen] = useState(false)
-
-        const formatedGroup = `{${nodeGroup}}`
 
         const bgColor = "#fff"
         const gradL = interpolateColor(nodeColor, bgColor, 0.85)
@@ -53,7 +50,6 @@ export const NodeHeader = memo(
                         <Icons.network className="w-5 h-5" style={{ color: nodeColor }} />
                     )}
                     <p className="text-md font-bold ">{name}</p>
-                    {/* <Icons.info className="absolute cursor-pointer hover:text-gray-800" size={15} /> */}
                 </div>
                 <Separator style={{ background: progColor }} className="w-full" />
             </div>
