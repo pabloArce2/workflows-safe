@@ -18,9 +18,9 @@ export const NodeBody = memo(({ inputs, outputs, className, schema }: NodeBodyPr
     return (
         <div className={`flex flex-col gap-3 pt-2 ${className}`}>
             <NodeInputs className="px-4" inputsSchema={schema?.inputs ?? []} inputs={inputs ?? []} />
-            <Separator className="my-1" />
+            {schema?.inputs?.length && <Separator className="my-1 mx-2" />}
             <NodeParameters className="px-4" inputsSchema={schema?.inputs ?? []} inputs={inputs ?? []} />
-            <Separator className="my-1" />
+            {schema?.inputs?.length && <Separator className="my-1 mx-2" />}
             <NodeOutputs className="px-4" outputsSchema={schema?.outputs ?? []} outputs={outputs ?? []} />
         </div>
     )

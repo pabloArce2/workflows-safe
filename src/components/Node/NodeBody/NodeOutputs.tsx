@@ -11,7 +11,7 @@ export const NodeOutputs = ({ outputs, outputsSchema, className }: NodeOutputsPr
 
     return (
         <div className={`flex flex-col gap-2 ${className}`}>
-            <div className="text-sm font-bold">Outputs</div>
+            <div className="text-gray-400 text-xs ">Outputs</div>
             <div className="flex flex-col gap-2">
                 {outputsSchema.map((schemaOutput) => {
                     const realOutput = outputs?.find((output) => output.outputId === schemaOutput.id)

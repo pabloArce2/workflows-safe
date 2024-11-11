@@ -78,8 +78,6 @@ export const NotificationOnSiteNode: NodeSchema = {
             optional: false,
             origin: "parameter",
             hideLabel: false,
-            origin: "parameter",
-            hideLabel: false,
         },
         {
             id: "screen-video" as InputId,

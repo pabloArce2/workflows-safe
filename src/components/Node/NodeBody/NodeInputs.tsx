@@ -1,5 +1,7 @@
 import { NodeSchema } from "@/common/common-types"
 
+import { Separator } from "@/components/ui/Separator/Separator"
+
 interface NodeInputsProps {
     inputsSchema: NodeSchema["inputs"]
     inputs: any[]
@@ -14,7 +16,7 @@ export const NodeInputs = ({ inputsSchema, inputs, className }: NodeInputsProps)
 
     return (
         <div className={`flex flex-col gap-2 ${className}`}>
-            <div className="text-sm font-bold">Inputs</div>
+            <div className=" text-gray-400 text-xs ">Inputs</div>
             <div className="flex flex-col gap-2">
                 {entrySchemaInputs.map((schemaInput) => {
                     const realInput = inputs.find((input) => input.inputId === schemaInput.id)

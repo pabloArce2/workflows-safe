@@ -1,5 +1,7 @@
 import { NodeSchema } from "@/common/common-types"
 
+import { Separator } from "@/components/ui/Separator/Separator"
+
 interface NodeParametersProps {
     inputsSchema: NodeSchema["inputs"]
     inputs: any[]
