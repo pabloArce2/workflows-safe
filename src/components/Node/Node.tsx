@@ -61,11 +61,16 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
         }
     }, [selected, id, removeNodesById])
 
+    // Verificar si hay inputs u outputs en el schema
+    const hasContent = useMemo(() => {
+        return (schema.inputs && schema.inputs.length > 0) || (schema.outputs && schema.outputs.length > 0)
+    }, [schema.inputs, schema.outputs])
+
     return (
         <div className="flex">
             <NodeTarget id={id} nodeType={schema.nodeType} selected={selected} schemaId={schemaId} />
             <div
-                className={`grid place-content-center bg-node-bg bg-white  rounded-md border-[0.5px] transition-all pb-3 
+                className={`grid place-content-center bg-node-bg bg-white rounded-md border-[0.5px] transition-all pb-3 
                     ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
                 ref={targetRef}
                 onClick={onClick}
@@ -80,7 +85,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                     className=""
                     accentColor={""}
                 />
-                <div className="min-w-[200px] ">
+                <div className="min-w-[200px]">
                     <NodeBody
                         schema={schema}
                         className=""
@@ -99,7 +104,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                         <Icons.close className="w-4 h-4 p-0.5 text-gray-600" />
                     </div>
                 )}
-                <Separator style={{ background: progColor }} className="w-full mt-4 mb-2" />
+                {hasContent && <Separator style={{ background: progColor }} className="w-full mt-4 mb-2" />}
                 <NodeFooter
                     id={id}
                     description={schema.description}
