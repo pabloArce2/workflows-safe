@@ -85,7 +85,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                     className=""
                     accentColor={""}
                 />
-                <div className="min-w-[200px]">
+                <div className="min-w-[250px] max-w-[400px]">
                     <NodeBody
                         schema={schema}
                         className=""

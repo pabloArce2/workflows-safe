@@ -41,8 +41,6 @@ export const filterNode: NodeSchema = {
                 { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
             ],
             preferredStyle: "dropdown",
-            addMore: true, // Indica que se pueden agregar más listas de detecciones.
-            hideLabel: false,
             groups: [],
         },
         {

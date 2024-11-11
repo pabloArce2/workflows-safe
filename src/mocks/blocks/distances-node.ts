@@ -41,6 +41,7 @@ export const distanceNode: NodeSchema = {
             preferredStyle: "dropdown",
             groups: [],
         },
+
         {
             id: "input-operator" as InputId,
             type: "string",
