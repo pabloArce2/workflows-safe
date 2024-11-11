@@ -11,10 +11,11 @@ export const distanceNode: NodeSchema = {
     icon: Icons.ruler,
     color: "#20B2AA",
     nodeType: "regularNode",
-    sourceType: "or",
-    targetType: "double-or",
+    sourceType: "multiple",
+    targetType: "multiple",
     inputValues: ["detections"],
     outputValues: ["detections"],
+
     inputs: [
         // {
         //     id: "input-primary-detections" as InputId,

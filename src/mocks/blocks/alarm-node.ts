@@ -13,7 +13,7 @@ export const alarmNode: NodeSchema = {
     icon: Icons.clock,
     color: "#FF5733", // Color rojo para resaltar
     nodeType: "regularNode",
-    sourceType: "single",
+    sourceType: "variable",
     targetType: "single",
     inputValues: ["none"],
     outputValues: ["none"],

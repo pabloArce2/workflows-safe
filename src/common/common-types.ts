@@ -6,7 +6,7 @@ export type SetState<T> = React.Dispatch<React.SetStateAction<T>>
 export type GetSetState<T> = readonly [T, SetState<T>]
 
 export type NodeType = "regularNode" | "newIterator" | "collector" | "onlyTarget" | "onlySource"
-export type HandleType = "multiple" | "single" | "or" | "double-or" | "none"
+export type HandleType = "multiple" | "single" | "variable" | "none"
 
 export type Mutable<T> = { -readonly [P in keyof T]: T[P] }
 export type CategoryId = string & { readonly __categoryId: never }

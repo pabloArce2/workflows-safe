@@ -12,10 +12,11 @@ export const filterNode: NodeSchema = {
     icon: Icons.filter,
     color: "#7A1223",
     nodeType: "regularNode",
-    sourceType: "single",
-    targetType: "or",
+    sourceType: "multiple",
+    targetType: "single",
     inputValues: ["detections"],
     outputValues: ["detections"],
+
     inputs: [
         // {
         //     id: "input-detections" as InputId,

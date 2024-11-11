@@ -14,7 +14,8 @@ interface HandleElementProps {
     validity: Validity
     id: string
     nodeType: NodeType
-    className: string
+    className?: string
+    style?: React.CSSProperties
 }
 
 const HandleElement = React.memo(
@@ -25,6 +26,8 @@ const HandleElement = React.memo(
         type,
         id,
         nodeType,
+        className,
+        style,
         ...props
     }: React.PropsWithChildren<HandleElementProps>) => {
         const isIterator = nodeType === "newIterator"
@@ -42,9 +45,11 @@ const HandleElement = React.memo(
                     isValidConnection={isValidConnection}
                     position={type === "target" ? Position.Left : Position.Right}
                     type={type}
+                    className={className}
                     {...props}
                     style={{
                         borderRadius: squaredHandle ? "25%" : "100%",
+                        ...style,
                     }}
                     // Manejadores de eventos para controlar la visibilidad del Tooltip
                     onMouseEnter={() => setIsTooltipOpen(true)}
@@ -71,6 +76,8 @@ export interface HandleProps {
     connectedColor: string | undefined
     selected: boolean
     nodeType: NodeType
+    className?: string
+    style?: React.CSSProperties
 }
 
 const getBackground = (colors: readonly string[]): string => {
@@ -94,6 +101,8 @@ export const Handle = ({
     connectedColor,
     nodeType,
     selected,
+    className,
+    style,
 }: HandleProps) => {
     const isConnected = !!connectedColor
 
@@ -105,12 +114,14 @@ export const Handle = ({
                 ${validity.isValid ? "handle-valid" : "handle-invalid"}
                 ${selected && "handle-selected"}
                 ${type}-handle
+                ${className}
             `}
             id={id}
             type={type}
             validity={validity}
             isValidConnection={isValidConnection}
             nodeType={nodeType}
+            style={style}
         />
     )
 }

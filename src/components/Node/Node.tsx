@@ -9,8 +9,9 @@ import { observer } from "mobx-react-lite"
 import { Connection, useReactFlow } from "reactflow"
 
 import { Handle } from "../Handle/Handle"
-import { SourceHandle } from "../Handle/SourceHandle"
-import { TargetHandle } from "../Handle/TargetHandle"
+import NodeSource from "../Handle/NodeSource/NodeSource"
+import NodeTarget from "../Handle/NodeTarget/NodeTarget"
+import { TargetHandle } from "../Handle/NodeTarget/TargetHandle"
 import { Icons } from "../Icons"
 import { NodeBody } from "./NodeBody/NodeBody"
 import { NodeHeader } from "./NodeHeader"
@@ -57,9 +58,8 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     }, [selected, id, removeNodesById])
 
     return (
-        <div className="">
-            <TargetHandle id={id} nodeType={schema.nodeType} selected={selected} />
-
+        <div className="flex">
+            <NodeTarget id={id} nodeType={schema.nodeType} selected={selected} schemaId={schemaId} />
             <div
                 className={`grid place-content-center bg-node-bg bg-white  rounded-md border-[0.5px] transition-all pb-3 
                     ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
@@ -96,7 +96,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                     </div>
                 )}
             </div>
-            <SourceHandle id={id} nodeType={schema.nodeType} selected={selected} />
+            <NodeSource id={id} nodeType={schema.nodeType} selected={selected} schemaId={schemaId} />
         </div>
     )
 })

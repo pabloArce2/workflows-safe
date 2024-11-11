@@ -8,7 +8,7 @@ export const startNode: NodeSchema = {
     category: "control-flow" as CategoryId,
     nodeGroup: "control" as NodeGroupId,
     description: "Marca el inicio del ciclo de procesos.",
-    nodeType: "onlyTarget",
+    nodeType: "onlySource",
     sourceType: "single",
     targetType: "none",
     icon: Icons.circlePlay,

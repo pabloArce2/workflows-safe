@@ -5,21 +5,21 @@ import { stringifySourceHandle, stringifyTargetHandle } from "@/common/util"
 import { GlobalVolatileContext } from "@/context/GlobalNodeState"
 import { Connection } from "reactflow"
 
-import { Handle } from "./Handle"
+import { Handle } from "../Handle"
 
-export interface TargetHandleProps {
+export interface SourceHandleProps {
     id: string
     nodeType: NodeType
     selected: boolean
+    style?: React.CSSProperties
 }
 
-export const TargetHandle = ({ id, nodeType, selected }: TargetHandleProps) => {
+export const SourceHandle = ({ id, nodeType, selected, style }: SourceHandleProps) => {
     const { isValidConnection, edgeChanges, useConnectingFrom } = useContext(GlobalVolatileContext)
 
     const [connectingFrom] = useConnectingFrom
 
     const sourceHandle = stringifySourceHandle({ nodeId: id })
-    const targetHandle = stringifyTargetHandle({ nodeId: id })
 
     // Actualización: La lógica para determinar si una conexión es válida ahora es simplificada.
     const isValidConnectionForRf = useCallback(
@@ -33,34 +33,34 @@ export const TargetHandle = ({ id, nodeType, selected }: TargetHandleProps) => {
         // no active connection
         if (!connectingFrom) return VALID
 
-        // We only want to display the connectingFrom target handle
-        if (connectingFrom.handleType === "target") {
-            return connectingFrom.handleId === targetHandle
+        // We only want to display the connectingFrom source handle
+        if (connectingFrom.handleType === "source") {
+            return connectingFrom.handleId === sourceHandle
                 ? VALID
-                : invalid("Cannot create an input-to-input connection")
+                : invalid("Cannot create an output-to-output connection")
         }
 
-        // Show same types
         return isValidConnection({
-            source: connectingFrom.nodeId,
-            sourceHandle: connectingFrom.handleId,
-            target: id,
-            targetHandle,
+            source: id,
+            sourceHandle,
+            target: connectingFrom.nodeId,
+            targetHandle: connectingFrom.handleId,
         })
-    }, [connectingFrom, id, targetHandle, isValidConnection])
+    }, [connectingFrom, id, sourceHandle, isValidConnection])
 
     return (
         <Handle
-            // connectedColor={isConnected ? handleColors[0] : undefined}
-            // handleColors={handleColors}
-            selected={selected}
+            /* connectedColor={isConnected ? handleColors[0] : undefined}
+            handleColors={handleColors} */
             id={sourceHandle}
+            selected={selected}
             isValidConnection={isValidConnectionForRf}
             nodeType={nodeType}
-            type="target"
+            type="source"
             validity={validity}
             handleColors={[]}
             connectedColor={undefined}
+            style={style}
         />
     )
 }
