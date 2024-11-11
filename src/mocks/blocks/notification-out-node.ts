@@ -13,6 +13,8 @@ export const NotificationOffSiteNode: NodeSchema = {
     nodeType: "onlySource",
     sourceType: "single",
     targetType: "none",
+    inputValues: ["none"],
+    outputValues: ["none"],
     inputs: [
         {
             id: "notification-type" as InputId,
@@ -20,6 +22,8 @@ export const NotificationOffSiteNode: NodeSchema = {
             kind: "dropdown",
             label: "Tipo de Notificación",
             optional: false,
+            origin: "parameter",
+            hideLabel: false,
             options: [
                 { option: "Telegram", value: "telegram", type: "string" },
                 { option: "E-mail", value: "email", type: "string" },

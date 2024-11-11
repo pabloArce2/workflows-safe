@@ -196,6 +196,7 @@ export const Icons = {
     maximaze2: Maximize2,
     minimize2: Minimize2,
     gripVertical: GripVertical,
+    info: Info,
 
     gitHub: ({ ...props }: LucideProps) => (
         <svg

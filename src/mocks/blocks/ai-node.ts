@@ -13,6 +13,8 @@ export const aiNode: NodeSchema = {
     nodeType: "regularNode",
     sourceType: "single",
     targetType: "single",
+    inputValues: ["camera"],
+    outputValues: ["detections"],
     inputs: [
         {
             id: "camera-name" as InputId,

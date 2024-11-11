@@ -1,7 +1,9 @@
 import { memo, useState } from "react"
+import { interpolateColor } from "@/helpers/colorTools"
 import { LucideIcon } from "lucide-react"
 
 import { Icons } from "../Icons"
+import { Separator } from "../ui/Separator/Separator"
 
 interface NodeHeaderProps {
     className?: string
@@ -27,34 +29,33 @@ export const NodeHeader = memo(
     }: NodeHeaderProps) => {
         const IconComponent = icon
         const [descriptionShort, setDescriptionShort] = useState(true)
+        const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+
         const formatedGroup = `{${nodeGroup}}`
 
-        // const bgColor = useThemeColor("--bg-700")
-        // const gradL = interpolateColor(accentColor, bgColor, 0.9)
-        // const gradR = bgColor
+        const bgColor = "#fff"
+        const gradL = interpolateColor(nodeColor, bgColor, 0.85)
+        const gradR = bgColor
 
-        // const progColor = interpolateColor(accentColor, bgColor, 0.5)
+        const progColor = interpolateColor(nodeColor, bgColor, 0.3)
 
         return (
-            <div className={`${className} max-w-[200px] flex flex-col gap-1`}>
-                <div className="flex items-center py-1">
+            <div
+                style={{
+                    background: `linear-gradient(to top right, ${gradL}, ${gradR} )`,
+                }}
+                className={`${className} flex flex-col pt-2 gap-1 rounded-t-md `}
+            >
+                <div className="flex items-center py-1 gap-2 justify-center px-2">
                     {IconComponent ? (
-                        <IconComponent style={{ color: nodeColor }} />
+                        <IconComponent className="w-5 h-5" style={{ color: nodeColor }} />
                     ) : (
-                        <Icons.network style={{ color: nodeColor }} />
+                        <Icons.network className="w-5 h-5" style={{ color: nodeColor }} />
                     )}
-                    <div className="ml-auto flex items-center justify-center border bg-gray-100 rounded-xl px-2 py-1">
-                        <code className="text-xs text-gray-600">{formatedGroup}</code>
-                    </div>
+                    <p className="text-md font-bold ">{name}</p>
+                    {/* <Icons.info className="absolute cursor-pointer hover:text-gray-800" size={15} /> */}
                 </div>
-
-                <h3 className="font-bold">{name}</h3>
-                <p
-                    className={`${descriptionShort ? "truncate" : ""} text-gray-400  cursor-default`}
-                    onClick={() => setDescriptionShort(!descriptionShort)}
-                >
-                    {description}
-                </p>
+                <Separator style={{ background: progColor }} className="w-full" />
             </div>
         )
     }

@@ -14,6 +14,8 @@ export const filterNode: NodeSchema = {
     nodeType: "regularNode",
     sourceType: "single",
     targetType: "or",
+    inputValues: ["detections"],
+    outputValues: ["detections"],
     inputs: [
         // {
         //     id: "input-detections" as InputId,

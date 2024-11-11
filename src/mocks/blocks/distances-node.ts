@@ -13,6 +13,8 @@ export const distanceNode: NodeSchema = {
     nodeType: "regularNode",
     sourceType: "or",
     targetType: "double-or",
+    inputValues: ["detections"],
+    outputValues: ["detections"],
     inputs: [
         // {
         //     id: "input-primary-detections" as InputId,

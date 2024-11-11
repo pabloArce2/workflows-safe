@@ -15,6 +15,8 @@ export const alarmNode: NodeSchema = {
     nodeType: "regularNode",
     sourceType: "single",
     targetType: "single",
+    inputValues: ["none"],
+    outputValues: ["none"],
     inputs: [
         {
             id: "alarm-selection" as InputId,

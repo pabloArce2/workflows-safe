@@ -47,6 +47,8 @@ export interface NodeSchema {
     readonly targetType: HandleType
     readonly inputs: readonly Input[]
     readonly outputs: readonly Output[]
+    readonly outputValues: readonly Values[]
+    readonly inputValues: readonly Values[]
     //readonly groupLayout: readonly (InputId | Group)[]
     //readonly hasSideEffects: boolean
     //readonly deprecated: boolean
@@ -57,6 +59,8 @@ export interface NodeData {
     readonly id: string
     readonly schemaId: SchemaId
     readonly inputData: InputData
+    readonly inputs: Input[]
+    readonly outputs: Output[]
 }
 export interface EdgeData {
     sourceX?: number
@@ -64,6 +68,8 @@ export interface EdgeData {
     targetX?: number
     targetY?: number
 }
+
+export type Values = "detections" | "camera" | "value" | "bool" | "none"
 
 export type NodeGroupId = string & { readonly __nodeGroupId: never }
 export interface NodeGroup {
@@ -224,22 +230,30 @@ export interface CustomCodeInput extends InputBase {
     readonly allowEmptyString?: boolean
 }
 
-export type InputKind = Input["kind"]
-
 export type Input =
-    | GenericInput
-    | DirectoryInput
-    | TextInput
-    | DropDownInput
-    | SliderInput
-    | NumberInput
-    | ColorInput
-    | OperatorInput
-    | DetectionsInput
-    | CamerasInput
-    | CustomCodeInput
+    | (GenericInput & InputBase)
+    | (DropDownInput & InputBase)
+    | (TextInput & InputBase)
+    | (NumberInput & InputBase)
+    | (SliderInput & InputBase)
+    | (ColorInput & InputBase)
+    | (DirectoryInput & InputBase)
+    | (DetectionsInput & InputBase)
+    | (CamerasInput & InputBase)
+    | (CustomCodeInput & InputBase)
 
 export type InputOrigin = "parameter" | "entry"
+export type InputKind =
+    | "generic"
+    | "dropdown"
+    | "text"
+    | "number"
+    | "slider"
+    | "color"
+    | "directory"
+    | "detections"
+    | "camera"
+    | "custom-code"
 
 export interface Output {
     readonly id: OutputId

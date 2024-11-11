@@ -13,6 +13,8 @@ export const NotificationOnSiteNode: NodeSchema = {
     nodeType: "onlySource",
     sourceType: "single",
     targetType: "none",
+    inputValues: ["none"],
+    outputValues: ["none"],
     inputs: [
         {
             id: "notification-type" as InputId,
@@ -74,6 +76,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Nombre",
             optional: false,
+            origin: "parameter",
+            hideLabel: false,
             origin: "parameter",
             hideLabel: false,
         },

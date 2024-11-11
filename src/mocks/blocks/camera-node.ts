@@ -15,6 +15,8 @@ export const cameraNode: NodeSchema = {
     nodeType: "regularNode",
     sourceType: "single",
     targetType: "single",
+    inputValues: ["camera"],
+    outputValues: ["detections"],
     inputs: [
         {
             id: "input-camera-name" as InputId,

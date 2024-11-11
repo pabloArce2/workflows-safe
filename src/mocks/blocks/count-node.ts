@@ -14,6 +14,8 @@ export const countNode: NodeSchema = {
     nodeType: "regularNode",
     sourceType: "multiple",
     targetType: "single",
+    inputValues: ["detections"],
+    outputValues: ["bool"],
     inputs: [
         // {
         //     id: "input-detections" as InputId,

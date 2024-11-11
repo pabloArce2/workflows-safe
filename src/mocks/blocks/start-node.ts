@@ -12,6 +12,8 @@ export const startNode: NodeSchema = {
     sourceType: "single",
     targetType: "none",
     icon: Icons.circlePlay,
+    inputValues: ["none"],
+    outputValues: ["none"],
     inputs: [], // El nodo de inicio generalmente no tiene inputs
     outputs: [],
 }
