@@ -12,7 +12,7 @@ import { Handle } from "../Handle/Handle"
 import { SourceHandle } from "../Handle/SourceHandle"
 import { TargetHandle } from "../Handle/TargetHandle"
 import { Icons } from "../Icons"
-import { NodeBody } from "./NodeBody"
+import { NodeBody } from "./NodeBody/NodeBody"
 import { NodeHeader } from "./NodeHeader"
 
 export const Node = observer(({ data, selected }: NodeProps) => <NodeInner data={data} selected={selected} />)
@@ -68,15 +68,21 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
             >
                 <NodeHeader
                     nodeColor={schema.color || "#000"}
-                    icon={schema.icon}
+                    icon={schema.icon || Icons.fileImage}
                     name={schema.name}
                     description={schema.description}
                     nodeGroup={schema.nodeGroup}
                     selected={selected}
                     className=""
+                    accentColor={""}
                 />
                 <div className="min-w-[200px] ">
-                    <NodeBody className="p-4" inputs={data?.inputs} outputs={data?.outputs} />
+                    <NodeBody
+                        schema={schema}
+                        className=""
+                        inputs={data?.inputs || []}
+                        outputs={data?.outputs || []}
+                    />
                 </div>
                 {selected && (
                     <div

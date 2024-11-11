@@ -46,16 +46,15 @@ export const NodeHeader = memo(
                 }}
                 className={`${className} flex flex-col pt-2 gap-1 rounded-t-md `}
             >
-                <div className="flex items-center py-1 gap-2 justify-center">
+                <div className="flex items-center py-1 gap-2 justify-center px-2">
                     {IconComponent ? (
-                        <IconComponent style={{ color: nodeColor }} />
+                        <IconComponent className="w-5 h-5" style={{ color: nodeColor }} />
                     ) : (
-                        <Icons.network style={{ color: nodeColor }} />
+                        <Icons.network className="w-5 h-5" style={{ color: nodeColor }} />
                     )}
-                    <p className="text-md font-bold text-gray-600">{name}</p>
+                    <p className="text-md font-bold ">{name}</p>
                     {/* <Icons.info className="absolute cursor-pointer hover:text-gray-800" size={15} /> */}
                 </div>
-
                 <Separator style={{ background: progColor }} className="w-full" />
             </div>
         )

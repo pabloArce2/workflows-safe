@@ -11,6 +11,8 @@ export const NotificationOnSiteNode: NodeSchema = {
     icon: Icons.notification,
     color: "#4CAF50", // Color verde para resaltar
     nodeType: "regularNode",
+    inputValues: ["none"],
+    outputValues: ["none"],
     inputs: [
         {
             id: "notification-type" as InputId,
@@ -28,6 +30,7 @@ export const NotificationOnSiteNode: NodeSchema = {
             ],
             preferredStyle: "dropdown",
             groups: [],
+            origin: "parameter",
         },
         {
             id: "plc-name" as InputId,
@@ -35,7 +38,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Nombre",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter",
+            hideLabel: false,
         },
         {
             id: "plc-ip" as InputId,
@@ -43,7 +47,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "IP",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter",
+            hideLabel: false,
         },
         {
             id: "plc-port" as InputId,
@@ -51,7 +56,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Puerto",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter",
+            hideLabel: false,
         },
         {
             id: "plc-signal" as InputId,
@@ -59,7 +65,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Señal",
             optional: false,
-            condition: "notification-type === 'plc'",
+            origin: "parameter",
+            hideLabel: false,
         },
         {
             id: "screen-name" as InputId,
@@ -67,7 +74,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "text",
             label: "Nombre",
             optional: false,
-            condition: "notification-type === 'pantalla'",
+            origin: "parameter",
+            hideLabel: false,
         },
         {
             id: "screen-video" as InputId,
@@ -75,7 +83,8 @@ export const NotificationOnSiteNode: NodeSchema = {
             kind: "file",
             label: "Vídeo",
             optional: false,
-            condition: "notification-type === 'pantalla'",
+            origin: "parameter",
+            hideLabel: false,
             fileType: "video",
         },
     ],

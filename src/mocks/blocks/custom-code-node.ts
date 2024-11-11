@@ -1,4 +1,4 @@
-import { CategoryId, InputId, NodeGroupId, NodeSchema, SchemaId } from "@/common/common-types"
+import { CategoryId, InputId, NodeGroupId, NodeSchema, OutputId, SchemaId } from "@/common/common-types"
 
 import { Icons } from "@/components/Icons"
 
@@ -11,12 +11,14 @@ export const CustomCodeNode: NodeSchema = {
     icon: Icons.code,
     color: "#1E3A8A",
     nodeType: "regularNode",
+    inputValues: ["none"],
+    outputValues: ["detections"],
     inputs: [
         {
             id: "custom-code-input" as InputId,
             type: "custom-code",
             kind: "custom-code",
-            origin: "entry",
+            origin: "parameter",
             label: "Código Personalizado",
             optional: false,
             hideLabel: false,
@@ -24,5 +26,13 @@ export const CustomCodeNode: NodeSchema = {
             multiline: true,
         },
     ],
-    outputs: [],
+    outputs: [
+        {
+            id: "custom-code-output" as OutputId,
+            type: "detections",
+            label: "Detecciones",
+            kind: "detections",
+            description: "Detecciones generadas por el código personalizado.",
+        },
+    ],
 }

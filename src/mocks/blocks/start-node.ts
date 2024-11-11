@@ -10,6 +10,8 @@ export const startNode: NodeSchema = {
     description: "Marca el inicio del ciclo de procesos.",
     nodeType: "onlySource",
     icon: Icons.circlePlay,
+    inputValues: ["none"],
+    outputValues: ["none"],
     inputs: [], // El nodo de inicio generalmente no tiene inputs
     outputs: [],
 }

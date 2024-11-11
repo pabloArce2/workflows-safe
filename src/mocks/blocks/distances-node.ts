@@ -11,6 +11,8 @@ export const distanceNode: NodeSchema = {
     icon: Icons.ruler,
     color: "#20B2AA",
     nodeType: "regularNode",
+    inputValues: ["detections"],
+    outputValues: ["detections"],
     inputs: [
         // {
         //     id: "input-primary-detections" as InputId,

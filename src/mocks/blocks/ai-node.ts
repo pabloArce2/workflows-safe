@@ -11,6 +11,8 @@ export const aiNode: NodeSchema = {
     icon: Icons.brainCircuit,
     color: "#6B21A8",
     nodeType: "regularNode",
+    inputValues: ["camera"],
+    outputValues: ["detections"],
     inputs: [
         {
             id: "camera-name" as InputId,
