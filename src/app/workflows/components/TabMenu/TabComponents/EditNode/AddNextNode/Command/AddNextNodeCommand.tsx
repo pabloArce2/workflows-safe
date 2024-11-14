@@ -52,8 +52,8 @@ const AddNextNodeCommand = () => {
         }
 
         const newNodePosition = {
-            x: selectedNode.position.x,
-            y: selectedNode.position.y + (selectedNode.height ?? 0) + 15,
+            x: selectedNode.position.x + (selectedNode.width ?? 0) + 30,
+            y: selectedNode.position.y,
         }
 
         const nodeId = createUniqueId()

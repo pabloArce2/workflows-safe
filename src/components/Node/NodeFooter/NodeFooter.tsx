@@ -17,7 +17,7 @@ interface NodeFooterProps {
 
 export const NodeFooter = memo(
     ({ id, validity, useDisable, animated, className, description }: NodeFooterProps) => {
-        const [isOpen, setIsOpen] = useState(true)
+        const [isOpen, setIsOpen] = useState(false)
         const { canDisable } = useDisable ?? { canDisable: false }
 
         return (
