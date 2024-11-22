@@ -30,9 +30,9 @@ export const NodeParameters = ({ inputsSchema, inputs, className }: NodeParamete
                     const realParam = inputs.find((input) => input.inputId === schemaParam.id)
                     return (
                         <div key={schemaParam.id} className="px-2 py-1 border rounded-lg bg-gray-100 flex-col">
-                            <div className="flex flex-col">
-                                <div className="text-xs font-medium truncate">{schemaParam.label}</div>
-                                <div className="text-xs text-gray-500 truncate">
+                            <div className="flex justify-between gap-1">
+                                <div className="text-xs font-medium truncate max-w-[50%]">{schemaParam.label}</div>
+                                <div className="text-xs text-gray-500 min-w-fit">
                                     {realParam ? `${realParam.value}` : "{empty}"}
                                 </div>
                             </div>

@@ -4,11 +4,13 @@ import { VALID, Validity, invalid } from "@/common/Validity"
 import {
     EdgeData,
     GetSetState,
+    Input,
     InputData,
     InputId,
     InputKind,
     InputValue,
     NodeData,
+    Output,
     OutputId,
     SchemaId,
     SetState,
@@ -65,6 +67,7 @@ interface Global {
     removeNodesById: (ids: readonly string[]) => void
     removeEdgeById: (id: string) => void
     // getInputHash: (nodeId: string) => string
+    modifyInputs: (nodeId: string, newCount: number) => void
 }
 
 enum SaveResult {
@@ -254,8 +257,7 @@ export const GlobalProvider = memo(
                 }
             },
             [dumpState, edgeChangesRef, nodeChangesRef, openRecent, savePath, sendToast, setSavePath] */
-
-        const updateNodeInputsById = (id: string, inputs: SchemaId) => {
+        const updateNodeInputsById = (id: string, inputs: Input[]) => {
             changeNodes((nodes) =>
                 nodes.map((n) => {
                     if (n.id === id) {
@@ -267,7 +269,7 @@ export const GlobalProvider = memo(
             )
         }
 
-        const updateNodeOutputsById = (id: string, outputs: SchemaId) => {
+        const updateNodeOutputsById = (id: string, outputs: Output[]) => {
             changeNodes((nodes) =>
                 nodes.map((n) => {
                     if (n.id === id) {
@@ -717,6 +719,41 @@ export const GlobalProvider = memo(
 
         const [connectingFrom, setConnectingFrom] = useState<OnConnectStartParams | null>(null)
 
+        const modifyInputs = useCallback(
+            (nodeId: string, newCount: number) => {
+                const node = getNode(nodeId)
+                if (!node) return
+
+                const schema = schemata.get(node.data.schemaId)
+                if (!schema) return
+
+                console.log(node.data.inputs)
+
+                // Mantener los inputs que no son de tipo entry
+                const nonEntryInputs = node.data.inputs.filter(
+                    (input: InputData) => !input.origin.includes("entry")
+                )
+
+                // Crear nuevos inputs de tipo entry
+                const newEntryInputs = Array.from({ length: newCount }, (_, index) => ({
+                    inputId: `${nodeId}-entry-${index + 1}`,
+                    value: null,
+                    type: "any",
+                    connection: null,
+                }))
+
+                // Actualizar el nodo con todos los inputs
+                modifyNode(nodeId, (oldNode) => ({
+                    ...oldNode,
+                    data: {
+                        ...oldNode.data,
+                        inputs: [...nonEntryInputs, ...newEntryInputs],
+                    },
+                }))
+            },
+            [getNode, schemata, modifyNode]
+        )
+
         const globalVolatileValue = useMemoObject<GlobalVolatile>({
             nodeChanges,
             edgeChanges,
@@ -753,6 +790,7 @@ export const GlobalProvider = memo(
             createConnection,
             removeNodesById,
             removeEdgeById,
+            modifyInputs,
         })
 
         return (

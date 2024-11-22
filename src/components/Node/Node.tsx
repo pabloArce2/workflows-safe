@@ -1,4 +1,4 @@
-import { memo, useCallback, useContext, useEffect, useMemo, useRef } from "react"
+import { memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react"
 import { VALID, invalid } from "@/common/Validity"
 import { NodeData, NodeSchema } from "@/common/common-types"
 import { parseTargetHandle, stringifySourceHandle, stringifyTargetHandle } from "@/common/util"
@@ -36,6 +36,9 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     const { selectNode, removeNodesById } = useContext(GlobalContext)
 
     const targetRef = useRef<HTMLDivElement>(null)
+    const [inputPositions, setInputPositions] = useState<number[]>([])
+    const nodeRef = useRef<HTMLDivElement>(null)
+    const [outputPositions, setOutputPositions] = useState<number[]>([])
 
     const onClick = (event: any) => {
         event.preventDefault()
@@ -66,9 +69,31 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
         return (schema.inputs && schema.inputs.length > 0) || (schema.outputs && schema.outputs.length > 0)
     }, [schema.inputs, schema.outputs])
 
+    const handleInputPositions = useCallback((positions: number[]) => {
+        if (nodeRef.current) {
+            const nodeRect = nodeRef.current.getBoundingClientRect()
+            const relativePositions = positions.map((pos) => pos - nodeRect.top)
+            setInputPositions(relativePositions)
+        }
+    }, [])
+
+    const handleOutputPositions = useCallback((positions: number[]) => {
+        if (nodeRef.current) {
+            const nodeRect = nodeRef.current.getBoundingClientRect()
+            const relativePositions = positions.map((pos) => pos - nodeRect.top)
+            setOutputPositions(relativePositions)
+        }
+    }, [])
+
     return (
-        <div className="flex">
-            <NodeTarget id={id} nodeType={schema.nodeType} selected={selected} schemaId={schemaId} />
+        <div className="flex" ref={nodeRef}>
+            <NodeTarget
+                id={id}
+                nodeType={schema.nodeType}
+                selected={selected}
+                schemaId={schemaId}
+                inputPositions={inputPositions}
+            />
             <div
                 className={`grid place-content-center bg-node-bg bg-white rounded-md border-[0.5px] transition-all pb-3 
                     ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
@@ -91,6 +116,8 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                         className=""
                         inputs={data?.inputs || []}
                         outputs={data?.outputs || []}
+                        onInputPositions={handleInputPositions}
+                        onOutputPositions={handleOutputPositions}
                     />
                 </div>
                 {selected && (
@@ -113,7 +140,13 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                     // animated={data.animated}
                 />
             </div>
-            <NodeSource id={id} nodeType={schema.nodeType} selected={selected} schemaId={schemaId} />
+            <NodeSource
+                id={id}
+                nodeType={schema.nodeType}
+                selected={selected}
+                schemaId={schemaId}
+                outputPositions={outputPositions}
+            />
         </div>
     )
 })

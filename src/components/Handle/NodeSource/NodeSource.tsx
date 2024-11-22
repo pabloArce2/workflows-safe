@@ -10,9 +10,10 @@ export interface NodeSourceProps {
     nodeType: NodeType
     selected: boolean
     schemaId: SchemaId
+    outputPositions: number[]
 }
 
-const NodeSource = ({ id, nodeType, selected, schemaId }: NodeSourceProps) => {
+const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeSourceProps) => {
     const { schemata } = useContext(BackendContext)
     const [handleCount, setHandleCount] = useState(1)
     const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -20,8 +21,15 @@ const NodeSource = ({ id, nodeType, selected, schemaId }: NodeSourceProps) => {
     const schema = schemata.get(schemaId)
 
     const positionHandle = (index: number, totalHandles: number) => {
-        // Distribuye los handles a lo largo de la altura del contenedor
         return `${(100 / (totalHandles + 1)) * (index + 1)}%`
+    }
+
+    // Calcula la posición media de los handles
+    const getButtonsPosition = () => {
+        if (outputPositions.length === 0) return "50%"
+        const firstPos = outputPositions[0] || 0
+        const lastPos = outputPositions[outputPositions.length - 1] || 0
+        return `${(firstPos + lastPos) / 2}px`
     }
 
     if (schema.sourceType === "none" || schema.nodeType === "onlyTarget") {
@@ -29,7 +37,20 @@ const NodeSource = ({ id, nodeType, selected, schemaId }: NodeSourceProps) => {
     }
 
     if (schema.sourceType === "single") {
-        return <SourceHandle id={id} nodeType={schema.nodeType} selected={selected} />
+        return (
+            <div className="relative flex flex-col items-center">
+                <SourceHandle
+                    id={id}
+                    nodeType={schema.nodeType}
+                    selected={selected}
+                    style={{
+                        position: "absolute",
+                        top: outputPositions[0] || "50%",
+                        transform: "translateY(-50%)",
+                    }}
+                />
+            </div>
+        )
     }
 
     if (schema.sourceType === "multiple") {
@@ -40,7 +61,11 @@ const NodeSource = ({ id, nodeType, selected, schemaId }: NodeSourceProps) => {
                         key={output.id}
                         id={`${output.id}`}
                         nodeType={schema.nodeType}
-                        style={{ top: positionHandle(index, schema.outputs.length) }}
+                        style={{
+                            position: "absolute",
+                            top: outputPositions[index] || positionHandle(index, schema.outputs.length),
+                            transform: "translateY(-50%)",
+                        }}
                         selected={selected}
                     />
                 ))}
@@ -56,29 +81,39 @@ const NodeSource = ({ id, nodeType, selected, schemaId }: NodeSourceProps) => {
                 onMouseLeave={() => setIsTooltipOpen(false)}
             >
                 {isTooltipOpen && selected && (
-                    <div className="absolute right-[-30px] top-1/2 transform -translate-y-1/2 flex flex-col gap-1 z-50">
+                    <div
+                        className="absolute right-[-30px] flex flex-col gap-1 z-50"
+                        style={{
+                            top: getButtonsPosition(),
+                            transform: "translateY(-50%)",
+                        }}
+                    >
                         <button
                             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
-                            onClick={() => setHandleCount((prev) => Math.min(prev + 1, 6))} // Máximo 6 handles
+                            onClick={() => setHandleCount((prev) => Math.min(prev + 1, 6))}
                         >
                             <Plus size={12} />
                         </button>
                         <button
                             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
-                            onClick={() => setHandleCount((prev) => Math.max(prev - 1, 1))} // Mínimo 1 handle
+                            onClick={() => setHandleCount((prev) => Math.max(prev - 1, 1))}
                         >
                             <Minus size={12} />
                         </button>
                     </div>
                 )}
 
-                <div className="relative flex flex-col items-center gap-2" style={{ height: "100%" }}>
+                <div className="relative flex flex-col items-center" style={{ height: "100%" }}>
                     {Array.from({ length: handleCount }, (_, index) => (
                         <SourceHandle
                             key={index}
                             id={`${id}-${index + 1}`}
                             nodeType={schema.nodeType}
-                            style={{ top: positionHandle(index, handleCount) }}
+                            style={{
+                                position: "absolute",
+                                top: outputPositions[index] || positionHandle(index, handleCount),
+                                transform: "translateY(-50%)",
+                            }}
                             selected={selected}
                         />
                     ))}

@@ -1,17 +1,35 @@
+import { useEffect, useRef } from "react"
 import { NodeSchema, Values } from "@/common/common-types"
 
 interface NodeOutputsProps {
     outputs: any[]
     className?: string
     outputsSchema: NodeSchema["outputs"]
-    outputValues: string
+    outputValues: NodeSchema["outputValues"]
+    onOutputPositions?: (positions: number[]) => void
 }
 
-export const NodeOutputs = ({ outputs, outputsSchema, className, outputValues }: NodeOutputsProps) => {
+export const NodeOutputs = ({
+    outputs,
+    outputsSchema,
+    className,
+    outputValues,
+    onOutputPositions,
+}: NodeOutputsProps) => {
     if (!outputsSchema?.length) return null
+    const outputRefs = useRef<(HTMLDivElement | null)[]>([])
 
-    // Calcula el número de columnas basado en la cantidad de elementos (máximo 2)
-    const gridCols = Math.min(outputsSchema.length, 2)
+    useEffect(() => {
+        if (onOutputPositions && outputRefs.current.length > 0) {
+            const positions = outputRefs.current
+                .filter((ref) => ref !== null)
+                .map((ref) => {
+                    const rect = ref!.getBoundingClientRect()
+                    return rect.top + rect.height / 2
+                })
+            onOutputPositions(positions)
+        }
+    }, [outputsSchema.length, onOutputPositions])
 
     return (
         <div className={`flex flex-col gap-2 ${className}`}>
@@ -19,12 +37,16 @@ export const NodeOutputs = ({ outputs, outputsSchema, className, outputValues }:
                 <div className="text-gray-400 text-xs">Outputs</div>
                 <code className="text-xs text-gray-600">type: {"{" + outputValues + "}"}</code>
             </div>
-            <div className={`grid grid-cols-${gridCols} gap-2`}>
-                {outputsSchema.map((schemaOutput) => {
+            <div className={`flex flex-col justify-between gap-2`}>
+                {outputsSchema.map((schemaOutput, index) => {
                     const realOutput = outputs?.find((output) => output.outputId === schemaOutput.id)
                     return (
-                        <div key={schemaOutput.id} className="px-2 py-1 border rounded-lg bg-gray-100 flex-col">
-                            <div className="flex flex-col">
+                        <div
+                            key={schemaOutput.id}
+                            ref={(el) => (outputRefs.current[index] = el)}
+                            className="px-2 py-1 border rounded-lg bg-gray-100 flex-col"
+                        >
+                            <div className="flex gap-2 justify-between">
                                 <div className="text-xs font-medium truncate">{schemaOutput.label}</div>
                                 <div className="text-xs text-gray-500 truncate">
                                     {realOutput ? `${realOutput.value}` : "{empty}"}

@@ -12,26 +12,32 @@ interface NodeBodyProps {
     animated?: boolean
     className?: string
     schema: NodeSchema
+    onInputPositions?: (positions: number[]) => void
+    onOutputPositions?: (positions: number[]) => void
 }
 
-export const NodeBody = memo(({ inputs, outputs, className, schema }: NodeBodyProps) => {
-    return (
-        <div className={`flex flex-col gap-3 pt-2 w-fit ${className}`}>
-            <NodeInputs
-                className="px-4"
-                inputsSchema={schema?.inputs ?? []}
-                inputs={inputs ?? []}
-                inputValues={schema?.inputValues}
-            />
-            {schema?.inputs?.length > 0 && <Separator className="my-1 mx-2" />}
-            <NodeParameters className="px-4" inputsSchema={schema?.inputs ?? []} inputs={inputs ?? []} />
-            {schema?.outputs?.length > 0 && <Separator className="my-1 mx-2" />}
-            <NodeOutputs
-                className="px-4"
-                outputsSchema={schema?.outputs ?? []}
-                outputs={outputs ?? []}
-                outputValues={schema?.outputValues}
-            />
-        </div>
-    )
-})
+export const NodeBody = memo(
+    ({ inputs, outputs, className, schema, onInputPositions, onOutputPositions }: NodeBodyProps) => {
+        return (
+            <div className={`flex flex-col gap-3 pt-2 w-fit ${className}`}>
+                <NodeInputs
+                    className="px-4"
+                    inputsSchema={schema?.inputs ?? []}
+                    inputs={inputs ?? []}
+                    inputValues={schema?.inputValues}
+                    onInputPositions={onInputPositions}
+                />
+                {schema?.inputs?.length > 0 && <Separator className="my-1 mx-2" />}
+                <NodeParameters className="px-4" inputsSchema={schema?.inputs ?? []} inputs={inputs ?? []} />
+                {schema?.outputs?.length > 0 && <Separator className="my-1 mx-2" />}
+                <NodeOutputs
+                    className="px-4"
+                    outputsSchema={schema?.outputs ?? []}
+                    outputs={outputs ?? []}
+                    outputValues={schema?.outputValues}
+                    onOutputPositions={onOutputPositions}
+                />
+            </div>
+        )
+    }
+)
