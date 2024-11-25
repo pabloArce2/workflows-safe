@@ -42,15 +42,21 @@ const MainContent = () => {
 
     return (
         <GlobalProvider reactFlowWrapper={reactFlowWrapper}>
-            <AppSidebar />
+            <div className="relative h-screen w-full">
+                <div className="absolute top-0 left-0 h-full z-50">
+                    <AppSidebar />
+                </div>
 
-            <div className="flex flex-grow">
-                {/* <SideNav defaultOpen /> */}
-                <WorkflowLayout>
-                    {/* <Header /> */}
-                    <WorkflowCanvas nodeTypes={nodeTypes} edgeTypes={edgeTypes} wrapperRef={reactFlowWrapper} />
-                    {isOpenNodePanel ? <TabMenu /> : <OpenTabMenuButton />}
-                </WorkflowLayout>
+                <div className="h-full w-full">
+                    <WorkflowLayout>
+                        <WorkflowCanvas
+                            nodeTypes={nodeTypes}
+                            edgeTypes={edgeTypes}
+                            wrapperRef={reactFlowWrapper}
+                        />
+                        {isOpenNodePanel ? <TabMenu /> : <OpenTabMenuButton />}
+                    </WorkflowLayout>
+                </div>
             </div>
         </GlobalProvider>
     )

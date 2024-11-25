@@ -39,6 +39,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     const [inputPositions, setInputPositions] = useState<number[]>([])
     const nodeRef = useRef<HTMLDivElement>(null)
     const [outputPositions, setOutputPositions] = useState<number[]>([])
+    const [trampita, setTrampita] = useState<boolean>(false)
 
     const onClick = (event: any) => {
         event.preventDefault()
@@ -69,21 +70,61 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
         return (schema.inputs && schema.inputs.length > 0) || (schema.outputs && schema.outputs.length > 0)
     }, [schema.inputs, schema.outputs])
 
-    const handleInputPositions = useCallback((positions: number[]) => {
-        if (nodeRef.current) {
-            const nodeRect = nodeRef.current.getBoundingClientRect()
-            const relativePositions = positions.map((pos) => pos - nodeRect.top)
-            setInputPositions(relativePositions)
-        }
-    }, [])
+    const { getNodes, setNodes } = useReactFlow()
 
-    const handleOutputPositions = useCallback((positions: number[]) => {
-        if (nodeRef.current) {
-            const nodeRect = nodeRef.current.getBoundingClientRect()
-            const relativePositions = positions.map((pos) => pos - nodeRect.top)
-            setOutputPositions(relativePositions)
-        }
-    }, [])
+    const handleInputPositions = useCallback(
+        (positions: number[]) => {
+            if (nodeRef.current) {
+                const nodeRect = nodeRef.current.getBoundingClientRect()
+                const relativePositions = positions.map((pos) => pos - nodeRect.top)
+                setInputPositions(relativePositions)
+
+                // Actualizar la data del nodo con las nuevas posiciones
+                setTrampita(!trampita)
+                setNodes((nodes) =>
+                    nodes.map((node) =>
+                        node.id === id
+                            ? {
+                                  ...node,
+                                  data: {
+                                      ...node.data,
+                                      inputPositions: relativePositions,
+                                  },
+                              }
+                            : node
+                    )
+                )
+            }
+        },
+        [id, setNodes]
+    )
+
+    const handleOutputPositions = useCallback(
+        (positions: number[]) => {
+            if (nodeRef.current) {
+                const nodeRect = nodeRef.current.getBoundingClientRect()
+                const relativePositions = positions.map((pos) => pos - nodeRect.top)
+                setOutputPositions(relativePositions)
+
+                // Actualizar la data del nodo con las nuevas posiciones
+                setTrampita(!trampita)
+                setNodes((nodes) =>
+                    nodes.map((node) =>
+                        node.id === id
+                            ? {
+                                  ...node,
+                                  data: {
+                                      ...node.data,
+                                      outputPositions: relativePositions,
+                                  },
+                              }
+                            : node
+                    )
+                )
+            }
+        },
+        [id, setNodes]
+    )
 
     return (
         <div className="flex" ref={nodeRef}>
@@ -96,7 +137,8 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
             />
             <div
                 className={`grid place-content-center bg-node-bg bg-white rounded-md border-[0.5px] transition-all pb-3 
-                    ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"}`}
+                    ${selected ? "shadow-lg border-blue-400" : "shadow-md border-gray-200"} 
+                    ${trampita ? "mt-[1px]" : ""}`}
                 ref={targetRef}
                 onClick={onClick}
             >
