@@ -14,6 +14,8 @@ interface WorkflowContextProps {
     isTabMenuMax: boolean
     setIsTabMenuMax: (state: boolean) => void
     reset: () => void
+    trampita: boolean
+    setTrampita: (state: boolean) => void
 }
 
 // Creating the context with a default value of undefined
@@ -25,11 +27,13 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
     const [selectedTabNodePanel, setSelectedTabNodePanel] = useState<string>("create")
     const [isOpenCustomCode, setIsOpenCustomCode] = useState<boolean>(false)
     const [isTabMenuMax, setIsTabMenuMax] = useState<boolean>(false)
+    const [trampita, setTrampita] = useState<boolean>(false)
 
     const reset = () => {
         setCategories(initialCategories)
         setIsOpenNodePanel(false)
         setSelectedTabNodePanel("create")
+        setTrampita(false)
     }
 
     return (
@@ -46,6 +50,8 @@ export const WorkflowProvider = ({ children }: { children: ReactNode }) => {
                 isTabMenuMax,
                 setIsTabMenuMax,
                 reset,
+                trampita,
+                setTrampita,
             }}
         >
             {children}

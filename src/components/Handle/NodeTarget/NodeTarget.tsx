@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useCallback, useContext, useEffect, useState } from "react"
 import { NodeType, SchemaId } from "@/common/common-types"
 import { BackendContext } from "@/context/BackendContext"
 import { GlobalContext } from "@/context/GlobalNodeState"
@@ -18,8 +18,15 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
     const { schemata } = useContext(BackendContext)
     const [handleCount, setHandleCount] = useState(1)
     const [isTooltipOpen, setIsTooltipOpen] = useState(false)
+    const [trampita, setTrampita] = useState(false)
 
     const schema = schemata.get(schemaId)
+
+    // Wrapper para setHandleCount que también activa la trampita
+    const updateHandleCount = useCallback((newCount: number) => {
+        setHandleCount(newCount)
+        setTrampita((prev) => !prev)
+    }, [])
 
     const positionHandle = (index: number, totalHandles: number) => {
         return `${(100 / (totalHandles + 1)) * (index + 1)}%`
@@ -78,7 +85,7 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
     if (schema.targetType === "variable") {
         return (
             <div
-                className="relative flex flex-col gap-2"
+                className={`relative flex flex-col gap-2 ${trampita ? "mt-[0.5px]" : ""}`}
                 onMouseEnter={() => setIsTooltipOpen(true)}
                 onMouseLeave={() => setIsTooltipOpen(false)}
             >
@@ -92,13 +99,13 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
                     >
                         <button
                             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
-                            onClick={() => setHandleCount((prev) => Math.min(prev + 1, 8))}
+                            onClick={() => updateHandleCount(Math.min(handleCount + 1, 8))}
                         >
                             <Plus size={12} />
                         </button>
                         <button
                             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
-                            onClick={() => setHandleCount((prev) => Math.max(prev - 1, 1))}
+                            onClick={() => updateHandleCount(Math.max(handleCount - 1, 1))}
                         >
                             <Minus size={12} />
                         </button>
