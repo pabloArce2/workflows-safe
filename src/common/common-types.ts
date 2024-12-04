@@ -269,15 +269,29 @@ export interface BackendJsonEdgeInput {
     type: "edge"
     id: string
 }
+
+export interface BackendJsonEdgeOutput {
+    type: "edge"
+    id: string
+}
+
 export interface BackendJsonValueInput {
     type: "value"
     value: InputValue | null
 }
 export type BackendJsonInput = BackendJsonEdgeInput | BackendJsonValueInput
+
+export interface BackendJsonValueOutput {
+    type: "value"
+    value: Output | null
+}
+export type BackendJsonOutput = BackendJsonEdgeOutput | BackendJsonValueOutput
+
 export interface BackendJsonNode {
     id: string
     schemaId: SchemaId
     inputs: BackendJsonInput[]
+    outputs: BackendJsonOutput[]
     nodeType: string
     connectedTo: {
         inputs: string[] // IDs de los nodos de los cuales este nodo recibe datos

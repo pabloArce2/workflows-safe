@@ -10,7 +10,7 @@ import {
     NodeData,
     OutputId,
 } from "../common-types"
-import { ParsedSourceHandle, mapInputValues, parseSourceHandle, parseTargetHandle } from "../util"
+import { ParsedSourceHandle, mapInputValues, mapOutputValues, parseSourceHandle, parseTargetHandle } from "../util"
 
 export const toBackendJson = (
     nodes: readonly Node<NodeData>[],
@@ -38,10 +38,10 @@ export const toBackendJson = (
     })
 
     const convertHandle = (handle: ParsedSourceHandle): BackendJsonEdgeInput => {
-        const schema = nodeSchemaMap.get(handle.nodeId)
-        if (!schema) {
-            throw new Error(`Invalid handle: The node id ${handle.nodeId} is not valid`)
-        }
+        // const schema = nodeSchemaMap.get(handle.nodeId)
+        // if (!schema) {
+        //     throw new Error(`Invalid handle: The node id ${handle.nodeId} is not valid`)
+        // }
 
         /* const index = schema.outputs.findIndex((inOut) => inOut.id === handle.outputId)
         if (index === -1) {
@@ -65,8 +65,8 @@ export const toBackendJson = (
         const sourceH = parseSourceHandle(sourceHandle)
         const targetH = parseTargetHandle(targetHandle)
 
-        ;(inputHandles[targetH.nodeId] ??= {})[targetH.inputId] = convertHandle(sourceH)
-        ;(outputHandles[sourceH.nodeId] ??= {})[sourceH.outputId] = convertHandle(targetH)
+        ;(inputHandles[targetH.nodeId] ??= {})[targetH.nodeId] = convertHandle(sourceH)
+        ;(outputHandles[sourceH.nodeId] ??= {})[sourceH.nodeId] = convertHandle(targetH)
     })
 
     const result: BackendJsonNode[] = []
@@ -76,7 +76,6 @@ export const toBackendJson = (
         const { id, data, type: nodeType } = element
         const { schemaId, inputs, outputs } = data
         const schema = schemata.get(schemaId)
-        // console.log(inputs)
 
         if (!nodeType) {
             throw new Error(
@@ -98,19 +97,33 @@ export const toBackendJson = (
                             inputs.find((input: { inputId: InputId }) => input.inputId === inputId)?.value ?? null,
                     }
             ),
-            // outputs: mapInputValues<BackendJsonInput>(
-            //     schema,
-            //     (outputId) =>
-            //         outputHandles[id]?.[outputId] ?? {
-            //             outputId: outputId,
-            //             type: "value",
-            //             value: null,
-            //         }
-            // ),
+            outputs: mapOutputValues<BackendJsonInput>(
+                schema,
+                (outputId) =>
+                    outputHandles[id]?.[outputId] ?? {
+                        outputId: outputId,
+                        type: "value",
+                        value:
+                            outputs.find((output: { outputId: OutputId }) => output.outputId === outputId)
+                                ?.value ?? null,
+                    }
+            ),
             nodeType,
             connectedTo: {
-                inputs: connectionsDetail[element.id].inputs,
-                outputs: connectionsDetail[element.id].outputs,
+                inputs: edges
+                    .filter((edge) => edge.target === id)
+                    .map((edge) => ({
+                        source: edge.source,
+                        sourceHandle: parseSourceHandle(edge.sourceHandle) ?? edge.sourceHandle,
+                        targetHandle: parseTargetHandle(edge.targetHandle) ?? edge.targetHandle,
+                    })),
+                outputs: edges
+                    .filter((edge) => edge.source === id)
+                    .map((edge) => ({
+                        target: edge.target,
+                        sourceHandle: parseSourceHandle(edge.sourceHandle) ?? edge.sourceHandle,
+                        targetHandle: parseTargetHandle(edge.targetHandle) ?? edge.targetHandle,
+                    })),
             },
         })
     })

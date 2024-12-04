@@ -1,5 +1,5 @@
-import { EdgeData, InputData, Mutable, NodeData, NodeType } from "@/common/common-types"
 import { SchemaMap } from "@/common/SchemaMap"
+import { EdgeData, InputData, Mutable, NodeData, NodeType } from "@/common/common-types"
 import { createUniqueId, deepCopy } from "@/common/util"
 import { Edge, Node, XYPosition } from "reactflow"
 

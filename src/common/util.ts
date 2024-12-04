@@ -12,24 +12,40 @@ export const deepCopy = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as
 export const createUniqueId = () => nanoid()
 
 export const mapInputValues = <T>(schema: NodeSchema, getValue: (inputId: InputId) => T): T[] =>
-  schema.inputs.map((input) => getValue(input.id))
+    schema.inputs.map((input) => getValue(input.id))
+
+export const mapOutputValues = <T>(schema: NodeSchema, getValue: (outputId: OutputId) => T): T[] =>
+    schema.outputs.map((output) => getValue(output.id))
+
 export interface ParsedSourceHandle {
-  nodeId: string
+    nodeId: string
 }
 export interface ParsedTargetHandle {
-  nodeId: string
+    nodeId: string
 }
 
 export const parseSourceHandle = (handle: string): ParsedSourceHandle => {
-  return {
-    nodeId: handle.substring(0, 21),
-  }
+    const cleanHandle =
+        handle.endsWith("-source") || handle.endsWith("-target")
+            ? handle.slice(0, -7) // -7 es la longitud de '-source'
+            : handle
+
+    return {
+        nodeId: cleanHandle,
+    }
 }
+
 export const parseTargetHandle = (handle: string): ParsedTargetHandle => {
-  return {
-    nodeId: handle.substring(0, 21),
-  }
+    const cleanHandle =
+        handle.endsWith("-target") || handle.endsWith("-source")
+            ? handle.slice(0, -7) // -7 es la longitud de '-target'
+            : handle
+
+    return {
+        nodeId: cleanHandle,
+    }
 }
+
 export const stringifySourceHandle = (handle: ParsedSourceHandle): string => `${handle.nodeId}-source`
 export const stringifyTargetHandle = (handle: ParsedTargetHandle): string => `${handle.nodeId}-target`
 
@@ -37,29 +53,29 @@ export function groupBy<T, K extends keyof T>(iter: Iterable<T>, key: K): Map<T[
 export function groupBy<T, K>(iter: Iterable<T>, selector: (item: T) => K): Map<K, T[]>
 // eslint-disable-next-line prefer-arrow-functions/prefer-arrow-functions
 export function groupBy<T>(iter: Iterable<T>, key: keyof T | ((item: T) => unknown)): Map<unknown, T[]> {
-  const map = new Map<unknown, T[]>()
+    const map = new Map<unknown, T[]>()
 
-  if (typeof key === "function") {
-    for (const item of iter) {
-      const k = key(item)
-      let list = map.get(k)
-      if (list === undefined) {
-        list = []
-        map.set(k, list)
-      }
-      list.push(item)
+    if (typeof key === "function") {
+        for (const item of iter) {
+            const k = key(item)
+            let list = map.get(k)
+            if (list === undefined) {
+                list = []
+                map.set(k, list)
+            }
+            list.push(item)
+        }
+    } else {
+        for (const item of iter) {
+            const k = item[key]
+            let list = map.get(k)
+            if (list === undefined) {
+                list = []
+                map.set(k, list)
+            }
+            list.push(item)
+        }
     }
-  } else {
-    for (const item of iter) {
-      const k = item[key]
-      let list = map.get(k)
-      if (list === undefined) {
-        list = []
-        map.set(k, list)
-      }
-      list.push(item)
-    }
-  }
 
-  return map
+    return map
 }
