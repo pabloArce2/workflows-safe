@@ -71,16 +71,23 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     }, [schema.inputs, schema.outputs])
 
     const { getNodes, setNodes } = useReactFlow()
+    const { getZoom } = useReactFlow()
 
     const handleInputPositions = useCallback(
         (positions: number[]) => {
             if (nodeRef.current) {
                 const nodeRect = nodeRef.current.getBoundingClientRect()
-                const relativePositions = positions.map((pos) => pos - nodeRect.top)
-                setInputPositions(relativePositions)
+                const zoom = getZoom()
 
-                // Actualizar la data del nodo con las nuevas posiciones
+                // Convertir posiciones a porcentajes relativos al alto del nodo
+                const relativePositions = positions.map((pos) => {
+                    const relativePos = ((pos - nodeRect.top) / nodeRect.height) * 100
+                    return `${relativePos}%`
+                })
+
+                setInputPositions(relativePositions)
                 setTrampita(!trampita)
+
                 setNodes((nodes) =>
                     nodes.map((node) =>
                         node.id === id
@@ -96,18 +103,24 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                 )
             }
         },
-        [id, setNodes]
+        [id, setNodes, getZoom]
     )
 
     const handleOutputPositions = useCallback(
         (positions: number[]) => {
             if (nodeRef.current) {
                 const nodeRect = nodeRef.current.getBoundingClientRect()
-                const relativePositions = positions.map((pos) => pos - nodeRect.top)
-                setOutputPositions(relativePositions)
+                const zoom = getZoom()
 
-                // Actualizar la data del nodo con las nuevas posiciones
+                // Convertir posiciones a porcentajes relativos al alto del nodo
+                const relativePositions = positions.map((pos) => {
+                    const relativePos = ((pos - nodeRect.top) / nodeRect.height) * 100
+                    return `${relativePos}%`
+                })
+
+                setOutputPositions(relativePositions)
                 setTrampita(!trampita)
+
                 setNodes((nodes) =>
                     nodes.map((node) =>
                         node.id === id
@@ -123,7 +136,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                 )
             }
         },
-        [id, setNodes]
+        [id, setNodes, getZoom]
     )
 
     return (

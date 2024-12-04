@@ -35,7 +35,7 @@ export const aiNode: NodeSchema = {
         },
 
         {
-            id: "model-name" as InputId,
+            id: "class-name" as InputId,
             type: "string",
             label: "Clases",
             kind: "dropdown",
