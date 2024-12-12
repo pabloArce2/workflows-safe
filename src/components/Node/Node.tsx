@@ -36,9 +36,9 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
     const { selectNode, removeNodesById } = useContext(GlobalContext)
 
     const targetRef = useRef<HTMLDivElement>(null)
-    const [inputPositions, setInputPositions] = useState<number[]>([])
+    const [inputPositions, setInputPositions] = useState<string[]>([])
     const nodeRef = useRef<HTMLDivElement>(null)
-    const [outputPositions, setOutputPositions] = useState<number[]>([])
+    const [outputPositions, setOutputPositions] = useState<string[]>([])
     const [trampita, setTrampita] = useState<boolean>(false)
 
     const onClick = (event: any) => {

@@ -17,6 +17,7 @@ import { Node } from "@/components/Node/Node"
 import OpenTabMenuButton from "./components/TabMenu/OpenTabMenuButton"
 import TabMenu from "./components/TabMenu/TabMenu"
 import WorkflowCanvas from "./components/WorkflowCanvas/WorkflowCanvas"
+import { Toaster } from "@/components/ui/Toast/Toaster"
 
 // Define node and edge types
 const nodeTypes: NodeTypes & Record<NodeType, unknown> = {
@@ -74,6 +75,7 @@ export default function WorkflowPage() {
                         <WorkflowProvider>
                             <SidebarProvider defaultOpen={false}>
                                 <MainContent />
+                                <Toaster />
                             </SidebarProvider>
                         </WorkflowProvider>
                     </ReactFlowProvider>
