@@ -19,7 +19,7 @@ interface NodeBodyProps {
 export const NodeBody = memo(
     ({ inputs, outputs, className, schema, onInputPositions, onOutputPositions }: NodeBodyProps) => {
         return (
-            <div className={`flex flex-col gap-3 pt-2 w-fit ${className}`}>
+            <div className={`flex flex-col gap-3 pt-2 w-fit max-w-[400px] ${className}`}>
                 <NodeInputs
                     className="px-4"
                     inputsSchema={schema?.inputs ?? []}
