@@ -18,30 +18,13 @@ export const filterNode: NodeSchema = {
     outputValues: ["detections"],
 
     inputs: [
-        // {
-        //     id: "input-detections" as InputId,
-        //     type: "array",
-        //     kind: "detections",
-        //     origin: "entry",
-        //     list: "detections",
-        //     label: "Detecciones",
-        //     optional: false,
-        //     groups: [],
-        // },
         {
             id: "input-detections" as InputId,
-            type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
-            kind: "dropdown", // Indica que es un dropdown.
+            type: "string",
+            kind: "generic",
             origin: "entry",
             label: "Detecciones",
             optional: false,
-            options: [
-                { option: "DeteccionesV01", value: "DeteccionesV01", type: "string" },
-                { option: "DeteccionesV02", value: "DeteccionesV02", type: "string" },
-                { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
-            ],
-            preferredStyle: "dropdown",
-            groups: [],
         },
         {
             id: "input-filter-type" as InputId,

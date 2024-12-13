@@ -17,31 +17,14 @@ export const distanceNode: NodeSchema = {
     outputValues: ["detections"],
 
     inputs: [
-        // {
-        //     id: "input-primary-detections" as InputId,
-        //     type: "array",
-        //     kind: "detections",
-        //     origin: "entry",
-        //     label: "Detecciones primarias",
-        //     optional: false,
-        //     groups: [],
-        // },
         {
             id: "input-detections1" as InputId,
-            type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
-            kind: "dropdown", // Indica que es un dropdown.
+            type: "string",
+            kind: "generic",
             origin: "entry",
-            label: "Detecciones",
+            label: "Detecciones 1",
             optional: false,
-            options: [
-                { option: "DeteccionesV01", value: "DeteccionesV01", type: "string" },
-                { option: "DeteccionesV02", value: "DeteccionesV02", type: "string" },
-                { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
-            ],
-            preferredStyle: "dropdown",
-            groups: [],
         },
-
         {
             id: "input-operator" as InputId,
             type: "string",
@@ -51,31 +34,13 @@ export const distanceNode: NodeSchema = {
             optional: false,
             groups: [],
         },
-        // {
-        //     id: "input-secondary-detections" as InputId,
-        //     type: "array",
-        //     kind: "detections",
-        //     origin: "entry",
-        //     label: "Detecciones secundarias",
-        //     optional: false,
-        //     groups: [],
-        // },
         {
             id: "input-detections2" as InputId,
-            type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
-            kind: "dropdown", // Indica que es un dropdown.
+            type: "string",
+            kind: "generic",
             origin: "entry",
-            label: "Detecciones",
+            label: "Detecciones 2",
             optional: false,
-            options: [
-                { option: "DeteccionesV01", value: "DeteccionesV01", type: "string" },
-                { option: "DeteccionesV02", value: "DeteccionesV02", type: "string" },
-                { option: "DeteccionesV03", value: "DeteccionesV03", type: "string" },
-            ],
-            preferredStyle: "dropdown",
-            addMore: true, // Indica que se pueden agregar más listas de detecciones.
-            hideLabel: false,
-            groups: [],
         },
         {
             id: "input-distance-threshold" as InputId,

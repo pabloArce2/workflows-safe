@@ -18,20 +18,11 @@ export const aiNode: NodeSchema = {
     inputs: [
         {
             id: "camera-name" as InputId,
-            type: "string", // Cambiado a "string" porque ahora es un dropdown de texto.
-            kind: "dropdown", // Indica que es un dropdown.
+            type: "string",
+            kind: "generic",
             origin: "entry",
             label: "Nombre de la cámara",
             optional: false,
-            options: [
-                { option: "Camara01", value: "Camara01", type: "string" },
-                { option: "Camara02", value: "Camara02", type: "string" },
-                { option: "Camara03", value: "Camara03", type: "string" },
-            ],
-            preferredStyle: "dropdown",
-            // allowMultiple: true, // Indica que se pueden seleccionar múltiples opciones.
-            // hideLabel: false,
-            groups: [],
         },
     ],
     outputs: [

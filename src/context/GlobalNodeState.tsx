@@ -343,6 +343,16 @@ export const GlobalProvider = memo(
                 if (!source || !target) {
                     return
                 }
+
+                // Obtenemos los IDs puros sin los sufijos
+                const pureSourceHandle = sourceHandle?.slice(0, -7) // quitar "-source"
+                const pureTargetHandle = targetHandle?.slice(0, -7) // quitar "-target"
+
+                // Si el targetHandle empieza por el ID del nodo target, no es un input de tipo entry
+                if (targetHandle?.startsWith(target)) {
+                    return
+                }
+
                 const id = createUniqueId()
                 const newEdge: Edge<EdgeData> = {
                     id,
@@ -354,9 +364,46 @@ export const GlobalProvider = memo(
                     animated: false,
                     data: {},
                 }
+
+                // Primero creamos la conexión
                 changeEdges((edges) => [...edges.filter((edge) => edge.targetHandle !== targetHandle), newEdge])
+
+                // Luego actualizamos el valor del input target con el valor del output source
+                changeNodes((nodes) => {
+                    // Encontrar el nodo source y su output
+                    const sourceNode = nodes.find(node => node.id === source)
+                    const sourceOutput = sourceNode?.data.outputs?.find(
+                        output => output.outputId === pureSourceHandle
+                    )
+
+                    if (!sourceOutput) return nodes
+
+                    // Encontrar y actualizar el nodo target
+                    const targetNode = nodes.find(node => node.id === target)
+                    if (!targetNode) return nodes
+
+                    // Crear el nuevo array de nodos con la actualización
+                    return nodes.map(node => 
+                        node.id === target 
+                            ? {
+                                ...node,
+                                data: {
+                                    ...node.data,
+                                    inputs: [
+                                        ...(node.data.inputs || []).filter(input => input.inputId !== pureTargetHandle),
+                                        {
+                                            inputId: pureTargetHandle,
+                                            type: "value",
+                                            value: sourceOutput.value
+                                        }
+                                    ]
+                                }
+                            }
+                            : node
+                    )
+                })
             },
-            [changeEdges]
+            [changeEdges, changeNodes]
         )
 
         const createEdge = useCallback(
