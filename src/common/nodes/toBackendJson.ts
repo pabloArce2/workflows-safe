@@ -74,8 +74,9 @@ export const toBackendJson = (
     // Set up each node in the result
     nodes.forEach((element) => {
         const { id, data, type: nodeType } = element
-        const { schemaId, inputs, outputs } = data
+        const { schemaId, inputs, outputs, node_name } = data
         const schema = schemata.get(schemaId)
+
 
         if (!nodeType) {
             throw new Error(
@@ -87,6 +88,7 @@ export const toBackendJson = (
         result.push({
             id,
             schemaId,
+            nodeName: element.node_name,
             inputs: mapInputValues<BackendJsonInput>(
                 schema,
                 (inputId) =>

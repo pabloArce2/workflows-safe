@@ -45,10 +45,12 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
     }
 
     if (schema.targetType === "single") {
+        const input = schema.inputs[0] // Tomamos el primer input
         return (
             <div className="relative flex flex-col items-center">
                 <TargetHandle
-                    id={id}
+                    key={input.id}
+                    id={input.id} // Usamos el ID del input
                     nodeType={schema.nodeType}
                     selected={selected}
                     style={{
@@ -68,7 +70,7 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
                 {entryInputs.map((input, index) => (
                     <TargetHandle
                         key={input.id}
-                        id={`${input.id}`}
+                        id={input.id} // Ya estaba correcto
                         nodeType={schema.nodeType}
                         style={{
                             position: "absolute",
@@ -113,19 +115,22 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
                 )}
 
                 <div className="relative flex flex-col items-center" style={{ height: "100%" }}>
-                    {Array.from({ length: handleCount }, (_, index) => (
-                        <TargetHandle
-                            key={`${id}-entry-${index + 1}`}
-                            id={`${id}-entry-${index + 1}`}
-                            nodeType={schema.nodeType}
-                            style={{
-                                position: "absolute",
-                                top: inputPositions[index] || positionHandle(index, handleCount),
-                                transform: "translateY(-50%)",
-                            }}
-                            selected={selected}
-                        />
-                    ))}
+                    {Array.from({ length: handleCount }, (_, index) => {
+                        const inputId = `input-${index + 1}` // Generamos un ID consistente
+                        return (
+                            <TargetHandle
+                                key={inputId}
+                                id={inputId}
+                                nodeType={schema.nodeType}
+                                style={{
+                                    position: "absolute",
+                                    top: inputPositions[index] || positionHandle(index, handleCount),
+                                    transform: "translateY(-50%)",
+                                }}
+                                selected={selected}
+                            />
+                        )
+                    })}
                 </div>
             </div>
         )

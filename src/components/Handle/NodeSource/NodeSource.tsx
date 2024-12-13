@@ -37,10 +37,12 @@ const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeS
     }
 
     if (schema.sourceType === "single") {
+        const output = schema.outputs[0]
         return (
             <div className="relative flex flex-col items-center">
                 <SourceHandle
-                    id={id}
+                    key={output?.id || id}
+                    id={output?.id || id}
                     nodeType={schema.nodeType}
                     selected={selected}
                     style={{
@@ -59,7 +61,7 @@ const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeS
                 {schema.outputs.map((output, index) => (
                     <SourceHandle
                         key={output.id}
-                        id={`${output.id}`}
+                        id={output.id}
                         nodeType={schema.nodeType}
                         style={{
                             position: "absolute",
@@ -104,19 +106,22 @@ const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeS
                 )}
 
                 <div className="relative flex flex-col items-center" style={{ height: "100%" }}>
-                    {Array.from({ length: handleCount }, (_, index) => (
-                        <SourceHandle
-                            key={index}
-                            id={`${id}-${index + 1}`}
-                            nodeType={schema.nodeType}
-                            style={{
-                                position: "absolute",
-                                top: outputPositions[index] || positionHandle(index, handleCount),
-                                transform: "translateY(-50%)",
-                            }}
-                            selected={selected}
-                        />
-                    ))}
+                    {Array.from({ length: handleCount }, (_, index) => {
+                        const outputId = schema.outputs[index]?.id || `${id}-output-${index + 1}`
+                        return (
+                            <SourceHandle
+                                key={outputId}
+                                id={outputId}
+                                nodeType={schema.nodeType}
+                                style={{
+                                    position: "absolute",
+                                    top: outputPositions[index] || positionHandle(index, handleCount),
+                                    transform: "translateY(-50%)",
+                                }}
+                                selected={selected}
+                            />
+                        )
+                    })}
                 </div>
             </div>
         )

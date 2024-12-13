@@ -16,16 +16,26 @@ export const createNode = (
     selected = false,
     nodeNumber: number
 ): Node<NodeData> => {  
+    const nodeName = data.schemaId + "-" + (nodeNumber + 1)
+    const schema = schemata.get(data.schemaId)
+
+    // Crear outputs por defecto basados en el schema
+    const defaultOutputs = schema.outputs.map(output => ({
+        outputId: output.id,
+        type: "value",
+        value: `${nodeName}-${output.id}` // Combinamos el nombre del nodo con el id del output
+    }))
 
     const newNode: Node<Mutable<NodeData>> = {
         type: nodeType,
-        node_name: data.schemaId + "-" + (nodeNumber + 1),
+        node_name: nodeName,
         id,
         position: { ...position },
         data: {
             ...data,
             id,
             inputData: data.inputData ?? schemata.getDefaultInput(data.schemaId),
+            outputs: defaultOutputs, // Añadimos los outputs por defecto
         },
         selected,
     }
