@@ -43,6 +43,7 @@ const CreateNode = () => {
     }, [searchedNode, categories.categories, byCategories])
 
     function downloadJson(jsonData: BackendJsonNode[], filename: string) {
+
         try {
             const jsonString = JSON.stringify(jsonData, null, 2)
             const blob = new Blob([jsonString], { type: "application/json" })

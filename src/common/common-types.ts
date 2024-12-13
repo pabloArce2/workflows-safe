@@ -35,7 +35,6 @@ export type OutputTypes = Readonly<Partial<Record<OutputId, ExpressionJson | nul
 export interface NodeSchema {
     readonly schemaId: SchemaId
     readonly name: string
-    readonly var_name?: string
     readonly category: any
     readonly nodeGroup: NodeGroupId
     readonly description: string
@@ -57,6 +56,7 @@ export interface NodeSchema {
 
 export interface NodeData {
     readonly id: string
+    readonly node_name: string
     readonly schemaId: SchemaId
     readonly inputData: InputData
     readonly inputs: Input[]

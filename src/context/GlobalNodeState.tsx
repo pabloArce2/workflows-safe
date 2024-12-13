@@ -105,7 +105,7 @@ export const GlobalProvider = memo(
         } = useReactFlow<NodeData, EdgeData>()
 
         const currentViewport = useViewport()
-        const currentReactFlowInstance = useReactFlow()
+        const currentReactFlowInstance = useReactFlow()        
 
         const setNodesRef = useRef<SetState<Node<NodeData>[]>>(rfSetNodes)
         const setEdgesRef = useRef<SetState<Edge<EdgeData>[]>>(rfSetEdges)
@@ -331,7 +331,7 @@ export const GlobalProvider = memo(
         const createNode = useCallback(
             (proto: NodeProto): void => {
                 changeNodes((nodes) => {
-                    const newNode = createNodeImpl(proto, schemata, true)
+                    const newNode = createNodeImpl(proto, schemata, true, getNodes().length)
                     return [...nodes.map((n) => (n.selected ? { ...n, selected: false } : n)), newNode]
                 })
             },
@@ -726,8 +726,6 @@ export const GlobalProvider = memo(
 
                 const schema = schemata.get(node.data.schemaId)
                 if (!schema) return
-
-                console.log(node.data.inputs)
 
                 // Mantener los inputs que no son de tipo entry
                 const nonEntryInputs = node.data.inputs.filter(

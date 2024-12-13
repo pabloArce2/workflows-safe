@@ -13,10 +13,13 @@ export interface NodeProto {
 export const createNode = (
     { id = createUniqueId(), position, data, nodeType }: NodeProto,
     schemata: SchemaMap,
-    selected = false
-): Node<NodeData> => {
+    selected = false,
+    nodeNumber: number
+): Node<NodeData> => {  
+
     const newNode: Node<Mutable<NodeData>> = {
         type: nodeType,
+        node_name: data.schemaId + "-" + (nodeNumber + 1),
         id,
         position: { ...position },
         data: {

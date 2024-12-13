@@ -33,29 +33,6 @@ export const aiNode: NodeSchema = {
             // hideLabel: false,
             groups: [],
         },
-
-        {
-            id: "class-name" as InputId,
-            type: "string",
-            label: "Clases",
-            kind: "dropdown",
-            origin: "parameter",
-            optional: false,
-            options: [
-                { option: "persona", value: "persona", type: "string" },
-                { option: "perro", value: "perro", type: "string" },
-                { option: "gato", value: "gato", type: "string" },
-                { option: "árbol", value: "árbol", type: "string" },
-                { option: "coche", value: "coche", type: "string" },
-                { option: "bicicleta", value: "bicicleta", type: "string" },
-                { option: "casa", value: "casa", type: "string" },
-                { option: "pájaro", value: "pájaro", type: "string" },
-                { option: "flor", value: "flor", type: "string" },
-                { option: "mesa", value: "mesa", type: "string" },
-            ],
-            preferredStyle: "dropdown",
-            groups: [],
-        },
     ],
     outputs: [
         {
