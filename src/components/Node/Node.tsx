@@ -17,7 +17,7 @@ import { Icons } from "../Icons"
 import { Separator } from "../ui/Separator/Separator"
 import { NodeBody } from "./NodeBody/NodeBody"
 import { NodeFooter } from "./NodeFooter/NodeFooter"
-import { NodeHeader } from "./NodeHeader"
+import { NodeHeader } from "./NodeHeader/NodeHeader"
 
 export const Node = observer(({ data, selected }: NodeProps) => <NodeInner data={data} selected={selected} />)
 

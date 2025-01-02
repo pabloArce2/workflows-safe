@@ -2,8 +2,9 @@ import { memo, useState } from "react"
 import { interpolateColor } from "@/helpers/colorTools"
 import { LucideIcon } from "lucide-react"
 
-import { Icons } from "../Icons"
-import { Separator } from "../ui/Separator/Separator"
+import { Separator } from "@/components/ui/Separator/Separator"
+
+import { Icons } from "../../Icons"
 
 interface NodeHeaderProps {
     className?: string
