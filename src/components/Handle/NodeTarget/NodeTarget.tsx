@@ -11,7 +11,7 @@ export interface NodeTargetProps {
     nodeType: NodeType
     selected: boolean
     schemaId: SchemaId
-    inputPositions: number[]
+    inputPositions: string[]
 }
 
 const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTargetProps) => {
@@ -32,13 +32,10 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
         return `${(100 / (totalHandles + 1)) * (index + 1)}%`
     }
 
-    // Calcula la posición media de los handles
-    const getButtonsPosition = () => {
+    const getButtonsPosition = useCallback(() => {
         if (inputPositions.length === 0) return "50%"
-        const firstPos = inputPositions[0] || 0
-        const lastPos = inputPositions[inputPositions.length - 1] || 0
-        return `${(firstPos + lastPos) / 2}px`
-    }
+        return `${inputPositions[0]}`
+    }, [inputPositions])
 
     if (schema.targetType === "none" || schema.nodeType === "onlySource") {
         return null

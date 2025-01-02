@@ -10,7 +10,7 @@ export interface NodeSourceProps {
     nodeType: NodeType
     selected: boolean
     schemaId: SchemaId
-    outputPositions: number[]
+    outputPositions: string[]
 }
 
 const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeSourceProps) => {
@@ -27,9 +27,7 @@ const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeS
     // Calcula la posición media de los handles
     const getButtonsPosition = () => {
         if (outputPositions.length === 0) return "50%"
-        const firstPos = outputPositions[0] || 0
-        const lastPos = outputPositions[outputPositions.length - 1] || 0
-        return `${(firstPos + lastPos) / 2}px`
+        return `${outputPositions[0]}`
     }
 
     if (schema.sourceType === "none" || schema.nodeType === "onlyTarget") {
