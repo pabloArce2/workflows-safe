@@ -147,6 +147,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                 selected={selected}
                 schemaId={schemaId}
                 inputPositions={inputPositions}
+                setTrampita={setTrampita}
             />
             <div
                 className={`grid place-content-center bg-node-bg bg-white rounded-md border-[0.5px] transition-all pb-3 
@@ -201,6 +202,7 @@ const NodeInner = memo(({ data, selected }: NodeProps) => {
                 selected={selected}
                 schemaId={schemaId}
                 outputPositions={outputPositions}
+                setTrampita={setTrampita}
             />
         </div>
     )

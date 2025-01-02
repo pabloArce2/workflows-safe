@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react"
+import { Dispatch, SetStateAction, useCallback, useContext, useEffect, useState } from "react"
 import { NodeType, SchemaId } from "@/common/common-types"
 import { BackendContext } from "@/context/BackendContext"
 import { GlobalContext } from "@/context/GlobalNodeState"
@@ -12,13 +12,13 @@ export interface NodeTargetProps {
     selected: boolean
     schemaId: SchemaId
     inputPositions: string[]
+    setTrampita: Dispatch<SetStateAction<boolean>>
 }
 
-const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTargetProps) => {
+const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions, setTrampita }: NodeTargetProps) => {
     const { schemata } = useContext(BackendContext)
     const [handleCount, setHandleCount] = useState(1)
     const [isTooltipOpen, setIsTooltipOpen] = useState(false)
-    const [trampita, setTrampita] = useState(false)
 
     const schema = schemata.get(schemaId)
 
@@ -84,7 +84,7 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions }: NodeTa
     if (schema.targetType === "variable") {
         return (
             <div
-                className={`relative flex flex-col gap-2 ${trampita ? "mt-[0.5px]" : ""}`}
+                className={`relative flex flex-col gap-2`}
                 onMouseEnter={() => setIsTooltipOpen(true)}
                 onMouseLeave={() => setIsTooltipOpen(false)}
             >

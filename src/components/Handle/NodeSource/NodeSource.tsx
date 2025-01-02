@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { Dispatch, SetStateAction, useCallback, useContext, useState } from "react"
 import { NodeType, SchemaId } from "@/common/common-types"
 import { BackendContext } from "@/context/BackendContext"
 import { Minus, Plus } from "lucide-react"
@@ -11,9 +11,10 @@ export interface NodeSourceProps {
     selected: boolean
     schemaId: SchemaId
     outputPositions: string[]
+    setTrampita: Dispatch<SetStateAction<boolean>>
 }
 
-const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeSourceProps) => {
+const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions, setTrampita }: NodeSourceProps) => {
     const { schemata } = useContext(BackendContext)
     const [handleCount, setHandleCount] = useState(1)
     const [isTooltipOpen, setIsTooltipOpen] = useState(false)
@@ -23,6 +24,11 @@ const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeS
     const positionHandle = (index: number, totalHandles: number) => {
         return `${(100 / (totalHandles + 1)) * (index + 1)}%`
     }
+
+    const updateHandleCount = useCallback((newCount: number) => {
+        setHandleCount(newCount)
+        setTrampita((prev) => !prev)
+    }, [])
 
     // Calcula la posición media de los handles
     const getButtonsPosition = () => {
@@ -90,13 +96,13 @@ const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions }: NodeS
                     >
                         <button
                             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
-                            onClick={() => setHandleCount((prev) => Math.min(prev + 1, 6))}
+                            onClick={() => updateHandleCount(Math.min(handleCount + 1, 8))}
                         >
                             <Plus size={12} />
                         </button>
                         <button
                             className="p-1 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors"
-                            onClick={() => setHandleCount((prev) => Math.max(prev - 1, 1))}
+                            onClick={() => updateHandleCount(Math.max(handleCount - 1, 1))}
                         >
                             <Minus size={12} />
                         </button>
