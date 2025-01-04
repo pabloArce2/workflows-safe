@@ -290,11 +290,28 @@ export type BackendJsonOutput = BackendJsonEdgeOutput | BackendJsonValueOutput
 export interface BackendJsonNode {
     id: string
     schemaId: SchemaId
+    nodeName: string
     inputs: BackendJsonInput[]
     outputs: BackendJsonOutput[]
     nodeType: string
     connectedTo: {
-        inputs: string[] // IDs de los nodos de los cuales este nodo recibe datos
-        outputs: string[] // IDs de los nodos a los que este nodo envía datos
+        inputs: {
+            source: string
+            sourceHandle: {
+                handleId: string
+            }
+            targetHandle: {
+                handleId: string
+            }
+        }[]
+        outputs: {
+            target: string
+            sourceHandle: {
+                handleId: string
+            }
+            targetHandle: {
+                handleId: string
+            }
+        }[]
     }
 }

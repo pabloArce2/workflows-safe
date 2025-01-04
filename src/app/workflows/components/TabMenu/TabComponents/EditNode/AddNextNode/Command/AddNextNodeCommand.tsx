@@ -70,7 +70,7 @@ const AddNextNodeCommand = () => {
             source: connectingFrom.nodeId,
             sourceHandle: connectingFrom.handleId,
             target: nodeId,
-            targetHandle: stringifyTargetHandle({ nodeId }),
+            targetHandle: stringifyTargetHandle({ handleId: nodeId }),
         })
     }, [createNode, createConnection, getNodes, nodeSchema])
 

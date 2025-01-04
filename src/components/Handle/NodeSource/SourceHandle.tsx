@@ -19,7 +19,7 @@ export const SourceHandle = ({ id, nodeType, selected, style }: SourceHandleProp
 
     const [connectingFrom] = useConnectingFrom
 
-    const sourceHandle = stringifySourceHandle({ nodeId: id })
+    const sourceHandle = stringifySourceHandle({ handleId: id })
 
     // Actualización: La lógica para determinar si una conexión es válida ahora es simplificada.
     const isValidConnectionForRf = useCallback(

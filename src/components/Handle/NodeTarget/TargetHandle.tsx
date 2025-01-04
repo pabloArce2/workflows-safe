@@ -20,8 +20,8 @@ export const TargetHandle = ({ id, nodeType, selected, className, style }: Targe
 
     const [connectingFrom] = useConnectingFrom
 
-    const sourceHandle = stringifySourceHandle({ nodeId: id })
-    const targetHandle = stringifyTargetHandle({ nodeId: id })
+    const sourceHandle = stringifySourceHandle({ handleId: id })
+    const targetHandle = stringifyTargetHandle({ handleId: id })
 
     // Actualización: La lógica para determinar si una conexión es válida ahora es simplificada.
     const isValidConnectionForRf = useCallback(
@@ -49,7 +49,7 @@ export const TargetHandle = ({ id, nodeType, selected, className, style }: Targe
             target: id,
             targetHandle,
         })
-    }, [connectingFrom, id, targetHandle, isValidConnection])
+    }, [connectingFrom, id, targetHandle, sourceHandle, isValidConnection])
 
     return (
         <Handle

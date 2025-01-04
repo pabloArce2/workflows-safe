@@ -42,6 +42,7 @@ const NodeSource = ({ id, nodeType, selected, schemaId, outputPositions, setTram
 
     if (schema.sourceType === "single") {
         const output = schema.outputs[0]
+
         return (
             <div className="relative flex flex-col items-center">
                 <SourceHandle

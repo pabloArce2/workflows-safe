@@ -18,10 +18,10 @@ export const mapOutputValues = <T>(schema: NodeSchema, getValue: (outputId: Outp
     schema.outputs.map((output) => getValue(output.id))
 
 export interface ParsedSourceHandle {
-    nodeId: string
+    handleId: string
 }
 export interface ParsedTargetHandle {
-    nodeId: string
+    handleId: string
 }
 
 export const parseSourceHandle = (handle: string): ParsedSourceHandle => {
@@ -31,7 +31,7 @@ export const parseSourceHandle = (handle: string): ParsedSourceHandle => {
             : handle
 
     return {
-        nodeId: cleanHandle,
+        handleId: cleanHandle,
     }
 }
 
@@ -42,12 +42,12 @@ export const parseTargetHandle = (handle: string): ParsedTargetHandle => {
             : handle
 
     return {
-        nodeId: cleanHandle,
+        handleId: cleanHandle,
     }
 }
 
-export const stringifySourceHandle = (handle: ParsedSourceHandle): string => `${handle.nodeId}-source`
-export const stringifyTargetHandle = (handle: ParsedTargetHandle): string => `${handle.nodeId}-target`
+export const stringifySourceHandle = (handle: ParsedSourceHandle): string => `${handle.handleId}-source`
+export const stringifyTargetHandle = (handle: ParsedTargetHandle): string => `${handle.handleId}-target`
 
 export function groupBy<T, K extends keyof T>(iter: Iterable<T>, key: K): Map<T[K], T[]>
 export function groupBy<T, K>(iter: Iterable<T>, selector: (item: T) => K): Map<K, T[]>

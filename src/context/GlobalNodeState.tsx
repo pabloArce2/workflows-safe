@@ -105,7 +105,7 @@ export const GlobalProvider = memo(
         } = useReactFlow<NodeData, EdgeData>()
 
         const currentViewport = useViewport()
-        const currentReactFlowInstance = useReactFlow()        
+        const currentReactFlowInstance = useReactFlow()
 
         const setNodesRef = useRef<SetState<Node<NodeData>[]>>(rfSetNodes)
         const setEdgesRef = useRef<SetState<Edge<EdgeData>[]>>(rfSetEdges)
@@ -349,9 +349,9 @@ export const GlobalProvider = memo(
                 const pureTargetHandle = targetHandle?.slice(0, -7) // quitar "-target"
 
                 // Si el targetHandle empieza por el ID del nodo target, no es un input de tipo entry
-                if (targetHandle?.startsWith(target)) {
+                /*if (targetHandle?.startsWith(target)) {
                     return
-                }
+                }*/
 
                 const id = createUniqueId()
                 const newEdge: Edge<EdgeData> = {
@@ -371,34 +371,37 @@ export const GlobalProvider = memo(
                 // Luego actualizamos el valor del input target con el valor del output source
                 changeNodes((nodes) => {
                     // Encontrar el nodo source y su output
-                    const sourceNode = nodes.find(node => node.id === source)
+                    const sourceNode = nodes.find((node) => node.id === source)
                     const sourceOutput = sourceNode?.data.outputs?.find(
-                        output => output.outputId === pureSourceHandle
+                        (output) => output.outputId === pureSourceHandle
                     )
 
                     if (!sourceOutput) return nodes
 
                     // Encontrar y actualizar el nodo target
-                    const targetNode = nodes.find(node => node.id === target)
+                    const targetNode = nodes.find((node) => node.id === target)
                     if (!targetNode) return nodes
 
                     // Crear el nuevo array de nodos con la actualización
-                    return nodes.map(node => 
-                        node.id === target 
+
+                    return nodes.map((node) =>
+                        node.id === target
                             ? {
-                                ...node,
-                                data: {
-                                    ...node.data,
-                                    inputs: [
-                                        ...(node.data.inputs || []).filter(input => input.inputId !== pureTargetHandle),
-                                        {
-                                            inputId: pureTargetHandle,
-                                            type: "value",
-                                            value: sourceOutput.value
-                                        }
-                                    ]
-                                }
-                            }
+                                  ...node,
+                                  data: {
+                                      ...node.data,
+                                      inputs: [
+                                          ...(node.data.inputs || []).filter(
+                                              (input) => input.inputId !== pureTargetHandle
+                                          ),
+                                          {
+                                              inputId: pureTargetHandle,
+                                              type: "value",
+                                              value: sourceOutput.value,
+                                          },
+                                      ],
+                                  },
+                              }
                             : node
                     )
                 })
@@ -409,9 +412,9 @@ export const GlobalProvider = memo(
         const createEdge = useCallback(
             (from: ParsedSourceHandle, to: ParsedTargetHandle): void => {
                 createConnection({
-                    source: from.nodeId,
+                    source: from.handleId,
                     sourceHandle: stringifySourceHandle(from),
-                    target: to.nodeId,
+                    target: to.handleId,
                     targetHandle: stringifyTargetHandle(to),
                 })
             },
@@ -439,6 +442,7 @@ export const GlobalProvider = memo(
 
                 const sourceNode = getNode(source)
                 const targetNode = getNode(target)
+
                 if (!sourceNode || !targetNode) {
                     return invalid("Invalid node data.")
                 }

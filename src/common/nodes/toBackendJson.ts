@@ -5,6 +5,7 @@ import {
     BackendJsonEdgeInput,
     BackendJsonInput,
     BackendJsonNode,
+    BackendJsonOutput,
     EdgeData,
     InputId,
     NodeData,
@@ -48,7 +49,7 @@ export const toBackendJson = (
             throw new Error(`Invalid handle: There is no output with id ${handle.outputId} in ${schema.name}`)
         } */
 
-        return { type: "edge", id: handle.nodeId }
+        return { type: "edge", id: handle.handleId }
     }
 
     type Handles<I extends InputId | OutputId> = Record<
@@ -59,14 +60,15 @@ export const toBackendJson = (
     const outputHandles: Handles<OutputId> = {}
 
     edges.forEach((element) => {
-        const { sourceHandle, targetHandle } = element
+        const { sourceHandle, targetHandle, source } = element
         if (!sourceHandle || !targetHandle) return
 
         const sourceH = parseSourceHandle(sourceHandle)
         const targetH = parseTargetHandle(targetHandle)
 
-        ;(inputHandles[targetH.nodeId] ??= {})[targetH.nodeId] = convertHandle(sourceH)
-        ;(outputHandles[sourceH.nodeId] ??= {})[sourceH.nodeId] = convertHandle(targetH)
+        ;(inputHandles[targetH.handleId as InputId] ??= {})[targetH.handleId as InputId] = convertHandle(sourceH)
+        ;(outputHandles[sourceH.handleId as OutputId] ??= {})[sourceH.handleId as OutputId] =
+            convertHandle(targetH)
     })
 
     const result: BackendJsonNode[] = []
@@ -76,7 +78,6 @@ export const toBackendJson = (
         const { id, data, type: nodeType } = element
         const { schemaId, inputs, outputs, node_name } = data
         const schema = schemata.get(schemaId)
-
 
         if (!nodeType) {
             throw new Error(
@@ -88,7 +89,7 @@ export const toBackendJson = (
         result.push({
             id,
             schemaId,
-            nodeName: element.node_name,
+            nodeName: data.node_name,
             inputs: mapInputValues<BackendJsonInput>(
                 schema,
                 (inputId) =>
@@ -99,7 +100,7 @@ export const toBackendJson = (
                             inputs.find((input: { inputId: InputId }) => input.inputId === inputId)?.value ?? null,
                     }
             ),
-            outputs: mapOutputValues<BackendJsonInput>(
+            outputs: mapOutputValues<BackendJsonOutput>(
                 schema,
                 (outputId) =>
                     outputHandles[id]?.[outputId] ?? {
@@ -116,15 +117,15 @@ export const toBackendJson = (
                     .filter((edge) => edge.target === id)
                     .map((edge) => ({
                         source: edge.source,
-                        sourceHandle: parseSourceHandle(edge.sourceHandle) ?? edge.sourceHandle,
-                        targetHandle: parseTargetHandle(edge.targetHandle) ?? edge.targetHandle,
+                        sourceHandle: parseSourceHandle(edge.sourceHandle || ""),
+                        targetHandle: parseTargetHandle(edge.targetHandle || ""),
                     })),
                 outputs: edges
                     .filter((edge) => edge.source === id)
                     .map((edge) => ({
                         target: edge.target,
-                        sourceHandle: parseSourceHandle(edge.sourceHandle) ?? edge.sourceHandle,
-                        targetHandle: parseTargetHandle(edge.targetHandle) ?? edge.targetHandle,
+                        sourceHandle: parseSourceHandle(edge.sourceHandle || ""),
+                        targetHandle: parseTargetHandle(edge.targetHandle || ""),
                     })),
             },
         })

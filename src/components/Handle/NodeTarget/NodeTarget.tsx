@@ -42,12 +42,15 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions, setTramp
     }
 
     if (schema.targetType === "single") {
-        const input = schema.inputs[0] // Tomamos el primer input
+        // Buscamos un input de tipo entry
+        const entryInput = schema.inputs.find((input) => input.origin === "entry")
+        const handleId = entryInput?.id || id // Usamos el id del nodo si no hay input entry
+
         return (
             <div className="relative flex flex-col items-center">
                 <TargetHandle
-                    key={input.id}
-                    id={input.id} // Usamos el ID del input
+                    key={handleId}
+                    id={handleId}
                     nodeType={schema.nodeType}
                     selected={selected}
                     style={{
@@ -82,6 +85,9 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions, setTramp
     }
 
     if (schema.targetType === "variable") {
+        const entryInput = schema.inputs.find((input) => input.origin === "entry")
+        const baseInputId = entryInput?.id || id
+
         return (
             <div
                 className={`relative flex flex-col gap-2`}
@@ -113,7 +119,7 @@ const NodeTarget = ({ id, nodeType, selected, schemaId, inputPositions, setTramp
 
                 <div className="relative flex flex-col items-center" style={{ height: "100%" }}>
                     {Array.from({ length: handleCount }, (_, index) => {
-                        const inputId = `input-${index + 1}` // Generamos un ID consistente
+                        const inputId = `${baseInputId}-${index + 1}` // Usamos el id base correcto
                         return (
                             <TargetHandle
                                 key={inputId}
