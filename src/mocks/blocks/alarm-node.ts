@@ -13,11 +13,20 @@ export const alarmNode: NodeSchema = {
     icon: Icons.clock,
     color: "#FF5733", // Color rojo para resaltar
     nodeType: "regularNode",
-    sourceType: "variable",
+    sourceType: "single",
     targetType: "single",
     inputValues: ["none"],
     outputValues: ["none"],
     inputs: [
+        {
+            id: "alarm-trigger" as InputId,
+            type: "string",
+            origin: "entry",
+            kind: "text",
+            label: "Entrada de alarma",
+            optional: false,
+            hideLabel: false,
+        },
         {
             id: "alarm-selection" as InputId,
             type: "string",
