@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { EdgeTypes, NodeTypes, ReactFlowProvider } from "reactflow"
 
 import { SidebarProvider } from "@/components/ui/Sidebar/Sidebar"
+import { Toaster } from "@/components/ui/Toast/Toaster"
 import { TooltipProvider } from "@/components/ui/Tooltip/Tooltip"
 import { AppSidebar } from "@/components/AppSidebar/AppSidebar"
 import CustomEdge from "@/components/CustomEdge/CustomEdge"
@@ -17,7 +18,6 @@ import { Node } from "@/components/Node/Node"
 import OpenTabMenuButton from "./components/TabMenu/OpenTabMenuButton"
 import TabMenu from "./components/TabMenu/TabMenu"
 import WorkflowCanvas from "./components/WorkflowCanvas/WorkflowCanvas"
-import { Toaster } from "@/components/ui/Toast/Toaster"
 
 // Define node and edge types
 const nodeTypes: NodeTypes & Record<NodeType, unknown> = {

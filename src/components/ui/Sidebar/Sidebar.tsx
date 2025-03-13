@@ -5,6 +5,7 @@ import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
 
+import { WORKFLOW_GAP } from "@/lib/constants"
 import { cn } from "@/lib/utils"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { Skeleton } from "@/components/ui//Skeleton/Skeleton"
@@ -239,6 +240,9 @@ const SidebarTrigger = React.forwardRef<React.ElementRef<typeof Button>, React.C
                 data-sidebar="trigger"
                 variant="ghost"
                 size="icon"
+                style={{
+                    top: WORKFLOW_GAP,
+                }}
                 className={cn(
                     "h-7 group transition-all duration-300 w-fit",
                     "fixed left-5",
