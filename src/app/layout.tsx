@@ -2,50 +2,20 @@ import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
 import "@/styles/globals.css"
-import { notFound } from "next/navigation"
-import { unstable_setRequestLocale } from "next-intl/server"
+import { AuthProvider } from "@/context/AuthContext"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
     title: "Workflows app",
     description: "An app to create workflows",
 }
 
-const inter = Inter({ subsets: ["latin"] })
-const locales = ["en", "es"]
-
-// export function generateStaticParams() {
-//   return locales.map((locale) => ({ locale }))
-// }
-
-interface RootLayoutProps {
-    children: React.ReactNode
-    params: {
-        locale: string
-    }
-}
-
-export default async function RootLayout({ children, params: { locale } }: RootLayoutProps) {
-    // let messages
-    // try {
-    //   messages = (await import(`@/messages/${locale}.json`)).default
-    // } catch (error) {
-    //   console.error("Failed to load messages for locale:", locale)
-    //   notFound()
-    // }
-
-    // const isValidLocale = locales.includes(locale)
-    // if (!isValidLocale) {
-    //   console.warn("Invalid locale, defaulting to 'en':", locale)
-    //   locale = "en" // default locale
-    //   unstable_setRequestLocale(locale)
-    // }
-
-    // unstable_setRequestLocale(locale)
-
+export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang={locale}>
-            <body className={inter.className} id="root">
-                <main>{children}</main>
+        <html lang="es">
+            <body className={inter.className}>
+                <AuthProvider>{children}</AuthProvider>
             </body>
         </html>
     )

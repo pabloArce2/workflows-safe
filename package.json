@@ -41,6 +41,7 @@
         "@sentry/browser": "^8.5.0",
         "@sentry/nextjs": "^8.15.0",
         "@stdlib/number-float64-base-normalize": "0.0.8",
+        "@supabase/auth-helpers-nextjs": "^0.10.0",
         "@supabase/ssr": "^0.5.2",
         "@supabase/supabase-js": "^2.47.10",
         "@tanstack/react-query": "^5.28.8",
