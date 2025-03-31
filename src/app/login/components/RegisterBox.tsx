@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useAuth } from "@/context/AuthContext"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeftFromLine, Loader2 } from "lucide-react"
+import { ArrowLeftFromLine, Eye, EyeOff, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -57,6 +57,8 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
     const { signUp } = useAuth()
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState<boolean>(false)
+    const [showPassword, setShowPassword] = useState<boolean>(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false)
 
     const onSubmit = async (data: RegisterFormInputs) => {
         setIsLoading(true)
@@ -143,12 +145,20 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
                             <FormItem>
                                 <FormLabel>Contraseña</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        className="bg-gray-700 w-full"
-                                        type="password"
-                                        placeholder="Ingresa tu contraseña"
-                                        {...field}
-                                    />
+                                    <div className="relative text-white">
+                                        <Input
+                                            className="bg-gray-700 w-full"
+                                            type={showPassword ? "text" : "password"}
+                                            placeholder="Ingresa tu contraseña"
+                                            {...field}
+                                        />
+                                        <span
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                            onClick={() => setShowPassword(!showPassword)}
+                                        >
+                                            {showPassword ? <EyeOff /> : <Eye />}
+                                        </span>
+                                    </div>
                                 </FormControl>
                                 <FormMessage>{form.formState.errors.password?.message}</FormMessage>
                             </FormItem>
@@ -163,12 +173,20 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
                             <FormItem>
                                 <FormLabel>Confirmar Contraseña</FormLabel>
                                 <FormControl>
-                                    <Input
-                                        className="bg-gray-700 w-full"
-                                        type="password"
-                                        placeholder="Confirma tu contraseña"
-                                        {...field}
-                                    />
+                                    <div className="relative text-white">
+                                        <Input
+                                            className="bg-gray-700 w-full"
+                                            type={showConfirmPassword ? "text" : "password"}
+                                            placeholder="Confirma tu contraseña"
+                                            {...field}
+                                        />
+                                        <span
+                                            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+                                            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                                        >
+                                            {showConfirmPassword ? <EyeOff /> : <Eye />}
+                                        </span>
+                                    </div>
                                 </FormControl>
                                 <FormMessage>{form.formState.errors.confirmPassword?.message}</FormMessage>
                             </FormItem>

@@ -1,4 +1,5 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { useAuth } from "@/context/AuthContext"
+import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react"
 
 import {
     Sidebar,
@@ -41,9 +42,19 @@ const items = [
 ]
 
 export function AppSidebar() {
+    const { signOut } = useAuth()
+
+    const handleLogout = async () => {
+        try {
+            await signOut()
+        } catch (error) {
+            console.error("Error al cerrar sesión:", error)
+        }
+    }
+
     return (
-        <Sidebar className="">
-            <SidebarContent>
+        <Sidebar className="flex flex-col">
+            <SidebarContent className="flex-1">
                 <SidebarGroup>
                     <SidebarGroupLabel>Application</SidebarGroupLabel>
                     <SidebarGroupContent>
@@ -62,6 +73,15 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+            <div className="p-4 border-t border-gray-700">
+                <SidebarMenuButton
+                    onClick={handleLogout}
+                    className="w-full flex items-center gap-2 text-red-500 hover:text-red-400 hover:bg-red-500/10"
+                >
+                    <LogOut className="w-5 h-5" />
+                    <span>Cerrar sesión</span>
+                </SidebarMenuButton>
+            </div>
         </Sidebar>
     )
 }

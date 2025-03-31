@@ -33,9 +33,8 @@ const TabMenu = ({ className }: TabMenuProps) => {
         isTabMenuMax,
         setIsTabMenuMax,
     } = useWorkflows()
-
     const handleResize = () => {
-        const currentWidth = resizableRef?.current?.size?.width || 0
+        const currentWidth = (resizableRef.current as unknown as HTMLElement)?.getBoundingClientRect()?.width || 0
         if (currentWidth >= windowWidth - WORKFLOW_GAP * 2) {
             setIsTabMenuMax(true)
         } else if (currentWidth <= MIN_TAB_MENU_WIDTH) {
