@@ -1,20 +1,36 @@
 import { supabase } from "../lib/supabaseClient"
 
+interface RegisterUserData {
+    email: string
+    password: string
+    metadata?: { username: string }
+}
+
 // Función para registrar un usuario
-export async function registerUser(email: string, password: string) {
+export async function registerUser({ email, password, metadata }: RegisterUserData) {
     try {
+        // Verificar que tenemos las credenciales necesarias
+        if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+            throw new Error("Faltan las credenciales de Supabase")
+        }
+
         const { data, error } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                data: metadata,
+                emailRedirectTo: `${window.location.origin}/auth/callback`,
+            },
         })
 
         if (error) {
+            console.error("Error de registro:", error)
             throw new Error(`Error en el registro: ${error.message}`)
         }
 
         return { user: data.user }
     } catch (error) {
-        console.error(error)
+        console.error("Error completo:", error)
         throw new Error("Hubo un problema durante el registro.")
     }
 }

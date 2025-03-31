@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useAuth } from "@/context/AuthContext"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { ArrowLeftFromLine, Loader2, User, UserRoundCog } from "lucide-react"
+import { ArrowLeftFromLine, Loader2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
@@ -10,28 +10,24 @@ import { Button } from "@/components/ui/Button/Button"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/Form/Form"
 import { Input } from "@/components/ui/Input/Input"
 
-// Define the form validation schema with Zod
 const registerFormSchema = z
     .object({
         username: z
             .string()
-            .min(2, { message: "Username must be at least 2 characters." })
-            .max(50, { message: "Username cannot exceed 50 characters." }),
-        email: z.string().email({ message: "Invalid email address." }),
+            .min(2, { message: "El nombre de usuario debe tener al menos 2 caracteres." })
+            .max(50, { message: "El nombre de usuario no puede exceder 50 caracteres." }),
+        email: z.string().email({ message: "Email inválido." }),
         password: z
             .string()
-            .min(6, { message: "Password must be at least 6 characters." })
-            .max(100, { message: "Password cannot exceed 100 characters." }),
+            .min(6, { message: "La contraseña debe tener al menos 6 caracteres." })
+            .max(100, { message: "La contraseña no puede exceder 100 caracteres." }),
         confirmPassword: z
             .string()
-            .min(6, { message: "Password confirmation must be at least 6 characters." })
-            .max(100, { message: "Password confirmation cannot exceed 100 characters." }),
-        role: z.enum(["user", "admin"], {
-            required_error: "Por favor selecciona un rol.",
-        }),
+            .min(6, { message: "La confirmación de contraseña debe tener al menos 6 caracteres." })
+            .max(100, { message: "La confirmación de contraseña no puede exceder 100 caracteres." }),
     })
     .refine((data) => data.password === data.confirmPassword, {
-        message: "Passwords must match.",
+        message: "Las contraseñas no coinciden.",
         path: ["confirmPassword"],
     })
 
@@ -40,7 +36,6 @@ interface RegisterFormInputs {
     email: string
     password: string
     confirmPassword: string
-    role: "user" | "admin"
 }
 
 interface RegisterBoxProps {
@@ -49,7 +44,6 @@ interface RegisterBoxProps {
 }
 
 const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) => {
-    // Initialize the form with Zod validation
     const form = useForm<RegisterFormInputs>({
         resolver: zodResolver(registerFormSchema),
         defaultValues: {
@@ -57,15 +51,12 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
             email: "",
             password: "",
             confirmPassword: "",
-            role: "user",
         },
     })
 
     const { signUp } = useAuth()
-
     const [error, setError] = useState<string | null>(null)
-    const [selectedRole, setSelectedRole] = useState<"user" | "admin">("user")
-    const [isLoading, setIsLoading] = useState<boolean>(false) // Estado de carga
+    const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const onSubmit = async (data: RegisterFormInputs) => {
         setIsLoading(true)
@@ -78,7 +69,7 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
         }
 
         try {
-            await signUp(data.email, data.password)
+            await signUp(data.email, data.password, { username: data.username })
         } catch (err: any) {
             setError(err.message || "Hubo un problema durante el registro.")
         } finally {
@@ -111,11 +102,11 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
                         name="username"
                         render={({ field }) => (
                             <FormItem className="w-full">
-                                <FormLabel>Username</FormLabel>
+                                <FormLabel>Nombre de usuario</FormLabel>
                                 <FormControl className="w-full">
                                     <Input
                                         className="bg-gray-700 w-full"
-                                        placeholder="Enter username"
+                                        placeholder="Ingresa tu nombre de usuario"
                                         {...field}
                                     />
                                 </FormControl>
@@ -134,7 +125,7 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
                                 <FormControl className="w-full">
                                     <Input
                                         className="bg-gray-700 w-full"
-                                        placeholder="Enter email"
+                                        placeholder="Ingresa tu email"
                                         type="email"
                                         {...field}
                                     />
@@ -150,9 +141,14 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
                         name="password"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Password</FormLabel>
+                                <FormLabel>Contraseña</FormLabel>
                                 <FormControl>
-                                    <Input type="password" placeholder="Enter password" {...field} />
+                                    <Input
+                                        className="bg-gray-700 w-full"
+                                        type="password"
+                                        placeholder="Ingresa tu contraseña"
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage>{form.formState.errors.password?.message}</FormMessage>
                             </FormItem>
@@ -165,49 +161,16 @@ const RegisterBox: React.FC<RegisterBoxProps> = ({ className, setIsLoginPage }) 
                         name="confirmPassword"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Confirm Password</FormLabel>
+                                <FormLabel>Confirmar Contraseña</FormLabel>
                                 <FormControl>
-                                    <Input type="password" placeholder="Confirm password" {...field} />
+                                    <Input
+                                        className="bg-gray-700 w-full"
+                                        type="password"
+                                        placeholder="Confirma tu contraseña"
+                                        {...field}
+                                    />
                                 </FormControl>
                                 <FormMessage>{form.formState.errors.confirmPassword?.message}</FormMessage>
-                            </FormItem>
-                        )}
-                    />
-
-                    <FormField
-                        control={form.control}
-                        name="role"
-                        render={() => (
-                            <FormItem>
-                                <FormControl>
-                                    <div className="flex space-x-4 w-full pt-5">
-                                        <div
-                                            className={`select-none flex flex-col items-center justify-center cursor-pointer duration-300 p-4 border w-1/2 hover:scale-100
-                                                 ${
-                                                     selectedRole === "user"
-                                                         ? "bg-gray-700 border-white shadow-xl sclae-100"
-                                                         : "bg-gray-500 border-gray-800 scale-95"
-                                                 }`}
-                                            onClick={() => setSelectedRole("user")}
-                                        >
-                                            <User />
-                                            <p>Usuario</p>
-                                        </div>
-                                        <div
-                                            className={`select-none flex flex-col items-center justify-center cursor-pointer duration-300 p-4 border w-1/2  hover:scale-100
-                                                 ${
-                                                     selectedRole === "admin"
-                                                         ? "bg-gray-700 border-white shadow-xl scale-100"
-                                                         : "bg-gray-500 border-gray-800 scale-95"
-                                                 }`}
-                                            onClick={() => setSelectedRole("admin")}
-                                        >
-                                            <UserRoundCog></UserRoundCog>
-                                            <p>Administrador</p>
-                                        </div>
-                                    </div>
-                                </FormControl>
-                                <FormMessage>{form.formState.errors.role?.message}</FormMessage>
                             </FormItem>
                         )}
                     />

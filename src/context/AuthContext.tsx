@@ -10,7 +10,7 @@ interface AuthContextType {
     user: User | null
     loading: boolean
     signIn: (email: string, password: string) => Promise<void>
-    signUp: (email: string, password: string) => Promise<void>
+    signUp: (email: string, password: string, metadata?: { username: string }) => Promise<void>
     signOut: () => Promise<void>
 }
 
@@ -22,8 +22,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const router = useRouter()
 
     const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
+        {
+            auth: {
+                autoRefreshToken: true,
+                persistSession: true,
+                detectSessionInUrl: true,
+            },
+            global: {
+                headers: {
+                    apikey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ?? "",
+                },
+            },
+        }
     )
 
     useEffect(() => {
@@ -56,10 +68,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (error) throw error
     }
 
-    const signUp = async (email: string, password: string) => {
+    const signUp = async (email: string, password: string, metadata?: { username: string }) => {
         const { error } = await supabase.auth.signUp({
             email,
             password,
+            options: {
+                data: metadata,
+            },
         })
         if (error) throw error
     }
