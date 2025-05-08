@@ -1,11 +1,11 @@
-import React, { createContext, memo, useCallback, useEffect, useState } from "react"
+import React, { createContext, memo, useCallback, useContext, useEffect, useState } from "react"
 import { CategoryMap } from "@/common/CategoryMap"
 import { SchemaMap } from "@/common/SchemaMap"
 import { Category, NodeSchema } from "@/common/common-types"
 import { log } from "@/common/log"
 import { sortNodes } from "@/common/nodes/sort"
 import { nodes_test_data } from "@/mocks/data"
-import workflowService from "@/services/workflow.service"
+import workflowService from "@/services/workflows"
 import { useQuery, useQueryClient } from "@tanstack/react-query"
 import isEqual from "react-fast-compare"
 import { useTranslation } from "react-i18next"
@@ -16,6 +16,7 @@ interface BackendContextState {
     schemata: SchemaMap
     categories: CategoryMap
     connectionState: "connecting" | "connected" | "failed"
+    refreshNodes: () => void
 }
 
 export const BackendContext = createContext<Readonly<BackendContextState>>({} as BackendContextState)
@@ -46,7 +47,6 @@ const useNodes = () => {
     const { t } = useTranslation()
 
     const [nodesInfo, setNodesInfo] = useState<NodesInfo>()
-
     const [backendReady, setBackendReady] = useState(false)
 
     const queryClient = useQueryClient()
@@ -55,49 +55,34 @@ const useNodes = () => {
     }, [queryClient])
 
     const [periodicRefresh, setPeriodicRefresh] = useState(false)
-    // useAsyncEffect(
-    //     () => ({
-    //         supplier: () => ipcRenderer.invoke("refresh-nodes"),
-    //         successEffect: setPeriodicRefresh,
-    //     }),
-    //     []
-    // )
 
     const nodesQuery = useQuery({
         queryKey: ["nodes"],
         queryFn: async (): Promise<BackendNodesResponse> => {
             try {
+                // En un entorno real, aquí se cargarían los nodos desde el backend
                 let nodes = nodes_test_data
-                return await nodes //workflowService.getNodes()
+                return await nodes
             } catch (error) {
                 log.error(error)
                 throw error
             }
         },
-        cacheTime: 0,
-        retry: 25,
+        staleTime: 60000, // 1 minuto
+        retry: 3,
         refetchOnWindowFocus: false,
-        refetchInterval: periodicRefresh ? 1000 * 3 : false,
+        refetchInterval: periodicRefresh ? 3000 : false,
     })
 
     let nodeQueryError: unknown
     if (nodesQuery.status === "error") {
         nodeQueryError = nodesQuery.error
     } else if (nodesQuery.failureCount > 1) {
-        nodeQueryError = "Failed to fetch backend nodes."
+        nodeQueryError = "Error al cargar los nodos del backend."
     }
-
-    // const lastErrorAlert = useRef<AlertId>()
-    // const forgetLastErrorAlert = useCallback(() => {
-    //     if (lastErrorAlert.current !== undefined) {
-    //         forgetAlert(lastErrorAlert.current)
-    //         lastErrorAlert.current = undefined
-    //     }
-    // }, [forgetAlert])
 
     useEffect(() => {
         if (nodesQuery.status === "success") {
-            //forgetLastErrorAlert() TODO: posible implementacion del sistema de alertas en cola
             const rawResponse = nodesQuery.data
             setNodesInfo((prev) => {
                 if (isEqual(prev?.rawResponse, rawResponse)) {
@@ -108,35 +93,13 @@ const useNodes = () => {
                     return processBackendResponse(rawResponse)
                 } catch (e) {
                     log.error(e)
-                    // forgetLastErrorAlert()
-                    // lastErrorAlert.current = sendAlert({
-                    //     type: AlertType.CRIT_ERROR,
-                    //     title: t("error.title.unableToProcessNodes", "Unable to process backend nodes."),
-                    //     message: `${t(
-                    //         "error.message.criticalBackend",
-                    //         "A critical error occurred while processing the node data returned by the backend."
-                    //     )}\n\n${String(e)}`,
-                    // })
+                    console.error("Error procesando la respuesta de nodos:", e)
                 }
 
                 return prev
             })
         }
-    }, [nodesQuery.status, nodesQuery.data, backendReady /* , t */])
-
-    // useEffect(() => {
-    //     if (nodeQueryError && !isRestarting) {
-    //         const message = nodeQueryError instanceof Error ? nodeQueryError.message : String(nodeQueryError)
-    //         forgetLastErrorAlert()
-    //         lastErrorAlert.current = sendAlert({
-    //             type: AlertType.CRIT_ERROR,
-    //             message: `${t(
-    //                 "error.message.criticalBackend",
-    //                 "A critical error occurred while processing the node data returned by the backend."
-    //             )}\n\n${t("error.error", "Error")}: ${message}`,
-    //         })
-    //     }
-    // }, [nodeQueryError, sendAlert, forgetLastErrorAlert, t, isRestarting])
+    }, [nodesQuery.status, nodesQuery.data, backendReady])
 
     let connectionState: "connecting" | "connected" | "failed" = "connecting"
     if (nodesQuery.status === "success" && nodesInfo !== undefined) {
@@ -152,13 +115,14 @@ const useNodes = () => {
     }
 }
 
-export const BackendProvider = ({ children }) => {
-    const { nodesInfo, connectionState } = useNodes()
+export const BackendProvider = ({ children }: { children: React.ReactNode }) => {
+    const { nodesInfo, connectionState, refreshNodes } = useNodes()
 
     const value = useMemoObject<BackendContextState>({
         schemata: nodesInfo?.schemata ?? SchemaMap.EMPTY,
         categories: nodesInfo?.categories ?? CategoryMap.EMPTY,
         connectionState,
+        refreshNodes,
     })
 
     return <BackendContext.Provider value={value}>{children}</BackendContext.Provider>

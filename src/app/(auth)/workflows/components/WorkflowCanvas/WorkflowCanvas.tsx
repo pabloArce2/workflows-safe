@@ -35,7 +35,6 @@ import ReactFlow, {
 
 import { usePaneNodeSearchMenu } from "@/hooks/usePaneNodeSearchMenu"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/Sidebar/Sidebar"
-import { AppSidebar } from "@/components/AppSidebar/AppSidebar"
 
 interface ReactFlowBoxProps {
     nodeTypes: NodeTypes
