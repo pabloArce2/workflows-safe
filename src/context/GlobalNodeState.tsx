@@ -110,6 +110,7 @@ export const GlobalProvider = memo(
 
         const currentViewport = useViewport()
         const [isLoading, setIsLoading] = useState(true)
+        const [workflowLoaded, setWorkflowLoaded] = useState(false)
 
         const setNodesRef = useRef<SetState<Node<NodeData>[]>>(rfSetNodes)
         const setEdgesRef = useRef<SetState<Edge<EdgeData>[]>>(rfSetEdges)
@@ -119,44 +120,53 @@ export const GlobalProvider = memo(
 
         // Cargar workflow desde la base de datos
         useEffect(() => {
-            if (workflowId) {
-                setIsLoading(true)
-                loadWorkflow(workflowId)
-                    .then((data) => {
-                        if (data) {
-                            // Preparar los datos para ReactFlow
-                            const nodes = data.nodes.map((node) => node.node_data)
-                            const edges = data.edges.map((edge) => edge.edge_data)
-                            const viewport = data.viewport?.viewport
+            if (!workflowId || workflowLoaded) return
 
-                            // Cargar los datos en ReactFlow
-                            changeNodes(nodes)
-                            changeEdges(edges)
-                            if (viewport) {
-                                setViewport(viewport)
-                            }
+            const loadWorkflowData = async () => {
+                try {
+                    setIsLoading(true)
+                    const data = await loadWorkflow(workflowId)
+
+                    if (data) {
+                        // Preparar los datos para ReactFlow
+                        const nodes = data.nodes.map((node) => node.node_data)
+                        const edges = data.edges.map((edge) => edge.edge_data)
+                        const viewport = data.viewport?.viewport
+
+                        // Cargar los datos en ReactFlow
+                        changeNodes(nodes)
+                        changeEdges(edges)
+                        if (viewport) {
+                            setViewport(viewport)
                         }
-                    })
-                    .catch((error) => {
-                        console.error("Error cargando workflow:", error)
-                    })
-                    .finally(() => {
-                        setIsLoading(false)
-                    })
-            } else {
-                // Sin workflowId, cargar desde sessionStorage (comportamiento antiguo)
-                const cachedNodes = getSessionStorageOrDefault<Node<NodeData>[]>("cachedNodes", [])
-                const cachedEdges = getSessionStorageOrDefault<Edge<EdgeData>[]>("cachedEdges", [])
-                const cachedViewport = getSessionStorageOrDefault<Viewport | null>("cachedViewport", null)
-
-                changeNodes(cachedNodes)
-                changeEdges(cachedEdges)
-                if (cachedViewport && viewportInitialized) {
-                    setViewport(cachedViewport)
+                    }
+                } catch (error) {
+                    console.error("Error cargando workflow:", error)
+                } finally {
+                    setIsLoading(false)
+                    setWorkflowLoaded(true)
                 }
-                setIsLoading(false)
             }
-        }, [workflowId, changeNodes, changeEdges, loadWorkflow, setViewport, viewportInitialized])
+
+            loadWorkflowData()
+        }, [workflowId, workflowLoaded])
+
+        // Cargar desde sessionStorage solo si no hay workflowId
+        useEffect(() => {
+            if (workflowId || workflowLoaded) return
+
+            const cachedNodes = getSessionStorageOrDefault<Node<NodeData>[]>("cachedNodes", [])
+            const cachedEdges = getSessionStorageOrDefault<Edge<EdgeData>[]>("cachedEdges", [])
+            const cachedViewport = getSessionStorageOrDefault<Viewport | null>("cachedViewport", null)
+
+            changeNodes(cachedNodes)
+            changeEdges(cachedEdges)
+            if (cachedViewport && viewportInitialized) {
+                setViewport(cachedViewport)
+            }
+            setIsLoading(false)
+            setWorkflowLoaded(true)
+        }, [workflowId, workflowLoaded, viewportInitialized])
 
         // Guardar workflow en la base de datos
         const saveWorkflow = useCallback(async () => {
@@ -490,7 +500,7 @@ export const GlobalProvider = memo(
             saveWorkflow,
         })
 
-        if (false) {
+        if (isLoading) {
             return <Loader message="Cargando workflow..." />
         }
 

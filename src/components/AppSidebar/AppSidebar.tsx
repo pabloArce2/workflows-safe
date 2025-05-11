@@ -1,5 +1,5 @@
 import { useAuth } from "@/context/AuthContext"
-import { Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react"
+import { ArrowLeft, Calendar, Home, Inbox, LogOut, Search, Settings } from "lucide-react"
 
 import {
     Sidebar,
@@ -74,6 +74,13 @@ export function AppSidebar() {
                 </SidebarGroup>
             </SidebarContent>
             <div className="p-4 border-t border-gray-700">
+                <SidebarMenuButton
+                    onClick={() => (window.location.href = "/workflows")}
+                    className="w-full flex items-center gap-2 text-blue-500 hover:text-blue-400 hover:bg-blue-500/10 mb-2"
+                >
+                    <ArrowLeft className="w-5 h-5" />
+                    <span>Volver a Workflows</span>
+                </SidebarMenuButton>
                 <SidebarMenuButton
                     onClick={handleLogout}
                     className="w-full flex items-center gap-2 text-red-500 hover:text-red-400 hover:bg-red-500/10"
