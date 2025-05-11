@@ -52,7 +52,7 @@ export const WorkflowList = () => {
     }
 
     return (
-        <div className=" bg-gray-50 flex flex-col h-full w-full">
+        <div className=" bg-neutral-50 flex flex-col h-full w-full">
             <div className="px-8 pt-8 w-full">
                 <h1 className="text-3xl font-bold mb-6">Mis Workflows</h1>
 

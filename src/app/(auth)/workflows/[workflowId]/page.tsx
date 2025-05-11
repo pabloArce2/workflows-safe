@@ -43,11 +43,10 @@ const WorkflowLayout = ({ children }: { children: React.ReactNode }) => {
 const MainContent = ({ workflowId }: { workflowId: string }) => {
     const reactFlowWrapper = useRef<HTMLDivElement>(null)
     const { isOpenNodePanel } = useWorkflows()
-    console.log("isOpenNodePanel", isOpenNodePanel)
 
     return (
         <GlobalProvider reactFlowWrapper={reactFlowWrapper} workflowId={workflowId}>
-            <div className="flex h-full">
+            <div className="relative h-full w-full">
                 <div className="absolute top-0 left-0 h-full z-50">
                     <AppSidebar />
                 </div>
