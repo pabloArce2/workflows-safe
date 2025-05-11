@@ -39,6 +39,7 @@ import {
 import { NodeProto, createNode as createNodeImpl, withNewData } from "@/lib/reactFlowUtil"
 import { useChangeCounter, wrapRefChanges } from "@/hooks/useChangeCounter"
 import { useMemoArray, useMemoObject } from "@/hooks/useMemo"
+import Loader from "@/app/(auth)/workflows/components/Loaders/Loader"
 
 import { BackendContext } from "./BackendContext"
 import { useWorkflows } from "./WorkflowsContext"
@@ -489,8 +490,8 @@ export const GlobalProvider = memo(
             saveWorkflow,
         })
 
-        if (isLoading) {
-            return <div>Cargando workflow...</div>
+        if (false) {
+            return <Loader message="Cargando workflow..." />
         }
 
         return (

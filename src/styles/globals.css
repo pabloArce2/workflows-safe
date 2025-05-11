@@ -105,13 +105,13 @@
 }
 
 .bg-main-gradient {
-    background: rgb(2, 0, 36);
-    background: linear-gradient(32deg, rgba(2, 0, 36, 1) 0%, rgba(28, 52, 66, 1) 67%);
+    background: #ffd7c4;
+    /* background: linear-gradient(34deg, rgba(255, 215, 196, 1) 0%, rgba(255, 255, 255, 1) 100%); */
 }
 
 .bg-main-gradient-inverse {
-    background: rgb(28, 52, 66);
-    background: linear-gradient(32deg, rgba(28, 52, 66, 1) 27%, rgba(2, 0, 36, 1) 100%);
+    background: #ffd7c4;
+    /* background: linear-gradient(34deg, rgba(255, 215, 196, 1) 0%, rgba(255, 255, 255, 1) 100%); */
 }
 
 .main-grid {

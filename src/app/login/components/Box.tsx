@@ -12,7 +12,7 @@ const Box: React.FC<BoxProps> = ({ children, className }) => {
         <div
             className={cn(
                 className,
-                "flex flex-col items-center justify-center p-4 shadow-md rounded-md border border-gray-200  bg-main-gradient duration-300"
+                "flex flex-col items-center justify-center p-4 shadow-md rounded-md border border-gray-200  bg-gray-800 duration-300"
             )}
         >
             {children}

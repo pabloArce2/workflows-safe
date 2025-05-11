@@ -5,6 +5,8 @@ import { useEffect } from "react"
 import { redirect } from "next/navigation"
 import { useAuth } from "@/context/AuthContext"
 
+import Loader from "./(auth)/workflows/components/Loaders/Loader"
+
 interface HomeParams {
     params: {
         locale: string
@@ -24,5 +26,5 @@ export default function Home({ params: { locale } }: HomeParams) {
         }
     }, [user, loading, locale])
 
-    return <div>Loading...</div> // Muestra un loader mientras se verifica el estado
+    return <Loader message="Cargando..." />
 }

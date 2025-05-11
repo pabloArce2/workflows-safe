@@ -4,6 +4,9 @@ import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { useWorkflows } from "@/context/WorkflowsContext"
 
+import { Button } from "@/components/ui/Button/Button"
+import { Input } from "@/components/ui/Input/Input"
+
 export const WorkflowList = () => {
     const router = useRouter()
     const { workflows, isLoading, error, createNewWorkflow, deleteWorkflow } = useWorkflows()
@@ -49,60 +52,71 @@ export const WorkflowList = () => {
     }
 
     return (
-        <div className="p-8 max-w-6xl mx-auto">
-            <div className="mb-8">
+        <div className=" bg-gray-50 flex flex-col h-full w-full">
+            <div className="px-8 pt-8 w-full">
                 <h1 className="text-3xl font-bold mb-6">Mis Workflows</h1>
 
-                <form onSubmit={handleCreateWorkflow} className="flex gap-2 mb-8">
-                    <input
+                <form onSubmit={handleCreateWorkflow} className="flex items-center gap-2 mb-8 max-w-[800px]">
+                    <Input
                         type="text"
                         placeholder="Nombre del nuevo workflow"
                         value={newWorkflowName}
                         onChange={(e) => setNewWorkflowName(e.target.value)}
                         className="px-4 py-2 border rounded-md flex-1"
                     />
-                    <button
+                    <Button
                         type="submit"
                         disabled={isCreating || !newWorkflowName.trim()}
-                        className="px-4 py-2 bg-blue-600 text-white rounded-md disabled:opacity-50"
+                        className="px-4 py-5 bg-gray-900 text-white rounded-md disabled:opacity-50"
                     >
                         {isCreating ? "Creando..." : "Crear Nuevo"}
-                    </button>
+                    </Button>
                 </form>
             </div>
-
-            {isLoading ? (
-                <div className="text-center py-8">Cargando workflows...</div>
-            ) : error ? (
-                <div className="text-red-500 p-4 border border-red-300 rounded-md bg-red-50">
-                    Error al cargar los workflows: {error.message}
-                </div>
-            ) : workflows.length === 0 ? (
-                <div className="text-center py-8 text-gray-500">
-                    No tienes workflows todavía. Crea uno nuevo para empezar.
-                </div>
-            ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {workflows.map((workflow) => (
-                        <div
-                            key={workflow.id}
-                            onClick={() => router.push(`/workflows/${workflow.id}`)}
-                            className="border rounded-md p-4 cursor-pointer hover:bg-gray-50 transition-colors"
-                        >
-                            <div className="flex justify-between items-start mb-2">
-                                <h3 className="font-semibold text-lg">{workflow.name}</h3>
-                                <button
-                                    onClick={(e) => handleDeleteWorkflow(workflow.id, e)}
-                                    className="text-red-500 hover:text-red-700 transition-colors"
-                                >
-                                    Eliminar
-                                </button>
+            <hr className=" w-full" />
+            <div
+                className="w-full h-full px-8 pt-8"
+                style={{
+                    backgroundImage: 'url("/workflows_bg.png")',
+                    backgroundRepeat: "repeat",
+                    backgroundSize: "auto",
+                }}
+            >
+                {isLoading ? (
+                    <div className="text-center py-8">Cargando workflows...</div>
+                ) : error ? (
+                    <div className="text-red-500 p-4 border border-red-300 rounded-md bg-red-50">
+                        Error al cargar los workflows: {error.message}
+                    </div>
+                ) : workflows.length === 0 ? (
+                    <div className="text-center py-8 text-gray-500">
+                        No tienes workflows todavía. Crea uno nuevo para empezar.
+                    </div>
+                ) : (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
+                        {workflows.map((workflow) => (
+                            <div
+                                key={workflow.id}
+                                onClick={() => router.push(`/workflows/${workflow.id}`)}
+                                className="border rounded-md p-4 cursor-pointer hover:bg-gray-50 transition-colors bg-white border-gray-300"
+                            >
+                                <div className="flex justify-between items-start mb-2">
+                                    <h3 className="font-semibold text-lg">{workflow.name}</h3>
+                                    <button
+                                        onClick={(e) => handleDeleteWorkflow(workflow.id, e)}
+                                        className="text-red-500 hover:text-red-700 transition-colors"
+                                    >
+                                        Eliminar
+                                    </button>
+                                </div>
+                                <div className="text-sm text-gray-500">
+                                    Creado: {formatDate(workflow.created_at)}
+                                </div>
                             </div>
-                            <div className="text-sm text-gray-500">Creado: {formatDate(workflow.created_at)}</div>
-                        </div>
-                    ))}
-                </div>
-            )}
+                        ))}
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

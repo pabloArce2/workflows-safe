@@ -11,7 +11,7 @@ export default function Login() {
 
     return (
         <div>
-            <div className="flex flex-col items-center justify-center h-screen bg-main-gradient-inverse z-50">
+            <div className="flex flex-col items-center justify-center h-screen bg-gray-100 z-50">
                 <Box className="text-white flex relative my-2 overflow-clip min-h-[600px]">
                     <>
                         <LoginBox
