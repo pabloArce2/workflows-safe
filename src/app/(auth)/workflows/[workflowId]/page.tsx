@@ -48,7 +48,7 @@ const MainContent = ({ workflowId }: { workflowId: string }) => {
         <GlobalProvider reactFlowWrapper={reactFlowWrapper} workflowId={workflowId}>
             <div className="relative h-full w-full">
                 <div className="absolute top-0 left-0 h-full z-50">
-                    <AppSidebar />
+                    <AppSidebar workflowId={workflowId} />
                 </div>
 
                 <main className="flex-1 flex flex-col overflow-hidden">

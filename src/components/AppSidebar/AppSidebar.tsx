@@ -16,7 +16,11 @@ import {
 
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/Avatar/Avatar"
 
-export function AppSidebar() {
+interface AppSidebarProps {
+    workflowId?: string
+}
+
+export function AppSidebar({ workflowId }: AppSidebarProps) {
     const { signOut, user } = useAuth()
     const { workflows, isLoading } = useWorkflows()
     const router = useRouter()
@@ -80,7 +84,11 @@ export function AppSidebar() {
                                     <SidebarMenuItem key={workflow.id}>
                                         <SidebarMenuButton
                                             onClick={() => router.push(`/workflows/${workflow.id}`)}
-                                            className="w-full flex flex-col items-start gap-1 hover:bg-gray-100"
+                                            className={`w-full flex flex-col items-start gap-1 transition-all duration-200 ${
+                                                workflowId === workflow.id
+                                                    ? "text-blue-500 font-bold bg-blue-50 shadow-blue-200/50"
+                                                    : "hover:bg-gray-100"
+                                            }`}
                                         >
                                             <div className="flex items-center gap-2">
                                                 <FolderGit2 className="w-4 h-4" />
