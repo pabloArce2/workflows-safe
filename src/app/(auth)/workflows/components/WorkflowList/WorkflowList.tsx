@@ -7,6 +7,8 @@ import { useWorkflows } from "@/context/WorkflowsContext"
 import { Button } from "@/components/ui/Button/Button"
 import { Input } from "@/components/ui/Input/Input"
 
+import { WorkflowPreview } from "./WorkflowPreview/WorkflowPreview"
+
 export const WorkflowList = () => {
     const router = useRouter()
     const { workflows, isLoading, error, createNewWorkflow, deleteWorkflow } = useWorkflows()
@@ -29,17 +31,6 @@ export const WorkflowList = () => {
         }
     }
 
-    const handleDeleteWorkflow = async (id: string, e: React.MouseEvent) => {
-        e.stopPropagation()
-        if (confirm("¿Estás seguro de que deseas eliminar este workflow?")) {
-            try {
-                await deleteWorkflow(id)
-            } catch (error) {
-                console.error("Error al eliminar el workflow:", error)
-            }
-        }
-    }
-
     const formatDate = (dateString: string) => {
         const date = new Date(dateString)
         return new Intl.DateTimeFormat("es-ES", {
@@ -52,7 +43,7 @@ export const WorkflowList = () => {
     }
 
     return (
-        <div className=" bg-neutral-50 flex flex-col h-full w-full">
+        <div className="bg-neutral-50 flex flex-col h-full w-full">
             <div className="px-8 pt-8 w-full">
                 <h1 className="text-3xl font-bold mb-6">Mis Workflows</h1>
 
@@ -73,49 +64,41 @@ export const WorkflowList = () => {
                     </Button>
                 </form>
             </div>
-            <hr className=" w-full" />
-            <div
-                className="w-full h-full px-8 pt-8"
-                style={{
-                    backgroundImage: 'url("/workflows_bg.png")',
-                    backgroundRepeat: "repeat",
-                    backgroundSize: "auto",
-                }}
-            >
-                {isLoading ? (
-                    <div className="text-center py-8">Cargando workflows...</div>
-                ) : error ? (
-                    <div className="text-red-500 p-4 border border-red-300 rounded-md bg-red-50">
-                        Error al cargar los workflows: {error.message}
-                    </div>
-                ) : workflows.length === 0 ? (
-                    <div className="text-center py-8 text-gray-500">
-                        No tienes workflows todavía. Crea uno nuevo para empezar.
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 ">
-                        {workflows.map((workflow) => (
-                            <div
-                                key={workflow.id}
-                                onClick={() => router.push(`/workflows/${workflow.id}`)}
-                                className="border rounded-md p-4 cursor-pointer hover:bg-gray-50 transition-colors bg-white border-gray-300"
-                            >
-                                <div className="flex justify-between items-start mb-2">
-                                    <h3 className="font-semibold text-lg">{workflow.name}</h3>
-                                    <button
-                                        onClick={(e) => handleDeleteWorkflow(workflow.id, e)}
-                                        className="text-red-500 hover:text-red-700 transition-colors"
-                                    >
-                                        Eliminar
-                                    </button>
-                                </div>
-                                <div className="text-sm text-gray-500">
-                                    Creado: {formatDate(workflow.created_at)}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+            <hr className="w-full" />
+            <div className="flex-1 overflow-auto">
+                <div
+                    className="w-full h-full px-8 pt-8"
+                    style={{
+                        //backgroundImage: 'url("/workflows_bg.png")',
+                        backgroundRepeat: "repeat",
+                        backgroundSize: "auto",
+                    }}
+                >
+                    {isLoading ? (
+                        <div className="text-center py-8">Cargando workflows...</div>
+                    ) : error ? (
+                        <div className="text-red-500 p-4 border border-red-300 rounded-md bg-red-50">
+                            Error al cargar los workflows: {error.message}
+                        </div>
+                    ) : workflows.length === 0 ? (
+                        <div className="text-center py-8 text-gray-500">
+                            No tienes workflows todavía. Crea uno nuevo para empezar.
+                        </div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-10">
+                            {workflows.map((workflow) => (
+                                <WorkflowPreview
+                                    key={workflow.id}
+                                    id={workflow.id}
+                                    name={workflow.name}
+                                    createdAt={formatDate(workflow.created_at)}
+                                    onClick={() => router.push(`/workflows/${workflow.id}`)}
+                                    onDelete={deleteWorkflow}
+                                />
+                            ))}
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     )

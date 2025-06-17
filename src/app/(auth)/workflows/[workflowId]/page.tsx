@@ -52,7 +52,6 @@ const MainContent = ({ workflowId }: { workflowId: string }) => {
                 </div>
 
                 <main className="flex-1 flex flex-col overflow-hidden">
-                    <TabMenu />
                     <div className="h-full w-full">
                         <WorkflowLayout>
                             <div className="relative h-screen w-full">
