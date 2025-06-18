@@ -18,6 +18,34 @@ export const toBackendJson = (
     edges: readonly Edge<EdgeData>[],
     schemata: SchemaMap
 ): BackendJsonNode[] => {
+    // Validar que los nodos tengan la estructura correcta
+    const invalidNodes = nodes.filter((node) => {
+        const { data } = node
+        const schema = schemata.get(data.schemaId)
+
+        // Si el nodo es de tipo "onlySource" o "onlyTarget", no requiere inputs/outputs respectivamente
+        if (schema?.nodeType === "onlySource" && !data.inputs) return false
+        if (schema?.nodeType === "onlyTarget" && !data.outputs) return false
+
+        return !data.inputs || !data.outputs
+    })
+
+    if (invalidNodes.length > 0) {
+        const invalidNodeDetails = invalidNodes.map((node) => ({
+            id: node.id,
+            // @ts-ignore - node_name existe en el objeto pero TypeScript no lo reconoce
+            name: node.node_name,
+            missingFields: [!node.data.inputs && "inputs", !node.data.outputs && "outputs"].filter(Boolean),
+        }))
+
+        throw new Error(
+            `Los siguientes nodos no tienen la estructura correcta:\n` +
+                invalidNodeDetails
+                    .map((node) => `- Nodo "${node.name}" Falta ${node.missingFields.join(", ")}`)
+                    .join("\n")
+        )
+    }
+
     const nodeSchemaMap = new Map(nodes.map((n) => [n.id, schemata.get(n.data.schemaId)]))
 
     const connectionsDetail: Record<string, { inputs: string[]; outputs: string[] }> = {}
