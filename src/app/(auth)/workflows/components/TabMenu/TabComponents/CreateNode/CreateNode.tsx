@@ -5,8 +5,8 @@ import { groupBy } from "@/common/util"
 import { BackendContext } from "@/context/BackendContext"
 import { Search } from "lucide-react"
 import { useReactFlow } from "reactflow"
-import { useToast } from "@/hooks/use-toast"
 
+import { useToast } from "@/hooks/use-toast"
 import { Button } from "@/components/ui/Button/Button"
 import { Separator } from "@/components/ui/Separator/Separator"
 import { Icons } from "@/components/Icons"
@@ -43,7 +43,6 @@ const CreateNode = () => {
     }, [searchedNode, categories.categories, byCategories])
 
     function downloadJson(jsonData: BackendJsonNode[], filename: string) {
-
         try {
             const jsonString = JSON.stringify(jsonData, null, 2)
             const blob = new Blob([jsonString], { type: "application/json" })
@@ -51,7 +50,7 @@ const CreateNode = () => {
             const link = document.createElement("a")
             link.href = url
             link.download = filename || "workflow.json"
-            
+
             document.body.appendChild(link)
             link.click()
             document.body.removeChild(link)
@@ -123,9 +122,21 @@ const CreateNode = () => {
                         downloadJson(jsonData, "workflow.json")
                     } catch (error) {
                         console.error("Error al generar el JSON:", error)
+                        const errorMessage =
+                            error instanceof Error
+                                ? error.message
+                                : "Ocurrió un error inesperado al generar el workflow"
+
                         toast({
                             title: "Error al generar el workflow",
-                            description: error instanceof Error ? error.message : "Ocurrió un error inesperado",
+                            description: (
+                                <div className="mt-2 text-sm">
+                                    <p className="font-medium">Detalles del error:</p>
+                                    <pre className="mt-2 whitespace-pre-wrap text-xs bg-gray-100 text-gray-800 p-2 rounded font-mono">
+                                        {errorMessage}
+                                    </pre>
+                                </div>
+                            ),
                             variant: "destructive",
                         })
                     }
