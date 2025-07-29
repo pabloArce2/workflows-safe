@@ -75,7 +75,10 @@ export const WorkflowPreview = ({ className, name, createdAt, id, onDelete, onCl
                                 />
                             </div>
                         </DialogTrigger>
-                        <DialogContent className="sm:max-w-[425px] p-6">
+                        <DialogContent
+                            onInteractOutside={(e) => e.preventDefault()}
+                            className="sm:max-w-[425px] p-6"
+                        >
                             <DialogHeader>
                                 <DialogTitle>Eliminar Workflow</DialogTitle>
                                 <DialogDescription className="space-y-2">
@@ -96,7 +99,6 @@ export const WorkflowPreview = ({ className, name, createdAt, id, onDelete, onCl
                                 <Button
                                     variant="outline"
                                     onClick={(e) => {
-                                        e.stopPropagation()
                                         setIsDialogOpen(false)
                                     }}
                                 >
@@ -114,6 +116,8 @@ export const WorkflowPreview = ({ className, name, createdAt, id, onDelete, onCl
                         src="/workflows_bg.png"
                         alt="Workflow Preview"
                         fill
+                        priority
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                         className="object-cover rounded-md"
                     />
                 </div>

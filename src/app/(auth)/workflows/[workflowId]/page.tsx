@@ -78,7 +78,7 @@ export default function WorkflowPage() {
     const workflowId = params.workflowId as string
 
     if (!workflowId) {
-        router.push("/workflows")
+        ;("/workflows")
         return <Loader message="Volviendo a la lista de workflows..." />
     }
 

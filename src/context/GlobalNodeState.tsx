@@ -15,6 +15,7 @@ import {
     SchemaId,
     SetState,
 } from "@/common/common-types"
+import { setLastWorkflowId } from "@/common/localStorage"
 import { getSessionStorageOrDefault } from "@/common/useSessionStorage"
 import {
     ParsedSourceHandle,
@@ -132,8 +133,7 @@ export const GlobalProvider = memo(
                         const nodes = data.nodes.map((node) => node.node_data)
                         const edges = data.edges.map((edge) => edge.edge_data)
                         const viewport = data.viewport?.viewport
-
-                        // Cargar los datos en ReactFlow
+                        setLastWorkflowId(workflowId)
                         changeNodes(nodes)
                         changeEdges(edges)
                         if (viewport) {
@@ -475,7 +475,7 @@ export const GlobalProvider = memo(
             nodeChanges,
             edgeChanges,
             isValidConnection,
-            useConnectingFrom: useMemoArray([useState<OnConnectStartParams | null>(null)] as const),
+            useConnectingFrom: useState<OnConnectStartParams | null>(null),
         })
 
         const globalValue = useMemoObject<Global>({
